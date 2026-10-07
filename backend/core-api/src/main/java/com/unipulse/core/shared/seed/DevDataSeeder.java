@@ -2,6 +2,7 @@ package com.unipulse.core.shared.seed;
 
 import com.unipulse.common.model.RequestPriority;
 import com.unipulse.common.model.RequestStatus;
+import com.unipulse.common.model.UserRole;
 import com.unipulse.core.department.domain.Category;
 import com.unipulse.core.department.domain.Department;
 import com.unipulse.core.department.domain.TechnicianProfile;
@@ -14,7 +15,6 @@ import com.unipulse.core.request.repo.OutboxEventRepository;
 import com.unipulse.core.request.repo.ServiceRequestRepository;
 import com.unipulse.core.request.service.PublicIdGenerator;
 import com.unipulse.core.user.domain.User;
-import com.unipulse.common.model.UserRole;
 import com.unipulse.core.user.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +27,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -77,7 +77,7 @@ public class DevDataSeeder implements ApplicationRunner {
                 .email("faculty.wright@unipulse.edu")
                 .passwordHash(commonPasswordHash)
                 .fullName("Prof. Arthur Wright")
-                .role(UserRole.FACULTY)
+                .role(UserRole.REQUESTER)
                 .campusId((short) 1)
                 .active(true)
                 .build();
@@ -88,7 +88,7 @@ public class DevDataSeeder implements ApplicationRunner {
                 .email("student.alex@unipulse.edu")
                 .passwordHash(commonPasswordHash)
                 .fullName("Alex Rivera")
-                .role(UserRole.STUDENT)
+                .role(UserRole.REQUESTER)
                 .campusId((short) 1)
                 .active(true)
                 .build();
@@ -99,7 +99,7 @@ public class DevDataSeeder implements ApplicationRunner {
                 .email("student.jordan@unipulse.edu")
                 .passwordHash(commonPasswordHash)
                 .fullName("Jordan Lee")
-                .role(UserRole.STUDENT)
+                .role(UserRole.REQUESTER)
                 .campusId((short) 1)
                 .active(true)
                 .build();
@@ -109,73 +109,61 @@ public class DevDataSeeder implements ApplicationRunner {
         Department facilities = Department.builder()
                 .id(UUID.randomUUID())
                 .name("Facilities & Maintenance")
-                .code("FACILITIES")
-                .description("Campus buildings, electrical, HVAC, and civil works")
-                .isActive(true)
                 .build();
         Department it = Department.builder()
                 .id(UUID.randomUUID())
                 .name("IT & Network Infrastructure")
-                .code("IT")
-                .description("Campus Wi-Fi, computer labs, AV, and networking")
-                .isActive(true)
                 .build();
         Department housing = Department.builder()
                 .id(UUID.randomUUID())
                 .name("Residential & Housing")
-                .code("HOUSING")
-                .description("Dormitories, residential furniture, pest control, and keys")
-                .isActive(true)
                 .build();
         Department security = Department.builder()
                 .id(UUID.randomUUID())
                 .name("Campus Safety & Security")
-                .code("SECURITY")
-                .description("Access turnstiles, CCTV surveillance, and fire safety systems")
-                .isActive(true)
                 .build();
         departmentRepository.saveAll(List.of(facilities, it, housing, security));
 
         // 3. Categories (12 - 3 per department)
-        Category cAc = createCat("HVAC & Climate Control", facilities.getId(), RequestPriority.P2, 24);
-        Category cPlumb = createCat("Plumbing & Water Supply", facilities.getId(), RequestPriority.P1, 12);
-        Category cElec = createCat("Electrical Infrastructure", facilities.getId(), RequestPriority.P1, 6);
+        Category cAc = createCat("HVAC & Climate Control", facilities.getId(), RequestPriority.P2);
+        Category cPlumb = createCat("Plumbing & Water Supply", facilities.getId(), RequestPriority.P1);
+        Category cElec = createCat("Electrical Infrastructure", facilities.getId(), RequestPriority.P1);
 
-        Category cWifi = createCat("Campus Wi-Fi & LAN", it.getId(), RequestPriority.P2, 8);
-        Category cAv = createCat("Smart Classroom AV & Projectors", it.getId(), RequestPriority.P2, 12);
-        Category cLab = createCat("Computer Labs & Workstations", it.getId(), RequestPriority.P3, 24);
+        Category cWifi = createCat("Campus Wi-Fi & LAN", it.getId(), RequestPriority.P2);
+        Category cAv = createCat("Smart Classroom AV & Projectors", it.getId(), RequestPriority.P2);
+        Category cLab = createCat("Computer Labs & Workstations", it.getId(), RequestPriority.P3);
 
-        Category cFurn = createCat("Furniture & Carpentry", housing.getId(), RequestPriority.P3, 48);
-        Category cPest = createCat("Pest Control & Sanitation", housing.getId(), RequestPriority.P3, 36);
-        Category cKey = createCat("Door Locks & Key Services", housing.getId(), RequestPriority.P2, 12);
+        Category cFurn = createCat("Furniture & Carpentry", housing.getId(), RequestPriority.P3);
+        Category cPest = createCat("Pest Control & Sanitation", housing.getId(), RequestPriority.P3);
+        Category cKey = createCat("Door Locks & Key Services", housing.getId(), RequestPriority.P2);
 
-        Category cAccess = createCat("Access Turnstiles & Readers", security.getId(), RequestPriority.P1, 4);
-        Category cCctv = createCat("CCTV Surveillance", security.getId(), RequestPriority.P2, 12);
-        Category cFire = createCat("Fire Alarms & Safety Equipment", security.getId(), RequestPriority.P1, 2);
+        Category cAccess = createCat("Access Turnstiles & Readers", security.getId(), RequestPriority.P1);
+        Category cCctv = createCat("CCTV Surveillance", security.getId(), RequestPriority.P2);
+        Category cFire = createCat("Fire Alarms & Safety Equipment", security.getId(), RequestPriority.P1);
 
         categoryRepository.saveAll(List.of(cAc, cPlumb, cElec, cWifi, cAv, cLab, cFurn, cPest, cKey, cAccess, cCctv, cFire));
 
         // 4. Technicians (8) with profiles
         List<User> technicians = new ArrayList<>();
         technicians.add(createTech("Marcus Vance", "tech.marcus@unipulse.edu", commonPasswordHash, facilities.getId(),
-                List.of("HVAC", "Electrical"), "MORNING", 6, 2));
+                List.of("HVAC", "Electrical"), LocalTime.of(8, 0), LocalTime.of(16, 0), 8));
         technicians.add(createTech("Elena Rostova", "tech.elena@unipulse.edu", commonPasswordHash, facilities.getId(),
-                List.of("Plumbing", "Sanitation"), "EVENING", 5, 1));
+                List.of("Plumbing", "Sanitation"), LocalTime.of(16, 0), LocalTime.of(0, 0), 8));
 
         technicians.add(createTech("Raj Patel", "tech.raj@unipulse.edu", commonPasswordHash, it.getId(),
-                List.of("Networking", "Wi-Fi", "Switches"), "MORNING", 8, 3));
+                List.of("Networking", "Wi-Fi", "Switches"), LocalTime.of(8, 0), LocalTime.of(16, 0), 8));
         technicians.add(createTech("Sarah Jenkins", "tech.sarah@unipulse.edu", commonPasswordHash, it.getId(),
-                List.of("AV Systems", "Hardware", "Projectors"), "EVENING", 5, 1));
+                List.of("AV Systems", "Hardware", "Projectors"), LocalTime.of(16, 0), LocalTime.of(0, 0), 8));
 
         technicians.add(createTech("David Kim", "tech.david@unipulse.edu", commonPasswordHash, housing.getId(),
-                List.of("Carpentry", "Furniture", "Locks"), "MORNING", 6, 1));
+                List.of("Carpentry", "Furniture", "Locks"), LocalTime.of(8, 0), LocalTime.of(16, 0), 8));
         technicians.add(createTech("Priya Sharma", "tech.priya@unipulse.edu", commonPasswordHash, housing.getId(),
-                List.of("Pest Control", "Sanitation"), "NIGHT", 4, 1));
+                List.of("Pest Control", "Sanitation"), LocalTime.of(0, 0), LocalTime.of(8, 0), 8));
 
         technicians.add(createTech("Alex Mercer", "tech.alex@unipulse.edu", commonPasswordHash, security.getId(),
-                List.of("Access Control", "Turnstiles"), "MORNING", 5, 2));
+                List.of("Access Control", "Turnstiles"), LocalTime.of(8, 0), LocalTime.of(16, 0), 8));
         technicians.add(createTech("Fatima Al-Hassan", "tech.fatima@unipulse.edu", commonPasswordHash, security.getId(),
-                List.of("Fire Safety", "CCTV", "Emergency"), "NIGHT", 6, 1));
+                List.of("Fire Safety", "CCTV", "Emergency"), LocalTime.of(0, 0), LocalTime.of(8, 0), 8));
 
         // 5. Initial Service Requests (20) in various states
         Instant now = Instant.now();
@@ -215,25 +203,24 @@ public class DevDataSeeder implements ApplicationRunner {
         log.info("Successfully seeded UniPulse dataset with 4 departments, 12 categories, 8 technicians, and 20 service requests.");
     }
 
-    private Category createCat(String name, UUID deptId, RequestPriority priority, int slaHours) {
+    private Category createCat(String name, UUID deptId, RequestPriority priority) {
         return Category.builder()
                 .id(UUID.randomUUID())
                 .name(name)
                 .departmentId(deptId)
                 .defaultPriority(priority)
-                .defaultSlaHours(slaHours)
-                .isActive(true)
                 .build();
     }
 
     private User createTech(String name, String email, String passwordHash, UUID deptId,
-                            List<String> skills, String shift, int maxWorkload, int currentWorkload) {
+                            List<String> skills, LocalTime shiftStart, LocalTime shiftEnd, int maxActive) {
         User user = User.builder()
                 .id(UUID.randomUUID())
                 .email(email)
                 .passwordHash(passwordHash)
                 .fullName(name)
                 .role(UserRole.TECHNICIAN)
+                .departmentId(deptId)
                 .campusId((short) 1)
                 .active(true)
                 .build();
@@ -241,12 +228,10 @@ public class DevDataSeeder implements ApplicationRunner {
 
         TechnicianProfile profile = TechnicianProfile.builder()
                 .userId(user.getId())
-                .departmentId(deptId)
                 .skills(skills)
-                .shift(shift)
-                .maxWorkload(maxWorkload)
-                .currentWorkload(currentWorkload)
-                .isActive(true)
+                .shiftStart(shiftStart)
+                .shiftEnd(shiftEnd)
+                .maxActive(maxActive)
                 .build();
         technicianProfileRepository.save(profile);
         return user;
@@ -257,7 +242,13 @@ public class DevDataSeeder implements ApplicationRunner {
                                Instant pausedAt, Instant resolvedAt, Integer rating, String ratingComment, Instant closedAt) {
         String publicId = publicIdGenerator.generatePublicId();
         Instant now = Instant.now();
-        Instant dueAt = now.plus(cat.getDefaultSlaHours(), ChronoUnit.HOURS);
+        int resolveHours = switch (cat.getDefaultPriority()) {
+            case P1 -> 4;
+            case P2 -> 24;
+            case P3 -> 72;
+            case P4 -> 168;
+        };
+        Instant dueAt = now.plus(resolveHours, ChronoUnit.HOURS);
 
         ServiceRequest sr = ServiceRequest.builder()
                 .id(UUID.randomUUID())
@@ -286,12 +277,10 @@ public class DevDataSeeder implements ApplicationRunner {
         // Record initial RequestCreated outbox event
         OutboxEvent event = OutboxEvent.builder()
                 .id(UUID.randomUUID())
-                .aggregateType("ServiceRequest")
-                .aggregateId(sr.getId().toString())
+                .aggregateId(sr.getId())
                 .type("RequestCreated")
                 .payload(String.format("{\"requestId\":\"%s\",\"publicId\":\"%s\",\"status\":\"%s\"}",
                         sr.getId(), sr.getPublicId(), sr.getStatus()))
-                .status("PENDING")
                 .createdAt(Instant.now())
                 .build();
         outboxEventRepository.save(event);
