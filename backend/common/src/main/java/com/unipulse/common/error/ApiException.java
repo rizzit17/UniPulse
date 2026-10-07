@@ -34,6 +34,10 @@ public class ApiException extends RuntimeException {
         return new ApiException(409, code, message);
     }
 
+    public static ApiException conflict(String message) {
+        return new ApiException(409, ErrorCodes.DUPLICATE_RESOURCE, message);
+    }
+
     public static ApiException forbidden(String message) {
         return new ApiException(403, ErrorCodes.FORBIDDEN, message);
     }
