@@ -10,6 +10,7 @@ public final class ErrorCodes {
     public static final String STALE_VERSION = "STALE_VERSION";
     public static final String ILLEGAL_TRANSITION = "ILLEGAL_TRANSITION";
     public static final String DUPLICATE_REQUEST = "DUPLICATE_REQUEST";
+    public static final String DUPLICATE_RESOURCE = "DUPLICATE_RESOURCE";
     public static final String RATE_LIMIT_EXCEEDED = "RATE_LIMIT_EXCEEDED";
     public static final String INVALID_CREDENTIALS = "INVALID_CREDENTIALS";
     public static final String TOKEN_REVOKED = "TOKEN_REVOKED";
