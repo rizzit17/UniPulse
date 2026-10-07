@@ -52,3 +52,6 @@ unipulse:
     refresh-token-expiration-seconds: 604800
   outbox:
     enabled: false
+  sla:
+    scheduler:
+      enabled: false

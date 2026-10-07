@@ -60,6 +60,7 @@ public class RequestServiceImpl implements RequestService {
     private final PublicIdGenerator publicIdGenerator;
     private final RequestMapper requestMapper;
     private final ObjectMapper objectMapper;
+    private final com.unipulse.core.shared.cache.RedisCacheService cacheService;
 
     @Override
     @Transactional
@@ -147,11 +148,14 @@ public class RequestServiceImpl implements RequestService {
     @Override
     @Transactional(readOnly = true)
     public RequestDtos.RequestResponse getRequestById(UUID id, UUID currentUserId, UserRole role, UUID userDepartmentId) {
-        ServiceRequest request = requestRepository.findById(id)
-                .orElseThrow(() -> ApiException.notFound("Request not found with id: " + id));
+        RequestDtos.RequestResponse response = cacheService.getOrCompute("req:" + id, RequestDtos.RequestResponse.class, java.time.Duration.ofSeconds(60), () -> {
+            ServiceRequest request = requestRepository.findById(id)
+                    .orElseThrow(() -> ApiException.notFound("Request not found with id: " + id));
+            return requestMapper.toDto(request);
+        });
 
-        validateReadAccess(request, currentUserId, role, userDepartmentId);
-        return requestMapper.toDto(request);
+        validateReadAccess(response, currentUserId, role, userDepartmentId);
+        return response;
     }
 
     @Override
@@ -285,6 +289,7 @@ public class RequestServiceImpl implements RequestService {
 
         request.setUpdatedAt(now);
         ServiceRequest saved = requestRepository.saveAndFlush(request);
+        cacheService.evictAfterCommit("req:" + id);
 
         publishOutbox(id, "RequestUpdated", Map.of("requestId", id, "updatedBy", actorId));
         return requestMapper.toDto(saved);
@@ -330,6 +335,7 @@ public class RequestServiceImpl implements RequestService {
         }
 
         ServiceRequest saved = requestRepository.saveAndFlush(request);
+        cacheService.evictAfterCommit("req:" + id);
 
         publishOutbox(id, "RequestStatusChanged", Map.of(
                 "requestId", id,
@@ -388,6 +394,7 @@ public class RequestServiceImpl implements RequestService {
 
         request.setUpdatedAt(now);
         ServiceRequest saved = requestRepository.saveAndFlush(request);
+        cacheService.evictAfterCommit("req:" + id);
 
         publishOutbox(id, "RequestAssigned", Map.of(
                 "requestId", id,
@@ -424,6 +431,7 @@ public class RequestServiceImpl implements RequestService {
                 .build();
 
         RequestComment saved = commentRepository.save(comment);
+        cacheService.evictAfterCommit("req:" + id);
 
         publishOutbox(id, "CommentAdded", Map.of(
                 "requestId", id,
@@ -519,6 +527,25 @@ public class RequestServiceImpl implements RequestService {
             }
         }
         if (role == UserRole.DEPT_HEAD && userDepartmentId != null && !userDepartmentId.equals(request.getDepartmentId())) {
+            throw ApiException.forbidden("You do not have access to this service request.");
+        }
+    }
+
+    private void validateReadAccess(RequestDtos.RequestResponse request, UUID currentUserId, UserRole role, UUID userDepartmentId) {
+        if (role == UserRole.ADMIN) {
+            return;
+        }
+        if (role == UserRole.REQUESTER && !request.requesterId().equals(currentUserId)) {
+            throw ApiException.forbidden("You do not have access to this service request.");
+        }
+        if (role == UserRole.TECHNICIAN) {
+            boolean isAssignee = currentUserId.equals(request.assigneeId());
+            boolean isSameDept = userDepartmentId != null && userDepartmentId.equals(request.departmentId());
+            if (!isAssignee && !isSameDept) {
+                throw ApiException.forbidden("You do not have access to this service request.");
+            }
+        }
+        if (role == UserRole.DEPT_HEAD && userDepartmentId != null && !userDepartmentId.equals(request.departmentId())) {
             throw ApiException.forbidden("You do not have access to this service request.");
         }
     }
