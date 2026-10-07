@@ -1,0 +1,35 @@
+name: UniPulse CI
+
+on:
+  push:
+    branches: [ main, "phase-*" ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-build:
+    name: Backend Build & Verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build and Test with Maven
+        run: |
+          cd backend
+          mvn -B clean verify
+
+      - name: Upload JaCoCo Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-report
+          path: backend/**/target/site/jacoco/
