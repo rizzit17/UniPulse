@@ -81,6 +81,11 @@ public class SecurityConfig {
                                 "/api/v1/auth/refresh",
                                 "/error"
                         ).permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.GET,
+                                "/api/v1/departments/**",
+                                "/api/v1/categories/**",
+                                "/api/v1/sla-policies/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(correlationIdFilter, UsernamePasswordAuthenticationFilter.class)
