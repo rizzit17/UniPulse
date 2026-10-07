@@ -1,3 +1,6 @@
+server:
+  port: 0
+
 spring:
   threads:
     virtual:
@@ -23,13 +26,14 @@ spring:
   flyway:
     enabled: false
 
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
   data:
     redis:
-      host: localhost
-      port: 6379
-
-  kafka:
-    bootstrap-servers: localhost:9092
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 
 management:
   endpoints:
@@ -47,7 +51,7 @@ management:
 
 unipulse:
   jwt:
-    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    secret: unipulse-development-jwt-hmac-sha256-signing-key-32bytes
     access-token-expiration-seconds: 900
     refresh-token-expiration-seconds: 604800
   outbox:

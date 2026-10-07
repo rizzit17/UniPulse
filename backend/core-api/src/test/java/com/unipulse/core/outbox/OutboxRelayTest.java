@@ -62,6 +62,7 @@ class OutboxRelayTest {
 
     @Test
     @DisplayName("Relays pending events and marks publishedAt on broker ACK")
+    @SuppressWarnings("unchecked")
     void shouldRelayPendingEventsSuccessfully() {
         UUID aggregateId = UUID.randomUUID();
         OutboxEvent event = OutboxEvent.builder()
@@ -75,7 +76,8 @@ class OutboxRelayTest {
         when(outboxEventRepository.findPendingEventsForUpdate(any(Pageable.class)))
                 .thenReturn(List.of(event));
 
-        CompletableFuture<SendResult<String, String>> future = CompletableFuture.completedFuture(mock(SendResult.class));
+        SendResult<String, String> sendResult = mock(SendResult.class);
+        CompletableFuture<SendResult<String, String>> future = CompletableFuture.completedFuture(sendResult);
         when(kafkaTemplate.send(eq("request.created.v1"), eq(aggregateId.toString()), any(String.class)))
                 .thenReturn(future);
 

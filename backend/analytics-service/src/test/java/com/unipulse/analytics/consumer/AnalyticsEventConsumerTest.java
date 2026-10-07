@@ -51,7 +51,6 @@ class AnalyticsEventConsumerTest {
     @Test
     @DisplayName("Processes event when not already processed in idempotency store")
     void shouldProcessEventSuccessfully() throws Exception {
-        UUID eventId = UUID.randomUUID();
         UUID reqId = UUID.randomUUID();
         JsonNode payload = objectMapper.readTree("{\"publicId\":\"UP-2026-000200\"}");
         EventEnvelope<JsonNode> envelope = EventEnvelope.of("request.created.v1", reqId, "corr-test", payload);

@@ -2,7 +2,6 @@ package com.unipulse.core.request.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unipulse.common.constant.KafkaTopics;
 import com.unipulse.common.error.ApiException;
 import com.unipulse.common.error.ErrorCodes;
 import com.unipulse.common.event.EventEnvelope;
@@ -414,8 +413,9 @@ public class RequestServiceImpl implements RequestService {
             UUID authorId,
             UserRole role) {
 
-        ServiceRequest request = requestRepository.findById(id)
-                .orElseThrow(() -> ApiException.notFound("Request not found with id: " + id));
+        if (!requestRepository.existsById(id)) {
+            throw ApiException.notFound("Request not found with id: " + id);
+        }
 
         if (commentReq.internal() && role == UserRole.REQUESTER) {
             throw ApiException.forbidden("Requesters cannot create internal comments.");

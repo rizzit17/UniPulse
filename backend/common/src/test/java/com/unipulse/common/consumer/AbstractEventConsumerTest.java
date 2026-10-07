@@ -73,7 +73,6 @@ class AbstractEventConsumerTest {
     @Test
     @DisplayName("Successfully processes message on first delivery")
     void shouldProcessMessageSuccessfully() throws Exception {
-        UUID eventId = UUID.randomUUID();
         UUID aggregateId = UUID.randomUUID();
         EventEnvelope<SamplePayload> envelope = EventEnvelope.of(
                 "SampleEvent",
@@ -133,6 +132,7 @@ class AbstractEventConsumerTest {
         assertThat(executionCount.get()).isEqualTo(0);
         assertThat(idempotencyStore.isProcessed("test-consumer", envelope.eventId())).isFalse();
 
+        @SuppressWarnings("unchecked")
         ArgumentCaptor<Map<String, String>> headersCaptor = ArgumentCaptor.forClass(Map.class);
         verify(dlqPublisher).sendToDlq(
                 eq("test.topic"),

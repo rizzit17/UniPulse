@@ -8,17 +8,19 @@ RUN apk add --no-cache bash
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
-COPY unipulse-common unipulse-common
-COPY unipulse-core-api unipulse-core-api
+COPY common common
+COPY core-api core-api
 COPY assignment-service assignment-service
 COPY notification-service notification-service
 COPY analytics-service analytics-service
-COPY unipulse-sla-watcher unipulse-sla-watcher
+COPY sla-watcher sla-watcher
+
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
 
 RUN ./mvnw -B clean package -DskipTests -pl analytics-service -am
 
 WORKDIR /workspace/extracted
-RUN java -Djarmode=layertools -jar /workspace/analytics-service/target/analytics-service-*.jar extract
+RUN java -Djarmode=layertools -jar /workspace/analytics-service/target/unipulse-analytics-service-*.jar extract
 
 # Stage 2: Minimal Runtime Environment
 FROM eclipse-temurin:21-jre-alpine AS runner

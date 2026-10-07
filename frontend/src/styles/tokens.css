@@ -196,3 +196,18 @@ code, pre, .mono {
 .brutalist-table tr:hover td {
   background-color: #DDD8CA;
 }
+
+/* Authentication split-screen layout */
+.auth-layout {
+  display: grid;
+  grid-template-columns: minmax(460px, 1fr) minmax(460px, 1.15fr);
+  min-height: 100vh;
+  background-color: var(--paper);
+}
+
+@media (max-width: 960px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+}
+

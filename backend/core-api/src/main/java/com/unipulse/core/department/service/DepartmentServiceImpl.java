@@ -1,12 +1,10 @@
 package com.unipulse.core.department.service;
 
 import com.unipulse.common.error.ApiException;
-import com.unipulse.common.error.ErrorCodes;
 import com.unipulse.common.model.RequestPriority;
 import com.unipulse.core.department.api.DepartmentDtos;
 import com.unipulse.core.department.domain.Category;
 import com.unipulse.core.department.domain.Department;
-import com.unipulse.core.department.domain.SlaPolicy;
 import com.unipulse.core.department.domain.TechnicianProfile;
 import com.unipulse.core.department.repo.CategoryRepository;
 import com.unipulse.core.department.repo.DepartmentRepository;

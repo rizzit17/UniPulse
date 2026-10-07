@@ -51,7 +51,7 @@ spring:
 
 unipulse:
   jwt:
-    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    secret: ${JWT_SECRET:unipulse-development-jwt-hmac-sha256-signing-key-32bytes}
   internal:
     token: ${INTERNAL_SERVICE_TOKEN:unipulse-internal-secret-token-2026}
 

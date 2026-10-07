@@ -1,6 +1,5 @@
 package com.unipulse.core.user.service;
 
-import com.unipulse.common.model.UserRole;
 import com.unipulse.core.user.api.UserDto;
 
 import java.util.List;

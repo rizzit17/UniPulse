@@ -28,7 +28,7 @@ public class NotificationController {
 
     @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamNotifications(
-            @RequestParam(required = false) UUID userId,
+            @RequestParam(value = "userId", required = false) UUID userId,
             @RequestHeader(value = "X-User-Id", required = false) String userIdHeader
     ) {
         UUID effectiveUserId = resolveUserId(userId, userIdHeader);
@@ -38,9 +38,9 @@ public class NotificationController {
 
     @GetMapping
     public List<NotificationDocument> getNotifications(
-            @RequestParam(required = false) UUID userId,
+            @RequestParam(value = "userId", required = false) UUID userId,
             @RequestHeader(value = "X-User-Id", required = false) String userIdHeader,
-            @RequestParam(defaultValue = "20") int limit
+            @RequestParam(value = "limit", defaultValue = "20") int limit
     ) {
         UUID effectiveUserId = resolveUserId(userId, userIdHeader);
         int effectiveLimit = Math.min(Math.max(limit, 1), 100);

@@ -172,7 +172,7 @@ class RequestIntegrationTest {
         );
 
         // 1. Creation succeeds with 201 Created
-        MvcResult result = mockMvc.perform(post("/api/v1/requests")
+        mockMvc.perform(post("/api/v1/requests")
                         .header("Authorization", "Bearer " + studentToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
@@ -182,11 +182,6 @@ class RequestIntegrationTest {
                 .andExpect(jsonPath("$.status").value("OPEN"))
                 .andExpect(jsonPath("$.priority").value("P1"))
                 .andReturn();
-
-        RequestDtos.RequestResponse response = objectMapper.readValue(
-                result.getResponse().getContentAsString(),
-                RequestDtos.RequestResponse.class
-        );
 
         // Verify outbox entry
         List<OutboxEvent> outboxEvents = outboxEventRepository.findAll();
@@ -326,7 +321,7 @@ class RequestIntegrationTest {
         );
 
         // 7. Technician resolves -> RESOLVED
-        MvcResult resolveResult = mockMvc.perform(put("/api/v1/requests/" + reqId + "/status")
+        mockMvc.perform(put("/api/v1/requests/" + reqId + "/status")
                         .header("Authorization", "Bearer " + techToken)
                         .header(HttpHeaders.IF_MATCH, "\"" + resumed.version() + "\"")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -337,13 +332,7 @@ class RequestIntegrationTest {
                         ))))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("RESOLVED"))
-                .andExpect(jsonPath("$.resolvedAt").isNotEmpty())
-                .andReturn();
-
-        RequestDtos.RequestResponse resolved = objectMapper.readValue(
-                resolveResult.getResponse().getContentAsString(),
-                RequestDtos.RequestResponse.class
-        );
+                .andExpect(jsonPath("$.resolvedAt").isNotEmpty());
 
         // 8. Requester submits rating (5 stars)
         MvcResult rateResult = mockMvc.perform(post("/api/v1/requests/" + reqId + "/rate")

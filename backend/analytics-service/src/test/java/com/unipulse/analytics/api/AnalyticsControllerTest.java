@@ -1,6 +1,5 @@
 package com.unipulse.analytics.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unipulse.analytics.dto.*;
 import com.unipulse.analytics.service.AnalyticsAggregationService;
 import org.junit.jupiter.api.BeforeEach;

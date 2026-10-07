@@ -38,8 +38,11 @@ class InternalSlaControllerTest {
         ResponseEntity<SlaSweepResult> response = controller.triggerSweep("valid-test-token");
 
         assertThat(response.getStatusCode().value()).isEqualTo(200);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().breachesEscalated()).isEqualTo(1);
+        SlaSweepResult body = response.getBody();
+        assertThat(body).isNotNull();
+        if (body != null) {
+            assertThat(body.breachesEscalated()).isEqualTo(1);
+        }
         verify(slaSweepService).sweep();
     }
 

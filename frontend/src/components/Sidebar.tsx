@@ -9,6 +9,7 @@ import {
   LogOut,
 } from 'lucide-react';
 import { User } from '../types/api';
+import { UniPulseLogo } from './UniPulseLogo';
 
 export type ScreenId = 
   | 'my-requests' 
@@ -95,35 +96,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Wordmark Header */}
         <div
           style={{
-            padding: '24px 20px',
-            borderBottom: '1px solid var(--ink-2)',
+            padding: '20px 16px',
+            borderBottom: '2px solid var(--ink-2)',
             display: 'flex',
-            alignItems: 'baseline',
-            gap: '8px',
+            alignItems: 'center',
           }}
         >
-          <span
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '28px',
-              fontWeight: 900,
-              letterSpacing: '-0.02em',
-              color: 'var(--paper)',
-            }}
-          >
-            UP
-          </span>
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '14px',
-              fontWeight: 600,
-              color: 'var(--amber)',
-              letterSpacing: '0.04em',
-            }}
-          >
-            UniPulse
-          </span>
+          <UniPulseLogo size="sm" theme="dark" subtitleText="DISPATCH V1.0" />
         </div>
 
         {/* Navigation list */}

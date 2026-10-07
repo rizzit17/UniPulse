@@ -15,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import org.mockito.ArgumentMatchers;
 
 @ExtendWith(MockitoExtension.class)
 class SlaWatcherLambdaHandlerTest {
@@ -30,7 +31,7 @@ class SlaWatcherLambdaHandlerTest {
     void shouldSuccessfullyTriggerSweep() throws Exception {
         when(httpResponse.statusCode()).thenReturn(200);
         when(httpResponse.body()).thenReturn("{\"evaluated\":10,\"warningsIssued\":2,\"breachesEscalated\":1}");
-        when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
+        when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any()))
                 .thenReturn(httpResponse);
 
         SlaWatcherLambdaHandler handler = new SlaWatcherLambdaHandler(
@@ -47,7 +48,7 @@ class SlaWatcherLambdaHandlerTest {
     void shouldThrowOnHttpError() throws Exception {
         when(httpResponse.statusCode()).thenReturn(403);
         when(httpResponse.body()).thenReturn("{\"error\":\"Forbidden\"}");
-        when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
+        when(httpClient.send(any(HttpRequest.class), ArgumentMatchers.<HttpResponse.BodyHandler<String>>any()))
                 .thenReturn(httpResponse);
 
         SlaWatcherLambdaHandler handler = new SlaWatcherLambdaHandler(

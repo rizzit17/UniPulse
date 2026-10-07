@@ -86,7 +86,7 @@ springdoc:
 
 unipulse:
   jwt:
-    secret: ${UNIPULSE_JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    secret: ${UNIPULSE_JWT_SECRET:unipulse-development-jwt-hmac-sha256-signing-key-32bytes}
     access-token-expiration-seconds: 900 # 15 minutes
     refresh-token-expiration-seconds: 604800 # 7 days
   outbox:

@@ -22,9 +22,9 @@ public class AnalyticsController {
     @GetMapping("/overview")
     @PreAuthorize("hasAnyRole('DEPARTMENT_HEAD', 'ADMIN')")
     public ResponseEntity<OverviewStatsResponse> getOverview(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(required = false) UUID departmentId
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(value = "departmentId", required = false) UUID departmentId
     ) {
         return ResponseEntity.ok(aggregationService.getOverview(startDate, endDate, departmentId));
     }
@@ -32,9 +32,9 @@ public class AnalyticsController {
     @GetMapping("/sla")
     @PreAuthorize("hasAnyRole('DEPARTMENT_HEAD', 'ADMIN')")
     public ResponseEntity<SlaMetricsResponse> getSla(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(required = false) UUID departmentId
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(value = "departmentId", required = false) UUID departmentId
     ) {
         return ResponseEntity.ok(aggregationService.getSlaMetrics(startDate, endDate, departmentId));
     }
@@ -42,7 +42,7 @@ public class AnalyticsController {
     @GetMapping("/hotspots")
     @PreAuthorize("hasAnyRole('DEPARTMENT_HEAD', 'ADMIN')")
     public ResponseEntity<List<HotspotDto>> getHotspots(
-            @RequestParam(defaultValue = "10") int limit
+            @RequestParam(value = "limit", defaultValue = "10") int limit
     ) {
         return ResponseEntity.ok(aggregationService.getTopHotspots(limit));
     }
@@ -50,8 +50,8 @@ public class AnalyticsController {
     @GetMapping("/workload")
     @PreAuthorize("hasAnyRole('DEPARTMENT_HEAD', 'ADMIN')")
     public ResponseEntity<List<TechnicianWorkloadDto>> getWorkload(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
         return ResponseEntity.ok(aggregationService.getTechnicianWorkloads(startDate, endDate));
     }

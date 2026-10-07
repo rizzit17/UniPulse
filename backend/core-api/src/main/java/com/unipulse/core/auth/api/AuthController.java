@@ -1,6 +1,5 @@
 package com.unipulse.core.auth.api;
 
-import com.unipulse.common.constant.AppHeaders;
 import com.unipulse.core.auth.service.AuthService;
 import com.unipulse.core.auth.service.UserPrincipal;
 import com.unipulse.core.user.api.UserDto;

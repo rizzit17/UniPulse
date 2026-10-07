@@ -26,7 +26,7 @@ public class JwtTokenProvider {
     private final StringRedisTemplate redisTemplate;
 
     public JwtTokenProvider(
-            @Value("${unipulse.jwt.secret:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}") String secret,
+            @Value("${unipulse.jwt.secret:unipulse-development-jwt-hmac-sha256-signing-key-32bytes}") String secret,
             @Value("${unipulse.jwt.access-token-expiration-seconds:900}") long accessTokenExpirationSeconds,
             StringRedisTemplate redisTemplate
     ) {

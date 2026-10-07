@@ -13,7 +13,7 @@ describe('UniPulse Frontend Application', () => {
   it('renders login screen when unauthenticated', () => {
     render(<App />);
     expect(screen.getByText('SECURE SIGN IN')).toBeInTheDocument();
-    expect(screen.getByText('128')).toBeInTheDocument(); // telemetry
+    expect(screen.getByText('Campus service requests, resolved fast.')).toBeInTheDocument();
   });
 
   it('authenticates via quick demo button and renders dashboard with sidebar', async () => {
