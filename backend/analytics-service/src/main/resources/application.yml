@@ -1,9 +1,9 @@
 server:
-  port: 8081
+  port: 8083
 
 spring:
   application:
-    name: unipulse-assignment-service
+    name: unipulse-analytics-service
   threads:
     virtual:
       enabled: true
@@ -14,7 +14,7 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:unipulse_password}
     driver-class-name: org.postgresql.Driver
     hikari:
-      pool-name: AssignmentHikariPool
+      pool-name: AnalyticsHikariPool
       maximum-pool-size: 10
       minimum-idle: 2
 
@@ -24,28 +24,42 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
+        default_schema: analytics
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  flyway:
+    enabled: true
+    schemas: analytics
+    default-schema: analytics
+    locations: classpath:db/migration
+
   data:
-    redis:
-      host: ${SPRING_DATA_REDIS_HOST:localhost}
-      port: ${SPRING_DATA_REDIS_PORT:6379}
+    mongodb:
+      uri: mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}/unipulse_analytics
+      auto-index-creation: true
 
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
-      group-id: unipulse-assignment-group
+      group-id: unipulse-analytics-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      acks: all
-      properties:
-        enable.idempotence: true
 
 unipulse:
-  assignment:
-    strategy: ${UNIPULSE_ASSIGNMENT_STRATEGY:LEAST_LOADED}
-    enabled: ${UNIPULSE_ASSIGNMENT_ENABLED:true}
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  internal:
+    token: ${INTERNAL_SERVICE_TOKEN:unipulse-internal-secret-token-2026}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
