@@ -31,13 +31,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final SlaPolicyRepository slaPolicyRepository;
     private final TechnicianProfileRepository technicianProfileRepository;
     private final DepartmentMapper departmentMapper;
+    private final com.unipulse.core.shared.cache.RedisCacheService cacheService;
 
     @Override
     @Transactional(readOnly = true)
     public List<DepartmentDtos.DepartmentResponse> getAllDepartments() {
-        return departmentRepository.findAll().stream()
-                .map(departmentMapper::toDto)
-                .toList();
+        return cacheService.getOrComputeList("dept:all", DepartmentDtos.DepartmentResponse.class, java.time.Duration.ofMinutes(10), () ->
+                departmentRepository.findAll().stream()
+                        .map(departmentMapper::toDto)
+                        .toList()
+        );
     }
 
     @Override
@@ -63,6 +66,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .build();
 
         Department saved = departmentRepository.save(department);
+        cacheService.evictAfterCommit("dept:all");
         log.info("Created department: {} ({})", saved.getName(), saved.getId());
         return departmentMapper.toDto(saved);
     }
@@ -70,13 +74,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional(readOnly = true)
     public List<DepartmentDtos.CategoryResponse> getCategories(UUID departmentId) {
-        List<Category> categories = (departmentId != null)
-                ? categoryRepository.findByDepartmentId(departmentId)
-                : categoryRepository.findAll();
+        String cacheKey = (departmentId != null) ? "cat:dept:" + departmentId : "cat:all";
+        return cacheService.getOrComputeList(cacheKey, DepartmentDtos.CategoryResponse.class, java.time.Duration.ofMinutes(10), () -> {
+            List<Category> categories = (departmentId != null)
+                    ? categoryRepository.findByDepartmentId(departmentId)
+                    : categoryRepository.findAll();
 
-        return categories.stream()
-                .map(departmentMapper::toDto)
-                .toList();
+            return categories.stream()
+                    .map(departmentMapper::toDto)
+                    .toList();
+        });
     }
 
     @Override
@@ -107,6 +114,8 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .build();
 
         Category saved = categoryRepository.save(category);
+        cacheService.evictAfterCommit("cat:all");
+        cacheService.evictAfterCommit("cat:dept:" + request.departmentId());
         log.info("Created category: {} ({}) for department: {}", saved.getName(), saved.getId(), saved.getDepartmentId());
         return departmentMapper.toDto(saved);
     }
@@ -114,17 +123,21 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional(readOnly = true)
     public List<DepartmentDtos.SlaPolicyResponse> getAllSlaPolicies() {
-        return slaPolicyRepository.findAll().stream()
-                .map(departmentMapper::toDto)
-                .toList();
+        return cacheService.getOrComputeList("sla:policy:all", DepartmentDtos.SlaPolicyResponse.class, java.time.Duration.ofHours(1), () ->
+                slaPolicyRepository.findAll().stream()
+                        .map(departmentMapper::toDto)
+                        .toList()
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
     public DepartmentDtos.SlaPolicyResponse getSlaPolicy(RequestPriority priority) {
-        return slaPolicyRepository.findById(priority)
-                .map(departmentMapper::toDto)
-                .orElseThrow(() -> ApiException.notFound("SLA policy not found for priority: " + priority));
+        return cacheService.getOrCompute("sla:policy:" + priority, DepartmentDtos.SlaPolicyResponse.class, java.time.Duration.ofHours(1), () ->
+                slaPolicyRepository.findById(priority)
+                        .map(departmentMapper::toDto)
+                        .orElseThrow(() -> ApiException.notFound("SLA policy not found for priority: " + priority))
+        );
     }
 
     @Override

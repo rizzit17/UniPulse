@@ -33,15 +33,33 @@ import java.util.UUID;
 public class RequestController {
 
     private final RequestService requestService;
+    private final com.unipulse.core.shared.idempotency.IdempotencyService idempotencyService;
 
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Submit new service request (FR-REQ-1)")
     public ResponseEntity<RequestDtos.RequestResponse> createRequest(
             @Valid @RequestBody RequestDtos.CreateRequestRequest request,
+            @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
             @AuthenticationPrincipal UserPrincipal principal) {
 
+        if (idempotencyKey != null && !idempotencyKey.isBlank()) {
+            java.util.Optional<RequestDtos.RequestResponse> existing =
+                    idempotencyService.getStoredResponse(idempotencyKey, RequestDtos.RequestResponse.class);
+            if (existing.isPresent()) {
+                RequestDtos.RequestResponse cachedResponse = existing.get();
+                return ResponseEntity.status(HttpStatus.CREATED)
+                        .header(HttpHeaders.ETAG, "\"" + cachedResponse.version() + "\"")
+                        .body(cachedResponse);
+            }
+        }
+
         RequestDtos.RequestResponse response = requestService.createRequest(request, principal.getId());
+
+        if (idempotencyKey != null && !idempotencyKey.isBlank()) {
+            idempotencyService.storeResponse(idempotencyKey, response, java.time.Duration.ofHours(24));
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .header(HttpHeaders.ETAG, "\"" + response.version() + "\"")
                 .body(response);

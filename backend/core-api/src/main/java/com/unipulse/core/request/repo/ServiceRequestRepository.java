@@ -34,4 +34,35 @@ public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, 
 
     @Query(value = "SELECT nextval('request_public_id_seq')", nativeQuery = true)
     Long getNextPublicIdSequence();
+
+    @Query("""
+        SELECT r FROM ServiceRequest r
+        WHERE r.status IN (com.unipulse.common.model.RequestStatus.OPEN,
+                           com.unipulse.common.model.RequestStatus.ASSIGNED,
+                           com.unipulse.common.model.RequestStatus.IN_PROGRESS)
+          AND r.resolveBy < :now
+          AND r.escalationLevel < :maxLevel
+        ORDER BY r.resolveBy ASC
+    """)
+    List<ServiceRequest> findBreachedRequests(
+            @Param("now") Instant now,
+            @Param("maxLevel") short maxLevel,
+            org.springframework.data.domain.Pageable pageable
+    );
+
+    @Query("""
+        SELECT r FROM ServiceRequest r
+        WHERE r.status IN (com.unipulse.common.model.RequestStatus.OPEN,
+                           com.unipulse.common.model.RequestStatus.ASSIGNED,
+                           com.unipulse.common.model.RequestStatus.IN_PROGRESS)
+          AND r.resolveBy >= :now
+          AND r.resolveBy <= :warningThreshold
+          AND r.escalationLevel = 0
+        ORDER BY r.resolveBy ASC
+    """)
+    List<ServiceRequest> findWarningRequests(
+            @Param("now") Instant now,
+            @Param("warningThreshold") Instant warningThreshold,
+            org.springframework.data.domain.Pageable pageable
+    );
 }
