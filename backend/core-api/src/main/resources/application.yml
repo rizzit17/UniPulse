@@ -89,3 +89,9 @@ unipulse:
     secret: ${UNIPULSE_JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
     access-token-expiration-seconds: 900 # 15 minutes
     refresh-token-expiration-seconds: 604800 # 7 days
+  outbox:
+    enabled: ${UNIPULSE_OUTBOX_ENABLED:true}
+    batch-size: 100
+    poll-interval-ms: 500
+    send-timeout-seconds: 5
+    retention-days: 7
