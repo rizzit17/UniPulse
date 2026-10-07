@@ -1,0 +1,198 @@
+:root {
+  --paper: #F1EDE3;
+  --paper-2: #E6E1D3;
+  --card: #FBF9F3;
+  --ink: #16150F;
+  --ink-2: #4A483E;
+  --ink-3: #7C7A6C;
+  --accent: #1F5C57;
+  --accent-ink: #F1EDE3;
+
+  --amber: #D9A21B;
+  --brick: #B5432B;
+  --moss: #5B7A3A;
+  --steel: #3E5A73;
+  --clay: #A9795A;
+
+  --bw: 2px;
+  --bw-heavy: 3px;
+  --sh-sm: 2px 2px 0 var(--ink);
+  --sh-md: 4px 4px 0 var(--ink);
+  --sh-lg: 6px 6px 0 var(--ink);
+  --r: 0px;
+  --r-sm: 2px;
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom focus ring */
+:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+/* Button Pressed translation */
+.btn-brutalist {
+  border: var(--bw) solid var(--ink);
+  box-shadow: var(--sh-md);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  padding: 8px 16px;
+  border-radius: var(--r);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn-brutalist:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--sh-lg);
+}
+
+.btn-brutalist:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.btn-brutalist:disabled {
+  background-color: var(--paper-2);
+  color: var(--ink-3);
+  box-shadow: none;
+  cursor: not-allowed;
+  border-color: var(--ink-3);
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn-secondary {
+  background-color: var(--card);
+  color: var(--ink);
+}
+
+.btn-danger {
+  background-color: var(--brick);
+  color: var(--paper);
+}
+
+/* Carbon copy form fields */
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  background-color: var(--card);
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--r-sm);
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  box-shadow: 2px 2px 0 var(--accent);
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+/* Stamp Badge / Chip */
+.stamp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: var(--bw) solid var(--ink);
+  border-radius: var(--r-sm);
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Card panel */
+.brutalist-card {
+  background-color: var(--card);
+  border: var(--bw) solid var(--ink);
+  box-shadow: var(--sh-md);
+  padding: 20px;
+}
+
+/* Table */
+.brutalist-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: var(--bw) solid var(--ink);
+}
+
+.brutalist-table th {
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: var(--bw) solid var(--ink);
+}
+
+.brutalist-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--paper-2);
+}
+
+.brutalist-table tr:nth-child(even) td {
+  background-color: var(--paper-2);
+}
+
+.brutalist-table tr:hover td {
+  background-color: #DDD8CA;
+}
