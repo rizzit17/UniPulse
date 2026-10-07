@@ -1,6 +1,11 @@
 package com.unipulse.core.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unipulse.common.error.ApiError;
+import com.unipulse.common.error.ErrorCodes;
+import com.unipulse.core.auth.filter.JwtAuthenticationFilter;
 import com.unipulse.core.shared.filter.CorrelationIdFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +22,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Configuration
@@ -26,6 +32,8 @@ import java.util.List;
 public class SecurityConfig {
 
     private final CorrelationIdFilter correlationIdFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -34,18 +42,49 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/problem+json");
+                            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+                            ApiError error = ApiError.of(
+                                    HttpServletResponse.SC_UNAUTHORIZED,
+                                    "Unauthorized",
+                                    "Authentication is required to access this resource",
+                                    ErrorCodes.UNAUTHORIZED,
+                                    java.net.URI.create(request.getRequestURI())
+                            );
+                            objectMapper.writeValue(response.getOutputStream(), error);
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("application/problem+json");
+                            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+                            ApiError error = ApiError.of(
+                                    HttpServletResponse.SC_FORBIDDEN,
+                                    "Forbidden",
+                                    "Access denied: insufficient permissions",
+                                    ErrorCodes.FORBIDDEN,
+                                    java.net.URI.create(request.getRequestURI())
+                            );
+                            objectMapper.writeValue(response.getOutputStream(), error);
+                        })
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/actuator/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
-                                "/api/v1/auth/**",
+                                "/api/v1/auth/register",
+                                "/api/v1/auth/login",
+                                "/api/v1/auth/refresh",
                                 "/error"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(correlationIdFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(correlationIdFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
