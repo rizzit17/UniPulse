@@ -40,211 +40,210 @@ export const AdminConsoleScreen: React.FC = () => {
     { at: '08:30:00', actor: 'SLA Watcher Daemon', action: 'Issued SLA Warning (30 min remaining)', target: 'UP-2026-000103' },
   ];
 
+  const tabs = [
+    { key: 'users', label: 'USERS & ROLES' },
+    { key: 'depts', label: 'DEPARTMENTS' },
+    { key: 'categories', label: 'CATEGORIES & ROUTING' },
+    { key: 'sla', label: 'SLA POLICIES' },
+    { key: 'audit', label: 'AUDIT TRAIL' },
+  ] as const;
+
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 24px' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '32px', color: 'var(--ink)', marginBottom: '6px' }}>
-          ADMINISTRATIVE CONTROL CONSOLE
-        </h1>
-        <p style={{ color: 'var(--ink-2)', fontSize: '15px' }}>
-          Platform governance for identity access, department routing rules, and SLA threshold policies.
-        </p>
+    <div className="w-full bg-surface text-on-surface">
+      {/* Masthead */}
+      <div className="w-full bg-surface-container-low border-b border-outline-variant py-space-md px-4 sm:px-8 lg:px-12">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
+          <div>
+            <div className="flex items-center gap-space-xs font-label-stamp text-label-stamp text-secondary uppercase tracking-widest mb-1">
+              <span>ADMINISTRATIVE REGISTRY</span>
+              <span>·</span>
+              <span className="text-primary font-semibold">SEC-05 GOVERNANCE</span>
+            </div>
+            <h1 className="font-headline-lg text-headline-lg text-on-surface m-0 leading-tight">
+              Administrative Control Console
+            </h1>
+            <p className="font-body-md text-body-md text-on-surface-variant m-0 mt-1">
+              Platform governance for user roles, department taxonomy, dispatch routing rules, and SLA threshold policies.
+            </p>
+          </div>
+          <div className="font-label-code text-label-code text-secondary bg-surface px-3 py-1.5 border border-outline-variant">
+            ACCESS LEVEL: <span className="text-primary font-bold">SUPER-ADMIN</span>
+          </div>
+        </div>
       </div>
 
-      {/* Tabs */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '8px',
-          borderBottom: 'var(--bw) solid var(--ink)',
-          marginBottom: '24px',
-        }}
-      >
-        {[
-          { key: 'users', label: 'USERS & ROLES' },
-          { key: 'depts', label: 'DEPARTMENTS' },
-          { key: 'categories', label: 'CATEGORIES & ROUTING' },
-          { key: 'sla', label: 'SLA POLICIES' },
-          { key: 'audit', label: 'AUDIT TRAIL' },
-        ].map((tab) => {
-          const active = activeTab === tab.key;
-          return (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key as unknown as typeof activeTab)}
-              style={{
-                padding: '10px 18px',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '12px',
-                fontWeight: 700,
-                backgroundColor: active ? 'var(--ink)' : 'var(--paper-2)',
-                color: active ? 'var(--paper)' : 'var(--ink)',
-                border: 'var(--bw) solid var(--ink)',
-                borderBottom: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
+      <div className="w-full px-4 sm:px-8 lg:px-12 py-space-xl flex flex-col gap-space-lg">
+        {/* Navigation Tabs */}
+        <div className="flex flex-wrap border-b border-outline-variant bg-surface-container-low">
+          {tabs.map((tab) => {
+            const active = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-4 py-2.5 font-label-stamp text-label-stamp uppercase tracking-wider transition-colors border-b-2 cursor-pointer ${
+                  active
+                    ? 'bg-surface-container-highest text-on-surface font-bold border-primary'
+                    : 'text-on-surface-variant hover:bg-surface-container-high bg-transparent border-transparent'
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tab Content Panels */}
+        {activeTab === 'users' && (
+          <div className="bg-surface-container-lowest border border-outline-variant overflow-x-auto">
+            <table className="w-full text-left border-collapse font-body-sm text-body-sm">
+              <thead>
+                <tr className="bg-surface-container-low border-b border-outline-variant font-label-code text-label-code text-secondary">
+                  <th className="p-3">NAME</th>
+                  <th className="p-3">EMAIL</th>
+                  <th className="p-3">ROLE</th>
+                  <th className="p-3">TRADE DEPT</th>
+                  <th className="p-3 text-right">ACTION</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant">
+                {demoUsers.map((u) => (
+                  <tr key={u.id} className="hover:bg-surface-container-low">
+                    <td className="p-3 font-title-sm text-title-sm text-on-surface">{u.name}</td>
+                    <td className="p-3 font-label-code text-label-code text-secondary">{u.email}</td>
+                    <td className="p-3">
+                      <span className="font-label-stamp text-label-stamp px-1.5 py-0.5 bg-surface text-primary border border-outline-variant">
+                        [{u.role}]
+                      </span>
+                    </td>
+                    <td className="p-3 text-secondary">{u.dept}</td>
+                    <td className="p-3 text-right">
+                      <button
+                        onClick={() => alert(`Modify permissions for ${u.name}`)}
+                        className="px-2.5 py-1 bg-surface-container-low hover:bg-surface-container text-on-surface border border-outline-variant font-title-sm text-xs cursor-pointer"
+                      >
+                        EDIT
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {activeTab === 'depts' && (
+          <div className="bg-surface-container-lowest border border-outline-variant overflow-x-auto">
+            <table className="w-full text-left border-collapse font-body-sm text-body-sm">
+              <thead>
+                <tr className="bg-surface-container-low border-b border-outline-variant font-label-code text-label-code text-secondary">
+                  <th className="p-3">CODE</th>
+                  <th className="p-3">DEPARTMENT NAME</th>
+                  <th className="p-3">HEAD OF DEPARTMENT</th>
+                  <th className="p-3 text-right">STATUS</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant">
+                {demoDepts.map((d) => (
+                  <tr key={d.id} className="hover:bg-surface-container-low">
+                    <td className="p-3 font-label-code text-label-code font-bold text-primary">{d.code}</td>
+                    <td className="p-3 font-title-sm text-title-sm text-on-surface">{d.name}</td>
+                    <td className="p-3 text-secondary">{d.headUserName}</td>
+                    <td className="p-3 text-right">
+                      <span className="font-label-stamp text-label-stamp text-tertiary">[ACTIVE]</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {activeTab === 'categories' && (
+          <div className="bg-surface-container-lowest border border-outline-variant overflow-x-auto">
+            <table className="w-full text-left border-collapse font-body-sm text-body-sm">
+              <thead>
+                <tr className="bg-surface-container-low border-b border-outline-variant font-label-code text-label-code text-secondary">
+                  <th className="p-3">CODE</th>
+                  <th className="p-3">CATEGORY SPECIFICATION</th>
+                  <th className="p-3">BASE PRIORITY</th>
+                  <th className="p-3 text-right">ROUTING</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant">
+                {demoCategories.map((c) => (
+                  <tr key={c.id} className="hover:bg-surface-container-low">
+                    <td className="p-3 font-label-code text-label-code text-secondary">{c.code}</td>
+                    <td className="p-3 font-title-sm text-title-sm text-on-surface">{c.name}</td>
+                    <td className="p-3">
+                      <span className="font-label-stamp text-label-stamp px-1.5 py-0.5 bg-surface text-primary border border-outline-variant">
+                        [{c.defaultPriority}]
+                      </span>
+                    </td>
+                    <td className="p-3 text-right font-label-code text-label-code text-tertiary">
+                      AUTO-DISPATCH
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {activeTab === 'sla' && (
+          <div className="bg-surface-container-lowest border border-outline-variant overflow-x-auto">
+            <table className="w-full text-left border-collapse font-body-sm text-body-sm">
+              <thead>
+                <tr className="bg-surface-container-low border-b border-outline-variant font-label-code text-label-code text-secondary">
+                  <th className="p-3">PRIORITY</th>
+                  <th className="p-3">INITIAL RESPONSE TARGET</th>
+                  <th className="p-3">MAX RESOLUTION TARGET</th>
+                  <th className="p-3 text-right">BREACH ESCALATION</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant">
+                {demoSlaPolicies.map((s) => (
+                  <tr key={s.id} className="hover:bg-surface-container-low">
+                    <td className="p-3 font-label-stamp text-label-stamp font-bold text-primary">[{s.priority}]</td>
+                    <td className="p-3 font-label-code text-label-code">{s.responseTargetMinutes} minutes</td>
+                    <td className="p-3 font-label-code text-label-code">{s.resolutionTargetMinutes / 60} hours</td>
+                    <td className="p-3 text-right font-label-code text-label-code text-error">HOD PUSH NOTIFY</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {activeTab === 'audit' && (
+          <div className="bg-surface-container-lowest border border-outline-variant overflow-x-auto">
+            <table className="w-full text-left border-collapse font-body-sm text-body-sm">
+              <thead>
+                <tr className="bg-surface-container-low border-b border-outline-variant font-label-code text-label-code text-secondary">
+                  <th className="p-3 w-28">TIMESTAMP</th>
+                  <th className="p-3 w-48">ACTOR</th>
+                  <th className="p-3">ACTION EVENT</th>
+                  <th className="p-3 w-36 text-right">TARGET DOCKET</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant">
+                {demoAuditLogs.map((l, idx) => (
+                  <tr key={idx} className="hover:bg-surface-container-low">
+                    <td className="p-3 font-label-code text-label-code text-secondary">{l.at}</td>
+                    <td className="p-3 font-title-sm text-title-sm text-on-surface">{l.actor}</td>
+                    <td className="p-3 text-on-surface">{l.action}</td>
+                    <td className="p-3 text-right font-label-code text-label-code font-bold text-primary">
+                      {l.target}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
-
-      {/* Tab Panels */}
-      {activeTab === 'users' && (
-        <div style={{ border: 'var(--bw) solid var(--ink)', boxShadow: 'var(--sh-md)' }}>
-          <table className="brutalist-table" style={{ border: 'none' }}>
-            <thead>
-              <tr>
-                <th>NAME</th>
-                <th>EMAIL</th>
-                <th>ROLE</th>
-                <th>DEPARTMENT</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {demoUsers.map((u) => (
-                <tr key={u.id}>
-                  <td style={{ fontWeight: 600 }}>{u.name}</td>
-                  <td className="mono">{u.email}</td>
-                  <td>
-                    <span className="stamp-chip" style={{ backgroundColor: 'var(--card)' }}>
-                      {u.role}
-                    </span>
-                  </td>
-                  <td>{u.dept}</td>
-                  <td>
-                    <button className="btn-brutalist btn-secondary" style={{ fontSize: '11px', padding: '2px 8px' }}>
-                      EDIT ROLE
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {activeTab === 'depts' && (
-        <div style={{ border: 'var(--bw) solid var(--ink)', boxShadow: 'var(--sh-md)' }}>
-          <table className="brutalist-table" style={{ border: 'none' }}>
-            <thead>
-              <tr>
-                <th>CODE</th>
-                <th>DEPARTMENT NAME</th>
-                <th>HEAD OF DEPARTMENT</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {demoDepts.map((d) => (
-                <tr key={d.id}>
-                  <td className="mono" style={{ fontWeight: 700 }}>{d.code}</td>
-                  <td style={{ fontWeight: 600 }}>{d.name}</td>
-                  <td>{d.headUserName}</td>
-                  <td>
-                    <button className="btn-brutalist btn-secondary" style={{ fontSize: '11px', padding: '2px 8px' }}>
-                      MANAGE
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {activeTab === 'categories' && (
-        <div style={{ border: 'var(--bw) solid var(--ink)', boxShadow: 'var(--sh-md)' }}>
-          <table className="brutalist-table" style={{ border: 'none' }}>
-            <thead>
-              <tr>
-                <th>CODE</th>
-                <th>CATEGORY NAME</th>
-                <th>DEFAULT PRIORITY</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {demoCategories.map((c) => (
-                <tr key={c.id}>
-                  <td className="mono" style={{ fontWeight: 700 }}>{c.code}</td>
-                  <td style={{ fontWeight: 600 }}>{c.name}</td>
-                  <td>
-                    <span className="stamp-chip" style={{ backgroundColor: 'var(--card)' }}>
-                      {c.defaultPriority}
-                    </span>
-                  </td>
-                  <td>
-                    <button className="btn-brutalist btn-secondary" style={{ fontSize: '11px', padding: '2px 8px' }}>
-                      EDIT
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {activeTab === 'sla' && (
-        <div style={{ border: 'var(--bw) solid var(--ink)', boxShadow: 'var(--sh-md)' }}>
-          <table className="brutalist-table" style={{ border: 'none' }}>
-            <thead>
-              <tr>
-                <th>PRIORITY</th>
-                <th>FIRST RESPONSE TARGET</th>
-                <th>RESOLUTION TARGET</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {demoSlaPolicies.map((p) => (
-                <tr key={p.id}>
-                  <td>
-                    <span className="stamp-chip" style={{ backgroundColor: 'var(--card)' }}>
-                      {p.priority}
-                    </span>
-                  </td>
-                  <td className="mono">{p.responseTargetMinutes} minutes</td>
-                  <td className="mono">{p.resolutionTargetMinutes} minutes ({(p.resolutionTargetMinutes / 60).toFixed(1)} hrs)</td>
-                  <td>
-                    <button className="btn-brutalist btn-secondary" style={{ fontSize: '11px', padding: '2px 8px' }}>
-                      CONFIG
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {activeTab === 'audit' && (
-        <div style={{ border: 'var(--bw) solid var(--ink)', boxShadow: 'var(--sh-md)' }}>
-          <table className="brutalist-table" style={{ border: 'none' }}>
-            <thead>
-              <tr>
-                <th>TIMESTAMP</th>
-                <th>ACTOR</th>
-                <th>ACTION SUMMARY</th>
-                <th>TARGET ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {demoAuditLogs.map((log, idx) => (
-                <tr key={idx}>
-                  <td className="mono">{log.at}</td>
-                  <td style={{ fontWeight: 600 }}>{log.actor}</td>
-                  <td>{log.action}</td>
-                  <td className="mono" style={{ fontWeight: 600 }}>{log.target}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
     </div>
   );
 };
+
+export default AdminConsoleScreen;

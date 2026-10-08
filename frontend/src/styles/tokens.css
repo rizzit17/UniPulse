@@ -1,30 +1,64 @@
 :root {
-  --paper: #F1EDE3;
-  --paper-2: #E6E1D3;
-  --card: #FBF9F3;
-  --ink: #16150F;
-  --ink-2: #4A483E;
-  --ink-3: #7C7A6C;
-  --accent: #1F5C57;
-  --accent-ink: #F1EDE3;
+  /* Civic Cartography Surface & Neutral Tokens */
+  --surface: #fbf9f5;
+  --surface-dim: #dbdad6;
+  --surface-bright: #fbf9f5;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f5f3ef;
+  --surface-container: #efeeea;
+  --surface-container-high: #eae8e4;
+  --surface-container-highest: #e4e2de;
+  --surface-variant: #e4e2de;
 
-  --amber: #D9A21B;
-  --brick: #B5432B;
-  --moss: #5B7A3A;
-  --steel: #3E5A73;
-  --clay: #A9795A;
+  --on-surface: #1b1c1a;
+  --on-surface-variant: #57423b;
+  --inverse-surface: #30312e;
+  --inverse-on-surface: #f2f0ed;
 
-  --bw: 2px;
-  --bw-heavy: 3px;
-  --sh-sm: 2px 2px 0 var(--ink);
-  --sh-md: 4px 4px 0 var(--ink);
-  --sh-lg: 6px 6px 0 var(--ink);
+  /* Outlines & Hairlines */
+  --outline: #8a726a;
+  --outline-variant: #dec0b7;
+  --border-hairline: 1px solid #dec0b7;
+  --border-structural: 1px solid #e8e2d8;
+  --border-contrast: 1px solid #262422;
+
+  /* Primary Accent: Raw Terracotta */
+  --primary: #9f3c16;
+  --primary-hover: #b84d26;
+  --on-primary: #ffffff;
+  --primary-container: #bf542c;
+  --on-primary-container: #fffbff;
+  --primary-fixed: #ffdbcf;
+  --on-primary-fixed: #390c00;
+
+  /* Secondary & Neutral Elements */
+  --secondary: #615e5b;
+  --on-secondary: #ffffff;
+  --secondary-container: #e4dfdb;
+  --on-secondary-container: #65625f;
+
+  /* Tertiary: Spruce Forest Olive */
+  --tertiary: #2a674c;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #448064;
+  --on-tertiary-container: #f5fff7;
+  --tertiary-fixed: #b1f0ce;
+
+  /* Error / Breached SLA */
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+
+  /* Typography Stacks */
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Orthogonal Shapes (Zero-Shadow, Zero-Radius Rule) */
   --r: 0px;
-  --r-sm: 2px;
-
-  --font-display: "Archivo", system-ui, sans-serif;
-  --font-body: "IBM Plex Sans", system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --sh-none: 0 0 0 0 transparent;
+  --sh-contact: 2px 2px 0px 0px #262422;
 }
 
 *, *::before, *::after {
@@ -34,180 +68,159 @@
 }
 
 body {
-  background-color: var(--paper);
-  color: var(--ink);
+  background-color: var(--surface);
+  color: var(--on-surface);
   font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--on-surface);
 }
 
-code, pre, .mono {
+code, pre, .mono, [data-mono="true"] {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
 }
 
-/* Custom focus ring */
-:focus-visible {
-  outline: 3px solid var(--amber);
-  outline-offset: 2px;
+/* Material Symbols Outlined Font Support */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
 }
 
-/* Button Pressed translation */
-.btn-brutalist {
-  border: var(--bw) solid var(--ink);
-  box-shadow: var(--sh-md);
-  cursor: pointer;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  transition: transform 120ms ease, box-shadow 120ms ease;
-  padding: 8px 16px;
-  border-radius: var(--r);
+/* Civic Cartography Primary Action Button */
+.btn-civic {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 0px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+  padding: 10px 18px;
   text-decoration: none;
 }
 
-.btn-brutalist:hover:not(:disabled) {
-  transform: translate(-1px, -1px);
-  box-shadow: var(--sh-lg);
+.btn-civic-primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
 }
 
-.btn-brutalist:active:not(:disabled) {
-  transform: translate(4px, 4px);
-  box-shadow: 0 0 0 var(--ink);
+.btn-civic-primary:hover:not(:disabled) {
+  background-color: var(--primary-container);
 }
 
-.btn-brutalist:disabled {
-  background-color: var(--paper-2);
-  color: var(--ink-3);
-  box-shadow: none;
+.btn-civic-secondary {
+  background-color: var(--surface-container);
+  color: var(--on-surface);
+  border: 1px solid var(--outline-variant);
+}
+
+.btn-civic-secondary:hover:not(:disabled) {
+  background-color: var(--surface-container-highest);
+}
+
+.btn-civic:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
-  border-color: var(--ink-3);
 }
 
-.btn-primary {
-  background-color: var(--accent);
-  color: var(--accent-ink);
-}
-
-.btn-secondary {
-  background-color: var(--card);
-  color: var(--ink);
-}
-
-.btn-danger {
-  background-color: var(--brick);
-  color: var(--paper);
-}
-
-/* Carbon copy form fields */
-.form-input, .form-select, .form-textarea {
+/* Standard Inputs & Controls */
+.civic-input {
   width: 100%;
-  background-color: var(--card);
-  border: var(--bw) solid var(--ink);
-  border-radius: var(--r-sm);
-  padding: 8px 12px;
+  background-color: var(--surface-container-low);
+  border: 1px solid transparent;
+  padding: 10px 14px;
   font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--ink);
-}
-
-.form-input:focus, .form-select:focus, .form-textarea:focus {
+  font-size: 14px;
+  color: var(--on-surface);
+  border-radius: 0px;
   outline: none;
-  box-shadow: 2px 2px 0 var(--accent);
+  transition: background-color 150ms ease, border-color 150ms ease;
 }
 
-.form-label {
-  display: block;
+.civic-input:focus {
+  background-color: var(--surface-container-lowest);
+  border-color: var(--on-surface);
+}
+
+.civic-input-mono {
   font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-  color: var(--ink);
 }
 
-/* Stamp Badge / Chip */
-.stamp-chip {
+/* Focus Rings */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+/* Status Stamp Ribbons */
+.stamp-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  border: var(--bw) solid var(--ink);
-  border-radius: var(--r-sm);
-  padding: 2px 8px;
+  gap: 5px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  padding: 2px 7px;
+  line-height: 1.2;
 }
 
-/* Card panel */
-.brutalist-card {
-  background-color: var(--card);
-  border: var(--bw) solid var(--ink);
-  box-shadow: var(--sh-md);
-  padding: 20px;
+.stamp-critical {
+  color: #C23B22;
+  background-color: #FDF2F0;
+  border: 1px solid #F5C6CB;
 }
 
-/* Table */
-.brutalist-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: var(--bw) solid var(--ink);
+.stamp-urgent {
+  color: #B45309;
+  background-color: #FEF7EE;
+  border: 1px solid #FCE4B8;
 }
 
-.brutalist-table th {
-  background-color: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  padding: 10px 14px;
-  text-align: left;
-  border-bottom: var(--bw) solid var(--ink);
+.stamp-active {
+  color: #2D6A4F;
+  background-color: #EDF6F1;
+  border: 1px solid #C2E2D0;
 }
 
-.brutalist-table td {
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--paper-2);
+.stamp-pending {
+  color: #57534E;
+  background-color: #F5F5F4;
+  border: 1px solid #E7E5E4;
 }
 
-.brutalist-table tr:nth-child(even) td {
-  background-color: var(--paper-2);
+.stamp-resolved {
+  color: #386641;
+  background-color: #F0F5F1;
+  border: 1px solid #C8DFCD;
 }
-
-.brutalist-table tr:hover td {
-  background-color: #DDD8CA;
-}
-
-/* Authentication split-screen layout */
-.auth-layout {
-  display: grid;
-  grid-template-columns: minmax(460px, 1fr) minmax(460px, 1.15fr);
-  min-height: 100vh;
-  background-color: var(--paper);
-}
-
-@media (max-width: 960px) {
-  .auth-layout {
-    grid-template-columns: 1fr;
-  }
-}
-

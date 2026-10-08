@@ -1,207 +1,267 @@
-# CampusFlow — Design System
-
-Direction: **neo-brutalism, sober.** Think municipal notice board and carbon-copy service forms, not startup landing page. Flat colour, thick ink borders, hard offset shadows, dense honest data. Nothing glows, nothing blurs, nothing gradients.
-
+---
+name: Civic Cartography
+colors:
+  surface: '#fbf9f5'
+  surface-dim: '#dbdad6'
+  surface-bright: '#fbf9f5'
+  surface-container-lowest: '#ffffff'
+  surface-container-low: '#f5f3ef'
+  surface-container: '#efeeea'
+  surface-container-high: '#eae8e4'
+  surface-container-highest: '#e4e2de'
+  on-surface: '#1b1c1a'
+  on-surface-variant: '#57423b'
+  inverse-surface: '#30312e'
+  inverse-on-surface: '#f2f0ed'
+  outline: '#8a726a'
+  outline-variant: '#dec0b7'
+  surface-tint: '#a23e18'
+  primary: '#9f3c16'
+  on-primary: '#ffffff'
+  primary-container: '#bf542c'
+  on-primary-container: '#fffbff'
+  inverse-primary: '#ffb59c'
+  secondary: '#615e5b'
+  on-secondary: '#ffffff'
+  secondary-container: '#e4dfdb'
+  on-secondary-container: '#65625f'
+  tertiary: '#2a674c'
+  on-tertiary: '#ffffff'
+  tertiary-container: '#448064'
+  on-tertiary-container: '#f5fff7'
+  error: '#ba1a1a'
+  on-error: '#ffffff'
+  error-container: '#ffdad6'
+  on-error-container: '#93000a'
+  primary-fixed: '#ffdbcf'
+  primary-fixed-dim: '#ffb59c'
+  on-primary-fixed: '#390c00'
+  on-primary-fixed-variant: '#822801'
+  secondary-fixed: '#e7e1de'
+  secondary-fixed-dim: '#cbc5c2'
+  on-secondary-fixed: '#1d1b19'
+  on-secondary-fixed-variant: '#494644'
+  tertiary-fixed: '#b1f0ce'
+  tertiary-fixed-dim: '#95d4b3'
+  on-tertiary-fixed: '#002114'
+  on-tertiary-fixed-variant: '#0e5138'
+  background: '#fbf9f5'
+  on-background: '#1b1c1a'
+  surface-variant: '#e4e2de'
+typography:
+  headline-xl:
+    fontFamily: Newsreader
+    fontSize: 44px
+    fontWeight: '400'
+    lineHeight: 52px
+    letterSpacing: -0.02em
+  headline-xl-mobile:
+    fontFamily: Newsreader
+    fontSize: 32px
+    fontWeight: '400'
+    lineHeight: 40px
+    letterSpacing: -0.015em
+  headline-lg:
+    fontFamily: Newsreader
+    fontSize: 32px
+    fontWeight: '400'
+    lineHeight: 40px
+    letterSpacing: -0.015em
+  headline-lg-mobile:
+    fontFamily: Newsreader
+    fontSize: 26px
+    fontWeight: '400'
+    lineHeight: 34px
+    letterSpacing: -0.01em
+  headline-md:
+    fontFamily: Newsreader
+    fontSize: 24px
+    fontWeight: '500'
+    lineHeight: 32px
+    letterSpacing: -0.01em
+  headline-sm:
+    fontFamily: Newsreader
+    fontSize: 20px
+    fontWeight: '500'
+    lineHeight: 28px
+  title-md:
+    fontFamily: IBM Plex Sans
+    fontSize: 16px
+    fontWeight: '600'
+    lineHeight: 24px
+    letterSpacing: -0.005em
+  title-sm:
+    fontFamily: IBM Plex Sans
+    fontSize: 14px
+    fontWeight: '600'
+    lineHeight: 20px
+  body-lg:
+    fontFamily: IBM Plex Sans
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 26px
+  body-md:
+    fontFamily: IBM Plex Sans
+    fontSize: 14px
+    fontWeight: '400'
+    lineHeight: 22px
+  body-sm:
+    fontFamily: IBM Plex Sans
+    fontSize: 13px
+    fontWeight: '400'
+    lineHeight: 18px
+  label-code:
+    fontFamily: JetBrains Mono
+    fontSize: 12px
+    fontWeight: '500'
+    lineHeight: 16px
+    letterSpacing: 0.02em
+  label-stamp:
+    fontFamily: JetBrains Mono
+    fontSize: 11px
+    fontWeight: '600'
+    lineHeight: 14px
+    letterSpacing: 0.08em
+  label-caption:
+    fontFamily: IBM Plex Sans
+    fontSize: 11px
+    fontWeight: '500'
+    lineHeight: 16px
+    letterSpacing: 0.04em
+spacing:
+  gutter: 1rem
+  gutter-desktop: 1.5rem
+  margin: 1rem
+  margin-tablet: 2rem
+  margin-desktop: 3rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.5rem
+  space-xl: 2.5rem
 ---
 
-## 1. Principles
+## Brand & Style
 
-1. **Function is the decoration.** Status, priority and SLA are the visual hierarchy. If an element doesn't carry information, remove it.
-2. **Hard edges, real borders.** 2 px ink borders, 0–2 px radius, offset shadows with zero blur.
-3. **Paper and ink.** Warm off-white paper, near-black ink, three muted signal colours.
-4. **Tables are first-class.** This is an operations tool. Dense, readable tables beat card grids.
-5. **Monospace for machine data.** IDs, timestamps, SLA timers, counts.
-6. **Asymmetry with intent.** Left-aligned, uneven column widths, oversized section numerals. No centred-hero-plus-three-icon-cards template.
+This design system treats campus infrastructure as civic architecture. It merges the deliberate structure of Swiss modernist wayfinding and transit maps with the tactile, high-density utility of archival indexing, Linear, and editorial catalog design.
 
-## 2. Anti-"AI-generated" Rules (hard constraints)
+### Brand Personality & Emotional Tone
+- **Architectural & Authoritative:** Built on structural permanence, physical stone, and institutional responsibility. It rejects ephemeral SaaS aesthetics in favor of spatial clarity.
+- **Quietly Confident:** Interfaces remain calm under pressure. Critical facility failures, hazardous maintenance, and campus operations are presented without panic-inducing bright red alarms, but with precise, high-contrast, ticket-based taxonomy.
+- **Utilitarian & Exact:** Every element behaves like a physical ledger entry, public transit timetable, or building dispatch docket.
 
-- ❌ No gradients of any kind (backgrounds, buttons, text, borders).
-- ❌ No purple, violet, indigo, or blue-to-pink anything.
-- ❌ No glassmorphism, blur, glow, neon, or soft shadows.
-- ❌ No emoji as icons. No sparkle icons. No robot imagery.
-- ❌ No centred hero with a tagline + two buttons + three feature cards.
-- ❌ No generic copy: "Welcome to the future of…", "Seamless", "Empower", "Revolutionize", "Effortless".
-- ❌ No rounded-2xl pill soup. No pastel blobs.
-- ❌ No stock illustrations. No lorem ipsum in any screen; use real campus data (Block C, Room 214, Hostel H-4).
-- ✅ Copy is plain and specific: "Raise a request", "12 open in Electrical", "Breached 41 min ago".
-- ✅ Icons: a small custom set of simple 2 px square-cap line icons (or Phosphor "bold" set), used sparingly, always paired with a text label.
-- ✅ Visible grid lines, rule lines, stamp-like badges, ticket-stub motifs for request cards.
+### Visual Aesthetic
+The style is strictly flat, tectonic, and grounded:
+- **Zero Gradients & Zero Blurred Depth:** Absolute ban on CSS backdrops, glassmorphic sheen, colorful glows, decorative floating blobs, and generic SaaS card elevations.
+- **Structural Lines:** Layouts rely on 1px solid hairline grid intersections, ticket-spine notches, and dense typographic hierarchy to organize complex data.
+- **Physical Document Metaphors:** Manifested through perforated slip edges, tabular indexing ribbons, ticket receipt margins, and stamped monospace metadata.
 
-## 3. Colour Tokens
+## Colors
 
-Sober, low-saturation, print-like.
+The palette is rooted in mineral pigments, terracotta brickwork, and warm architectural stone. It decisively avoids standard tech-blue and synthetic purple tones.
 
-| Token | Hex | Use |
-|---|---|---|
-| `--paper` | `#F1EDE3` | App background |
-| `--paper-2` | `#E6E1D3` | Table zebra, secondary surfaces |
-| `--card` | `#FBF9F3` | Panels, inputs |
-| `--ink` | `#16150F` | Text, borders, shadows |
-| `--ink-2` | `#4A483E` | Secondary text |
-| `--ink-3` | `#7C7A6C` | Muted text, disabled |
-| `--accent` | `#1F5C57` | Primary actions (deep teal-green) |
-| `--accent-ink` | `#F1EDE3` | Text on accent |
-| `--signal-amber` | `#D9A21B` | Warning, P2, SLA at risk |
-| `--signal-brick` | `#B5432B` | Danger, P1, breach |
-| `--signal-moss` | `#5B7A3A` | Resolved, healthy |
-| `--signal-steel` | `#3E5A73` | Info, in progress |
-| `--signal-clay` | `#A9795A` | On hold, neutral flag |
+### Canvas & Surface Hierarchy
+- **Canvas (`#FBF9F5`):** Warm unbleached bone canvas. Acts as the primary structural ground.
+- **Surface / Card (`#F3EFEA`):** Low-contrast structural paper tone. Used for docket cards, sheets, and active panels.
+- **Surface Elevated / Input (`#FFFFFF`):** Pure white used sparingly for input fields, data entry cells, and focused index tabs.
+- **Border Structural / Hairline (`#E8E2D8`):** 1px precise perimeter dividing columns, headers, and ticket segments.
+- **Border Contrast (`#262422`):** Pure deep umber for high-priority outlines, focus states, and index tags.
+- **Text Primary (`#262422`):** Deep charcoal-umber ink; high legibility without the harshness of pure `#000000`.
+- **Text Secondary (`#706B65`):** Warm stone gray for secondary details, metadata labels, and tabular titles.
+- **Text Muted (`#A8A29A`):** Lightened umber for inactive markers, column borders, and micro-grid rules.
 
-Contrast: all text/background pairs must hit WCAG AA (4.5:1). Amber is always used with `--ink` text, never white.
+### Brand Accent
+- **Raw Terracotta (`#C85A32`):** The primary civic brand accent. Evokes fired clay, architectural drafting seals, and transit routing lines.
+- **Deep Sienna (`#B84D26`):** Hover, active, and focused states for terracotta components.
 
-### Status → colour (chips are filled with a flat colour, ink border, ink text unless noted)
+### Operational Status Palette (Signaling Tokens)
+Status tokens use subdued background washes paired with authoritative ink text and hairline framing:
+- **Critical / SLA Breached:** Deep Rust Vermilion (Text: `#C23B22`, Background: `#FDF2F0`, Border: `#F5C6CB`).
+- **Urgent / Expedited (<25% SLA):** Warm Ochre Amber (Text: `#B45309`, Background: `#FEF7EE`, Border: `#FCE4B8`).
+- **Active / Dispatched:** Spruce Forest Olive (Text: `#2D6A4F`, Background: `#EDF6F1`, Border: `#C2E2D0`).
+- **Pending / Scheduled:** Slate Charcoal (Text: `#57534E`, Background: `#F5F5F4`, Border: `#E7E5E4`).
+- **Resolved / Archived:** Muted Meadow Sage (Text: `#386641`, Background: `#F0F5F1`, Border: `#C8DFCD`).
 
-| Status | Fill | Text |
-|---|---|---|
-| OPEN | `--card` | ink |
-| ASSIGNED | `--signal-steel` | paper |
-| IN_PROGRESS | `--signal-amber` | ink |
-| ON_HOLD | `--signal-clay` | ink |
-| RESOLVED | `--signal-moss` | paper |
-| CLOSED | `--paper-2` | ink-2 |
-| REOPENED | `--signal-brick` | paper |
-| CANCELLED | `--paper-2` + diagonal hatch | ink-2 |
+## Typography
 
-### Priority
+The typographic system balances high-character editorial authority with industrial record-keeping clarity.
 
-| Priority | Treatment |
-|---|---|
-| P1 | Brick fill, paper text, label `P1 CRITICAL` |
-| P2 | Amber fill, ink text |
-| P3 | Card fill, ink border |
-| P4 | Paper-2 fill, ink-3 text |
+### Typographic Roles
+- **Display & Headings (Newsreader):** Brings an intellectual, civic journal quality. Used for dashboard overviews, incident dispatch titles, category divisions, and empty-state broadsheets. Headings must be set with optical sizing enabled and tighter tracking to convey editorial poise.
+- **Body & UI (IBM Plex Sans):** An industrial, geometric grotesque with humanist touches. Handles data grids, service instructions, team logs, and conversational activity feeds with neutral legibility.
+- **Data, Telemetry & Codes (JetBrains Mono):** The operational spine of the design system. Dedicated to tracking identifiers (`UP-2026-00812`), SLA count-down timers (`01:42:19`), architectural room pins (`HALL-B·LVL-2·RM-204`), and ticket timestamps. All numbers in data tables must use tabular figures (`font-variant-numeric: tabular-nums`).
 
-## 4. Typography
+### Micro-Typographic Rules
+- **Micro-Labels (`label-stamp`):** Always transformed to uppercase with letter-spacing set to `0.08em`.
+- **Hierarchical Contrast:** Pair serif titles directly with monospaced tracking strings below them (e.g., a 24px Newsreader title above a 12px JetBrains Mono identifier) to anchor screen elements.
 
-| Role | Font | Weight | Notes |
-|---|---|---|---|
-| Display / H1–H2 | **Archivo** (variable, use width 110–125 if available) or Archivo Black | 800–900 | Uppercase for H1, tight tracking −0.01em |
-| Body / UI | **IBM Plex Sans** | 400/500/600 | 15 px base |
-| Data / IDs / timers | **IBM Plex Mono** | 400/500 | Tabular numerals |
+## Layout & Spacing
 
-Scale (px): 12, 13, 15, 18, 24, 32, 48, 72 (72 only for oversized section numerals). Line-height 1.45 for body, 1.05 for display.
+Layouts follow an architectural drafting grid with continuous horizontal and vertical registration rules.
 
-Avoid Inter, Space Grotesk, Poppins and Geist; they read as template defaults.
+### Layout Philosophy: Structural Grid & Index Columns
+- **12-Column Grid (Desktop):** Elements align to a 12-column matrix separated by 1px rules or deliberate gutters.
+- **Multi-Spine Shell:** The layout uses a persistent primary index spine (280px left rail for status queues and filters), an expansive central manifest sheet (fluid service requests and routing maps), and an optional inspection inspector drawer (400px docket sheet).
+- **Edge Alignment:** Cards, tables, and inspection panes do not float with arbitrary air around them. They snap directly to neighboring structural 1px borders, emulating stacked ledger folios.
 
-## 5. Spacing, Borders, Shadows
+### Responsive Behavior
+- **Mobile (< 768px):** Single-column layout. The left filter rail collapses into a horizontal scrollable index bar (`space-sm` gap). Margin is locked to `1rem`. Secondary ticket metadata hides behind an expandable drawer.
+- **Tablet (768px - 1024px):** 6-column fluid structure. Margin expands to `2rem`. Left rail collapses into an icon-and-label docked ribbon (64px width).
+- **Desktop (> 1024px):** Full 12-column layout with 24px gutters and structural dividing lines. Margins scale to `3rem` to establish clear broadsheet proportions.
 
-- Spacing scale (px): 4, 8, 12, 16, 24, 32, 48, 64.
-- Border: `2px solid var(--ink)` default. Heavy dividers `3px`. Table row rules `1px solid var(--ink)` at 20% opacity is **not** allowed (no translucency); use `--paper-2` solid.
-- Radius: `0` default; `2px` for inputs and chips only.
-- Shadows: `4px 4px 0 var(--ink)` for raised elements; `6px 6px 0` for modals; `2px 2px 0` for small chips. No blur radius ever.
-- Pressed state: element translates `(4px, 4px)` and shadow becomes `0 0 0` (looks physically pushed in).
-- Grid: 12-col, 24 px gutter, max width 1280 px, sidebar fixed at 232 px.
+## Elevation & Depth
 
-## 6. CSS Tokens (drop into `frontend/src/styles/tokens.css`)
+Visual hierarchy is built through **stacked tonal surfaces and crisp structural borders**, deliberately avoiding drop shadows and blur filters.
 
-```css
-:root {
-  --paper:#F1EDE3; --paper-2:#E6E1D3; --card:#FBF9F3;
-  --ink:#16150F; --ink-2:#4A483E; --ink-3:#7C7A6C;
-  --accent:#1F5C57; --accent-ink:#F1EDE3;
-  --amber:#D9A21B; --brick:#B5432B; --moss:#5B7A3A; --steel:#3E5A73; --clay:#A9795A;
+### Tonal Stratification
+Depth is created by stepping upward through neutral tones:
+1. **Layer 0 (Canvas Base - `#FBF9F5`):** The foundation canvas representing the architectural blueprint desk.
+2. **Layer 1 (Recessed Well - `#EFEAE2`):** Used for filter sidebars, inactive list bays, and data table headers.
+3. **Layer 2 (Document Surface - `#F3EFEA`):** Used for individual ticket blocks, inspection sections, and dispatch lists.
+4. **Layer 3 (Foreground Precision - `#FFFFFF`):** Reserved for focused inputs, active tabs, floating modal sheets, and tooltips.
 
-  --bw:2px; --bw-heavy:3px;
-  --sh-sm:2px 2px 0 var(--ink);
-  --sh-md:4px 4px 0 var(--ink);
-  --sh-lg:6px 6px 0 var(--ink);
-  --r:0; --r-sm:2px;
+### Line-Weight Hierarchy (Zero-Shadow Rule)
+- **Ambient & Drop Shadows:** Standard CSS box-shadows are strictly `0 0 0 0 transparent`. No diffuse blur cones or saturated ambient color drop-offs.
+- **Hairline Outlines:** Containers use a crisp `1px solid #E8E2D8` edge.
+- **Focus & Selection Rules:** Active selection is communicated using an inner or outer `1px solid #262422` border, paired with an optional terracotta accent pip (`3px` square or `4px` hairline bar).
+- **Notch Shadows:** Modals and flyout dockets use an intentional hard-edge contact stroke (`box-shadow: 2px 2px 0px 0px #262422`) instead of soft blur.
 
-  --font-display:"Archivo", "Archivo Black", system-ui, sans-serif;
-  --font-body:"IBM Plex Sans", system-ui, sans-serif;
-  --font-mono:"IBM Plex Mono", ui-monospace, monospace;
-}
-```
+## Shapes
 
-Tailwind: extend `colors`, `boxShadow` (`brut`, `brut-sm`, `brut-lg`), `fontFamily`, `borderWidth` (`DEFAULT: 2px`), and set `borderRadius.DEFAULT = 0`. Disable the default shadow, blur and gradient utilities from usage via an ESLint/Tailwind lint rule: forbid `bg-gradient-*`, `shadow-*` (non-brut), `blur-*`, `backdrop-*`, `rounded-lg+`, any `purple|violet|indigo|fuchsia|pink` class.
+The design system uses sharp, unrounded geometry (`roundedness: 0`), reinforcing the physical feel of technical manuals, index cards, and printed tickets.
 
-## 7. Components
+### Geometry & Edge Details
+- **Base Corner Radius:** `0px` on buttons, cards, form inputs, dialogs, and tags. Corners remain orthogonal and crisp.
+- **Ticket Notches (Physical Metaphor):** Request sheets and priority tokens may incorporate mechanical 45-degree chamfers (2px–4px) or inward-cut 6px circular ticket punches along the dividing line between ticket header and request body.
+- **Linear Grid Dividing Lines:** Panels end in sharp right-angle intersections, aligning borders into continuous horizontal and vertical guidelines.
 
-### Button
-- Primary: accent fill, accent-ink text, 2 px ink border, `--sh-md`. Uppercase 13 px, 600, letter-spacing 0.04em.
-- Secondary: card fill, ink text. Danger: brick fill.
-- Hover: shadow grows to `--sh-lg`, translate `(-1px,-1px)`. Active: translate `(4px,4px)`, no shadow. Focus: 3 px amber outline offset 2 px (never remove focus).
-- Disabled: paper-2 fill, ink-3 text, no shadow.
+## Components
 
-### Input / Select / Textarea
-Card fill, 2 px ink border, radius 2 px, 40 px height, label above in 12 px uppercase mono. Focus: border stays ink, add `--sh-sm` in accent colour. Error: brick border and a one-line brick message with the rule violated ("Description needs at least 20 characters").
+### Buttons
+- **Primary Action (Dispatch / Resolve):** Flat `#C85A32` terracotta fill, `#FFFFFF` text, `0px` radius, font `IBM Plex Sans` 13px weight 600, uppercase micro-spacing (`0.04em`). Hover state shifts to `#B84D26`. Focus ring is an offset `1px solid #262422` with 2px gap.
+- **Secondary (Inspect / Edit):** `#F3EFEA` background, `1px solid #262422` border, `#262422` text. Hover state shifts to `#262422` background with `#FBF9F5` text.
+- **Tertiary / Ghost:** No background, no border, `#706B65` text. Hover state shifts to `#262422` text with an underline border (`1px solid #262422`).
 
-### Chip / Badge
-Rectangular, 2 px ink border, 12 px mono uppercase, `--sh-sm` optional. Priority and status as per tables above.
+### Chips, Badges & Status Stamps
+- **Status Stamps:** Rendered in `JetBrains Mono` 11px uppercase (`label-stamp`). Framed by a 1px border using status-specific tokens (e.g., Rust Vermilion, Spruce Olive). No rounded corners. Must contain a small leading glyph or monospace mark: `[!] CRITICAL`, `[*] ACTIVE`, `[-] RESOLVED`.
+- **Location & Category Index Chips:** `#EFEAE2` background, `1px solid #E8E2D8`, `#262422` body text, accompanied by an architectural room code in tabular monospace.
 
-### Request Row (primary list item) — ticket-stub style
-```
-┌────────────┬──────────────────────────────────────────┬──────────┬────────────┬───────────────┐
-│ CF-2026-0123│ AC not cooling — Block C, Room 214       │ P2       │ IN_PROGRESS│ 02:14:07 left │
-│ (mono)      │ Electrical · Raised by A. Sharma · 2h ago│          │            │ (SLA timer)   │
-└────────────┴──────────────────────────────────────────┴──────────┴────────────┴───────────────┘
-```
-Left edge has a 8 px solid bar in the priority colour. Row hover: shifts background to `--paper-2` and adds `--sh-sm`. SLA timer turns amber under 25% remaining and brick with "BREACHED" stamp when negative (rotated −3°, 2 px brick border, uppercase mono).
+### Input Fields & Controls
+- **Form Fields:** Crisp white (`#FFFFFF`) background, `1px solid #E8E2D8` border, 0px radius, 14px `IBM Plex Sans`. Focused inputs transition to `1px solid #262422` border with zero glow or blur. Placeholder text is `#A8A29A`.
+- **Checkboxes & Radios:** Sharp square boxes (`14px x 14px`), `1px solid #262422`, `#FFFFFF` interior. Checked state fills the box with `#262422` displaying an inset square or sharp crosshair mark.
 
-### Table
-Header row: ink fill, paper text, mono uppercase 12 px. Zebra with `--paper-2`. Sticky header. Column resize not required. Empty state: a bordered box with a plain sentence and one action, no illustration.
+### Request Cards & Docket Sheets
+- **The "Transit Ticket" Manifest Item:** Instead of rounded floating white cards, requests are rendered as continuous stacked strips.
+- **Left Spine (The Stub):** Monospace ID (`UP-2026-000412`), status badge, and elapsed SLA ticker.
+- **Center Body:** Serif incident headline (`Newsreader` 18px), brief summary (`IBM Plex Sans` 14px), and tabular location pin (`BLK-C · LVL-02 · RM-210`).
+- **Dividing Spine:** Separated from the stub by a `1px dashed #E8E2D8` rule with circular receipt notches cut into the top and bottom edges.
+- **Right Stub:** Assignee signature initials in small monospaced caps and a terracotta action trigger.
 
-### Modal / Drawer
-Card fill, 3 px ink border, `--sh-lg`. Backdrop is solid ink at 100% opacity? No: use `#16150F` at 60% via a flat overlay (the only permitted transparency in the system). Request detail opens as a right-side drawer 560 px wide.
+### Tables & Data Grids
+- **Header:** Sticky `#EFEAE2` strip, bottom border `1px solid #262422`. Labels set in `JetBrains Mono` 11px uppercase (`#706B65`).
+- **Rows:** Alternating subtle zebra striping (`#FBF9F5` to `#F7F4EF`), separated by `1px solid #E8E2D8`. Row hover is a clean tint `#EFEAE2` with a `2px solid #C85A32` left boundary indicator.
+- **Tabular Numerals:** All timestamp, duration, room code, and SLA columns enforce `font-variant-numeric: tabular-nums`.
 
-### Timeline (history and comments)
-Vertical 3 px ink rule on the left; each event is a square 12 px node (not a circle) with mono timestamp; internal comments are tinted `--paper-2` with a "INTERNAL" stamp.
-
-### Toast
-Bottom-left, card fill, 2 px border, `--sh-md`, left colour bar for type. Auto-dismiss 5 s. No slide-bounce; use a 120 ms step transition.
-
-### Stat block (dashboard)
-Big mono number (48 px), uppercase label above, 3 px top border in the relevant signal colour. No icons, no sparkline gradients; sparklines are flat 2 px ink lines with square caps.
-
-### Charts
-Recharts or visx, flat fills from the signal palette, 2 px ink strokes, no gridline fades, no rounded bars, no tooltips with shadows (use the standard `--sh-sm` box).
-
-## 8. Layout and Screens
-
-Global shell: left sidebar (232 px, ink background, paper text, active item has an amber 4 px left bar), top bar with search and the user's role stamp, content on paper.
-
-| # | Screen | Layout notes |
-|---|---|---|
-| 1 | **Login / Register** | Split 5/7: left column ink block with an oversized "CF" wordmark and the live count "128 requests open today" from the API; right column form. No illustrations. |
-| 2 | **My Requests** (Requester) | Table of ticket-stub rows, filter chips on top, "RAISE REQUEST" primary button top-right. |
-| 3 | **New Request** | Single column form on a "carbon-copy form" panel: numbered fields (01 Category, 02 Location, 03 What's wrong, 04 Attachments). Right rail shows expected response time from SLA matrix for the chosen category. |
-| 4 | **Request Detail** (drawer or page) | Header with public ID, status chip, priority chip. Two columns: left timeline and comments; right facts panel (assignee, department, SLA timers, location) and action buttons allowed for the role. Stale-version conflict shows an inline diff banner. |
-| 5 | **Department Queue** (Technician/Head) | Kanban-less: table grouped by status with sticky group headers, sorted by priority then SLA remaining. Bulk reassign for Head. |
-| 6 | **Dashboard** (Head/Admin) | 12-col grid: four stat blocks, SLA compliance bar chart, requests-by-category bars, workload table, hotspot list. Section numerals "01–04" oversized in outline text. |
-| 7 | **Admin Console** | Tabs: Users, Departments, Categories & Routing, SLA Policies, Audit Log. Plain data tables with inline edit. |
-| 8 | **Notifications** | Chronological list, unread items have a solid ink left bar. |
-
-Responsive: sidebar collapses to a top bar at <900 px; tables become stacked ticket-stub rows at <640 px. Touch targets ≥ 44 px.
-
-## 9. Motion
-
-- Functional only: 100–150 ms linear/step transitions on button press, drawer slide (translateX), toast appear.
-- No parallax, no float, no fade-in-on-scroll, no skeleton shimmer gradients (skeletons are flat `--paper-2` blocks that blink opacity 100/60%).
-- Respect `prefers-reduced-motion`.
-
-## 10. Content and Microcopy
-
-| Context | Write | Don't write |
-|---|---|---|
-| Empty list | "No requests yet. Raise one when something breaks." | "Oops! Nothing here ✨" |
-| Success | "Request CF-2026-0123 raised. Electrical will pick it up." | "Awesome! You're all set!" |
-| Conflict | "Someone changed this request while you were editing. Review changes." | "Something went wrong" |
-| Breach | "SLA breached 41 min ago. Escalated to Dept Head." | "Uh-oh!" |
-| Loading | "Loading requests" | "Hang tight, magic is happening" |
-
-Tone: municipal, direct, short. Sentence case for body, uppercase only for labels and buttons.
-
-## 11. Accessibility
-
-- WCAG AA contrast, visible focus (3 px amber outline), full keyboard navigation, `aria-live="polite"` on toasts and SLA changes.
-- Never rely on colour alone: status chips always carry text; priority has text plus bar plus label.
-- Forms: labels linked, errors announced.
-
-## 12. Definition of "Done" for any UI work
-
-- [ ] Uses only tokens from section 6 (no raw hex in components)
-- [ ] Zero gradients, blur, soft shadows, purple-family colours
-- [ ] Real data, no lorem ipsum, no emoji
-- [ ] Keyboard and screen-reader pass
-- [ ] Looks correct at 1280, 768 and 390 px
-- [ ] Squint test: status and priority are readable without reading text
+### SLA Countdown Tick-Rule
+- A thin, continuous 2px structural progress line running along the bottom edge of high-priority dispatch cards.
+- Composed of segmented hatch-marks (ticks) that change color based on urgency: Spruce Olive (>50% SLA remaining), Warm Ochre (25-50%), and Deep Vermilion (<25% or breached).

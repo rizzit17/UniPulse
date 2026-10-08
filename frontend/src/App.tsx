@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { api } from './api/client';
 import { ServiceRequest, User } from './types/api';
 import { useNotifications } from './api/useNotifications';
-import { Sidebar, ScreenId } from './components/Sidebar';
-import { Topbar } from './components/Topbar';
+import { Navbar, ScreenId } from './components/Navbar';
 import { LoginRegisterScreen } from './screens/LoginRegisterScreen';
 import { MyRequestsScreen } from './screens/MyRequestsScreen';
 import { NewRequestScreen } from './screens/NewRequestScreen';
@@ -50,7 +49,6 @@ export function App() {
   const handleRequestCreated = (created: ServiceRequest) => {
     setRequests((prev) => [created, ...prev]);
     setSelectedRequest(created);
-    setCurrentScreen('my-requests');
   };
 
   const handleUpdateRequest = (updated: ServiceRequest) => {
@@ -58,93 +56,99 @@ export function App() {
     setSelectedRequest(updated);
   };
 
+  const handleNavigate = (screen: ScreenId) => {
+    setSelectedRequest(null);
+    setCurrentScreen(screen);
+  };
+
   if (!currentUser) {
     return <LoginRegisterScreen onSuccess={handleLoginSuccess} />;
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: 'var(--paper)' }}>
-      {/* Sidebar */}
-      <Sidebar
+    <div className="min-h-screen bg-surface font-body-md text-on-surface flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed">
+      {/* Top Architectural Navbar */}
+      <Navbar
         currentScreen={currentScreen}
-        onNavigate={setCurrentScreen}
+        onNavigate={handleNavigate}
         user={currentUser}
         onLogout={handleLogout}
         unreadCount={unreadCount}
       />
 
-      {/* Main Content Area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflowX: 'hidden' }}>
-        <Topbar
-          user={currentUser}
-          sseConnected={connected}
-          onSearch={(query) => {
-            if (query.trim()) {
-              api.getRequests().then((all) => {
-                const lower = query.toLowerCase();
-                setRequests(
-                  all.filter(
-                    (r) =>
-                      r.publicId.toLowerCase().includes(lower) ||
-                      r.title.toLowerCase().includes(lower) ||
-                      r.locationBlock.toLowerCase().includes(lower) ||
-                      r.locationRoom.toLowerCase().includes(lower)
-                  )
-                );
-              });
-            } else {
-              api.getRequests().then(setRequests);
-            }
-          }}
-        />
+      {/* Main Dynamic Workspace */}
+      <main className="w-full pt-16 flex-1 flex flex-col bg-surface">
+        {selectedRequest ? (
+          <RequestDetailDrawer
+            request={selectedRequest}
+            isOpen={true}
+            onClose={() => setSelectedRequest(null)}
+            currentUser={currentUser}
+            onUpdateRequest={handleUpdateRequest}
+          />
+        ) : (
+          <>
+            {currentScreen === 'my-requests' && (
+              <MyRequestsScreen
+                requests={requests}
+                loading={loading}
+                onSelectRequest={(req) => setSelectedRequest(req)}
+                onRaiseRequest={() => setCurrentScreen('new-request')}
+              />
+            )}
 
-        <main style={{ flex: 1, overflowY: 'auto' }}>
-          {currentScreen === 'my-requests' && (
-            <MyRequestsScreen
-              requests={requests}
-              loading={loading}
-              onSelectRequest={(req) => setSelectedRequest(req)}
-              onRaiseRequest={() => setCurrentScreen('new-request')}
-            />
-          )}
+            {currentScreen === 'new-request' && (
+              <NewRequestScreen
+                onSuccess={handleRequestCreated}
+                onCancel={() => setCurrentScreen('my-requests')}
+              />
+            )}
 
-          {currentScreen === 'new-request' && (
-            <NewRequestScreen
-              onSuccess={handleRequestCreated}
-              onCancel={() => setCurrentScreen('my-requests')}
-            />
-          )}
+            {currentScreen === 'dept-queue' && (
+              <DepartmentQueueScreen
+                requests={requests}
+                onSelectRequest={(req) => setSelectedRequest(req)}
+                currentUser={currentUser}
+              />
+            )}
 
-          {currentScreen === 'dept-queue' && (
-            <DepartmentQueueScreen
-              requests={requests}
-              onSelectRequest={(req) => setSelectedRequest(req)}
-              currentUser={currentUser}
-            />
-          )}
+            {currentScreen === 'dashboard' && <DashboardScreen />}
 
-          {currentScreen === 'dashboard' && <DashboardScreen />}
+            {currentScreen === 'admin-console' && <AdminConsoleScreen />}
 
-          {currentScreen === 'admin-console' && <AdminConsoleScreen />}
+            {currentScreen === 'notifications' && (
+              <NotificationsScreen
+                notifications={notifications}
+                onMarkAllAsRead={markAllAsRead}
+                sseConnected={connected}
+              />
+            )}
+          </>
+        )}
+      </main>
 
-          {currentScreen === 'notifications' && (
-            <NotificationsScreen
-              notifications={notifications}
-              onMarkAllAsRead={markAllAsRead}
-              sseConnected={connected}
-            />
-          )}
-        </main>
-
-        {/* Global Request Detail Drawer */}
-        <RequestDetailDrawer
-          request={selectedRequest}
-          isOpen={!!selectedRequest}
-          onClose={() => setSelectedRequest(null)}
-          currentUser={currentUser}
-          onUpdateRequest={handleUpdateRequest}
-        />
-      </div>
+      {/* Civic Cartography Infrastructure Broadsheet Footer */}
+      <footer className="w-full bg-surface-container-low border-t border-outline-variant py-space-lg mt-auto">
+        <div className="w-full px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant">
+          <div className="flex items-center gap-space-md">
+            <span className="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
+              UNIPULSE / INFRASTRUCTURE
+            </span>
+            <span className="font-label-code text-label-code text-secondary">
+              SYS-REF: CAMPUS-OPS-2026
+            </span>
+          </div>
+          <div className="flex items-center gap-space-lg font-body-sm text-body-sm">
+            <span className="font-label-caption text-label-caption text-secondary">
+              Central Facilities Dispatch · Extension 4140
+            </span>
+            <span className="font-label-code text-label-code text-tertiary font-semibold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-tertiary inline-block"></span>
+              [● SYSTEM OPERATIONAL]
+            </span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

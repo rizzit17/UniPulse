@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../api/client';
 import { User, UserRole } from '../types/api';
-import { UniPulseLogo } from '../components/UniPulseLogo';
-import {
-  Zap,
-  Clock,
-  ShieldCheck,
-  Shield,
-  ArrowRight,
-} from 'lucide-react';
 
 interface LoginRegisterScreenProps {
   onSuccess: (user: User) => void;
@@ -16,10 +8,13 @@ interface LoginRegisterScreenProps {
 
 export const LoginRegisterScreen: React.FC<LoginRegisterScreenProps> = ({ onSuccess }) => {
   const [isRegister, setIsRegister] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('aarav.s26@univ.ac.in');
+  const [password, setPassword] = useState('password123');
   const [name, setName] = useState('');
   const [role, setRole] = useState<UserRole>('STUDENT');
+  const [department, setDepartment] = useState('Facilities & Maintenance');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberTerminal, setRememberTerminal] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,7 +26,7 @@ export const LoginRegisterScreen: React.FC<LoginRegisterScreenProps> = ({ onSucc
     try {
       if (isRegister) {
         const res = await api.register({
-          name,
+          name: name || 'Campus User',
           email,
           password,
           role,
@@ -42,640 +37,427 @@ export const LoginRegisterScreen: React.FC<LoginRegisterScreenProps> = ({ onSucc
         onSuccess(res.user);
       }
     } catch (err: unknown) {
-      setError((err as Error).message || 'Authentication failed');
+      const msg = err instanceof Error ? err.message : 'Authentication challenge failed';
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  // Quick preset login helper for test & evaluation
-  const handlePresetLogin = async (presetRole: UserRole, presetEmail: string) => {
+  const handlePresetLogin = async (selectedRole: UserRole, presetEmail: string) => {
     setEmail(presetEmail);
-    setPassword('PulsePass2026!');
+    setPassword('password123');
+    setRole(selectedRole);
     setLoading(true);
     setError(null);
+
     try {
-      const res = await api.login(presetEmail, 'PulsePass2026!');
+      const res = await api.login(presetEmail, 'password123');
       onSuccess(res.user);
     } catch {
-      // In offline mock mode, construct user with desired role
+      // Offline fallback mock user
       const mockUser: User = {
-        id: 'u-' + presetRole.toLowerCase(),
-        name: presetRole === 'STUDENT' ? 'Aarav Patel (Student)' :
-              presetRole === 'TECHNICIAN' ? 'Ramesh Kumar (Tech)' :
-              presetRole === 'DEPARTMENT_HEAD' ? 'Priya Sharma (Head)' : 'Campus Admin',
+        id: 'u-' + Math.random().toString(36).substring(2, 9),
         email: presetEmail,
-        role: presetRole,
+        name:
+          selectedRole === 'ADMIN'
+            ? 'Campus Administrator'
+            : selectedRole === 'DEPARTMENT_HEAD'
+            ? 'Prof. Arthur Wright'
+            : selectedRole === 'TECHNICIAN'
+            ? 'Marcus Vance'
+            : 'Aarav Sharma',
+        role: selectedRole,
         campusId: 1,
       };
-      api.setAuth({
-        accessToken: 'mock-token',
-        refreshToken: 'mock-refresh',
-        tokenType: 'Bearer',
-        expiresIn: 900,
-        user: mockUser,
-      });
       onSuccess(mockUser);
     } finally {
       setLoading(false);
     }
   };
 
+  const roleHints: Record<UserRole, string> = {
+    STUDENT: '[REQ]: Student, Resident Scholar, Faculty, or Visiting Staff requesting physical plant aid.',
+    FACULTY: '[REQ]: Academic Department Faculty filing classroom, research lab, or HVAC work orders.',
+    STAFF: '[REQ]: University Operations Staff reporting facility and custodial incidents.',
+    TECHNICIAN: '[TECH]: Certified Field Technician responding to dispatch work orders and equipment repairs.',
+    DEPARTMENT_HEAD: '[DEPT]: Department Head overseeing trade queues, approving SLA waivers, and supervising teams.',
+    ADMIN: '[ADMIN]: System Administrator with full campus registry, NOC routing, and telemetry access.',
+  };
+
   return (
-    <div className="auth-layout">
-      {/* Left Column: Clean, Minimal Campus Service Intro */}
-      <div
-        style={{
-          backgroundColor: 'var(--ink)',
-          color: 'var(--paper)',
-          padding: '48px 44px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          borderRight: 'var(--bw-heavy) solid var(--ink)',
-          position: 'relative',
-        }}
-      >
-        {/* Brand Header */}
-        <div>
-          <UniPulseLogo
-            size="lg"
-            theme="dark"
-            subtitleText="SMART CAMPUS OPERATIONS"
-            badgeText="PORTAL"
-          />
-        </div>
-
-        {/* Minimal Hero Statement & Features */}
-        <div style={{ margin: 'auto 0', maxWidth: '440px', padding: '32px 0' }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              backgroundColor: '#1E1D15',
-              border: '1px solid #3A3728',
-              padding: '4px 10px',
-              marginBottom: '20px',
-            }}
-          >
-            <span
-              style={{
-                width: 7,
-                height: 7,
-                borderRadius: '50%',
-                backgroundColor: 'var(--moss)',
-                display: 'inline-block',
-              }}
-            />
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '11px',
-                fontWeight: 700,
-                color: 'var(--paper-2)',
-                letterSpacing: '0.04em',
-              }}
-            >
-              CAMPUS DISPATCH PLATFORM
-            </span>
-          </div>
-
-          <h1
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '32px',
-              fontWeight: 900,
-              color: 'var(--paper)',
-              lineHeight: 1.15,
-              marginBottom: '14px',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            Campus service requests, resolved fast.
-          </h1>
-
-          <p
-            style={{
-              fontSize: '15px',
-              color: 'var(--paper-2)',
-              lineHeight: 1.6,
-              marginBottom: '36px',
-            }}
-          >
-            Report facility faults, track live technician updates, and keep campus operations running seamlessly.
-          </p>
-
-          {/* 3 Clean Feature Bullets */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  minWidth: 34,
-                  backgroundColor: '#1E1D15',
-                  border: '1px solid #3A3728',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--amber)',
-                }}
-              >
-                <Zap size={16} />
-              </div>
-              <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--paper)' }}>
-                  Instant Smart Dispatch
-                </div>
-                <div style={{ fontSize: '12px', color: 'var(--paper-2)', marginTop: '2px', lineHeight: 1.4 }}>
-                  Automated routing to the best available on-duty campus technician.
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  minWidth: 34,
-                  backgroundColor: '#1E1D15',
-                  border: '1px solid #3A3728',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--amber)',
-                }}
-              >
-                <Clock size={16} />
-              </div>
-              <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--paper)' }}>
-                  Transparent SLA Countdowns
-                </div>
-                <div style={{ fontSize: '12px', color: 'var(--paper-2)', marginTop: '2px', lineHeight: 1.4 }}>
-                  Guaranteed resolution deadlines with live progress updates.
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  minWidth: 34,
-                  backgroundColor: '#1E1D15',
-                  border: '1px solid #3A3728',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--amber)',
-                }}
-              >
-                <ShieldCheck size={16} />
-              </div>
-              <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--paper)' }}>
-                  Unified Campus Access
-                </div>
-                <div style={{ fontSize: '12px', color: 'var(--paper-2)', marginTop: '2px', lineHeight: 1.4 }}>
-                  One streamlined portal for students, faculty, heads, and technicians.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Minimal Footer Status */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: '20px',
-            borderTop: '1px solid #28261D',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span
-              style={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                backgroundColor: 'var(--moss)',
-                display: 'inline-block',
-                boxShadow: '0 0 0 2px rgba(91, 122, 58, 0.2)',
-              }}
-            />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--paper-2)' }}>
-              All campus services operational
-            </span>
-          </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--paper-2)' }}>
-            UniPulse v1.0
-          </span>
-        </div>
-      </div>
-
-      {/* Right Column: Centered Elevated Neo-Brutalist Authentication Dossier */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '48px 36px',
-          minHeight: '100vh',
-          backgroundColor: 'var(--paper)',
-        }}
-      >
-        <div
-          style={{
-            width: '100%',
-            maxWidth: '500px',
-            backgroundColor: 'var(--card)',
-            border: 'var(--bw-heavy) solid var(--ink)',
-            boxShadow: '6px 6px 0 var(--ink)',
-            padding: '36px 32px',
-          }}
-        >
-          {/* Card Top Meta Bar */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingBottom: '14px',
-              marginBottom: '20px',
-              borderBottom: '2px solid var(--paper-2)',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Shield size={14} color="var(--accent)" />
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  color: 'var(--ink-2)',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                CAMPUS SSO GATEWAY
+    <div className="bg-surface font-body-md text-on-surface min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <main className="w-full flex justify-center">
+        {/* Archival Docket Registry Container */}
+        <div className="w-full max-w-xl flex flex-col bg-surface shadow-sm border border-outline-variant">
+          
+          {/* Header Block: Institutional Typography & Stamp */}
+          <div className="bg-surface-container-low p-6 sm:p-8 flex flex-col items-center text-center border-b border-outline-variant">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-2.5 h-2.5 bg-primary"></span>
+              <span className="font-label-stamp text-label-stamp uppercase tracking-widest text-secondary font-semibold">
+                ARCHIVAL DISPATCH REGISTRY // SEC-01
               </span>
+              <span className="w-2.5 h-2.5 bg-primary"></span>
             </div>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '10px',
-                fontWeight: 700,
-                color: 'var(--ink-3)',
-                letterSpacing: '0.04em',
-              }}
-            >
-              SECURE ACCESS
-            </span>
-          </div>
 
-          <div style={{ marginBottom: '24px' }}>
-            <h1
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '28px',
-                fontWeight: 900,
-                color: 'var(--ink)',
-                lineHeight: 1.1,
-                marginBottom: '8px',
-                letterSpacing: '-0.02em',
-              }}
-            >
-              {isRegister ? 'REGISTER NEW ACCOUNT' : 'SECURE SIGN IN'}
-            </h1>
-            <p style={{ color: 'var(--ink-2)', fontSize: '14px', lineHeight: 1.5 }}>
-              {isRegister
-                ? 'Create your university credential to log service complaints.'
-                : 'Sign in with your campus identity to manage or inspect tickets.'}
+            <div className="flex items-center justify-center gap-3">
+              <span className="material-symbols-outlined text-primary text-3xl">domain_verification</span>
+              <h1 className="font-headline-lg text-headline-lg tracking-tight text-on-surface font-normal">
+                UniPulse
+              </h1>
+            </div>
+
+            <p className="font-body-sm text-body-sm text-secondary mt-1 max-w-md">
+              Central University Infrastructure &amp; Services Portal · Facilities Management &amp; Physical Plant
             </p>
+
+            <div className="mt-4 flex items-center gap-3 font-label-code text-label-code text-secondary bg-surface-container px-3 py-1 border border-outline-variant/60">
+              <span>EDITION: 2026.04</span>
+              <span>•</span>
+              <span>NODE: BLK-ADMIN-GATE-01</span>
+              <span>•</span>
+              <span className="text-tertiary font-semibold flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-tertiary"></span>ONLINE
+              </span>
+            </div>
           </div>
 
-          {error && (
-            <div
-              style={{
-                backgroundColor: '#F7E7E2',
-                border: 'var(--bw) solid var(--brick)',
-                color: 'var(--brick)',
-                padding: '12px 14px',
-                marginBottom: '20px',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '13px',
-                fontWeight: 700,
-              }}
-              role="alert"
-            >
-              [AUTH-ERROR] {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            {isRegister && (
-              <div>
-                <label className="form-label" htmlFor="name-input" style={{ fontWeight: 700, letterSpacing: '0.04em' }}>
-                  FULL NAME
-                </label>
-                <input
-                  id="name-input"
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Aarav Patel"
-                  className="form-input"
-                  style={{
-                    height: '44px',
-                    backgroundColor: 'var(--paper)',
-                    border: '2px solid var(--ink)',
-                    boxShadow: '2px 2px 0 var(--ink)',
-                    fontSize: '14px',
-                  }}
-                />
-              </div>
-            )}
-
-            <div>
-              <label className="form-label" htmlFor="email-input" style={{ fontWeight: 700, letterSpacing: '0.04em' }}>
-                UNIVERSITY EMAIL
-              </label>
-              <input
-                id="email-input"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="id@unipulse.edu"
-                className="form-input"
-                style={{
-                  height: '44px',
-                  backgroundColor: 'var(--paper)',
-                  border: '2px solid var(--ink)',
-                  boxShadow: '2px 2px 0 var(--ink)',
-                  fontSize: '14px',
-                }}
-              />
-            </div>
-
-            <div>
-              <label className="form-label" htmlFor="password-input" style={{ fontWeight: 700, letterSpacing: '0.04em' }}>
-                PASSWORD
-              </label>
-              <input
-                id="password-input"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="form-input"
-                style={{
-                  height: '44px',
-                  backgroundColor: 'var(--paper)',
-                  border: '2px solid var(--ink)',
-                  boxShadow: '2px 2px 0 var(--ink)',
-                  fontSize: '14px',
-                }}
-              />
-            </div>
-
-            {isRegister && (
-              <div>
-                <label className="form-label" htmlFor="role-select" style={{ fontWeight: 700, letterSpacing: '0.04em' }}>
-                  USER ROLE
-                </label>
-                <select
-                  id="role-select"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value as UserRole)}
-                  className="form-select"
-                  style={{
-                    height: '44px',
-                    backgroundColor: 'var(--paper)',
-                    border: '2px solid var(--ink)',
-                    boxShadow: '2px 2px 0 var(--ink)',
-                    fontSize: '14px',
-                  }}
-                >
-                  <option value="STUDENT">STUDENT</option>
-                  <option value="FACULTY">FACULTY</option>
-                  <option value="STAFF">STAFF</option>
-                  <option value="TECHNICIAN">TECHNICIAN</option>
-                  <option value="DEPARTMENT_HEAD">DEPARTMENT HEAD</option>
-                  <option value="ADMIN">ADMIN</option>
-                </select>
-              </div>
-            )}
-
+          {/* Dual Tab Mode Switcher (Manifest Folders) */}
+          <div className="grid grid-cols-2 bg-surface-container font-title-sm text-title-sm border-b border-outline-variant">
             <button
-              type="submit"
-              disabled={loading}
-              className="btn-brutalist btn-primary"
-              style={{
-                height: '48px',
-                marginTop: '6px',
-                width: '100%',
-                fontSize: '14px',
-                fontWeight: 800,
-                letterSpacing: '0.06em',
-                backgroundColor: 'var(--accent)',
-                color: 'var(--accent-ink)',
-                border: '2px solid var(--ink)',
-                boxShadow: '4px 4px 0 var(--ink)',
-                cursor: loading ? 'wait' : 'pointer',
-              }}
+              id="tab-signin"
+              type="button"
+              onClick={() => setIsRegister(false)}
+              className={`py-3 px-4 text-center transition-colors flex items-center justify-center gap-2 cursor-pointer border-none ${
+                !isRegister
+                  ? 'bg-surface-container-lowest text-primary font-semibold border-b-2 border-primary'
+                  : 'text-secondary hover:text-on-surface bg-surface-container'
+              }`}
             >
-              {loading ? 'AUTHENTICATING...' : isRegister ? 'REGISTER IDENTITY' : 'SIGN IN'}
-              {!loading && <ArrowRight size={16} />}
+              <span className="material-symbols-outlined text-sm">badge</span>
+              <span>Sign In (Authorized ID)</span>
             </button>
-          </form>
 
-          {/* Toggle Login / Register */}
-          <div style={{ marginTop: '18px', textAlign: 'center' }}>
             <button
-              onClick={() => setIsRegister(!isRegister)}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--ink)',
-                cursor: 'pointer',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '12px',
-                fontWeight: 700,
-                textDecoration: 'underline',
-                letterSpacing: '0.02em',
-                padding: '4px 8px',
-              }}
+              id="tab-register"
+              type="button"
+              onClick={() => setIsRegister(true)}
+              className={`py-3 px-4 text-center transition-colors flex items-center justify-center gap-2 cursor-pointer border-none ${
+                isRegister
+                  ? 'bg-surface-container-lowest text-primary font-semibold border-b-2 border-primary'
+                  : 'text-secondary hover:text-on-surface bg-surface-container'
+              }`}
             >
-              {isRegister
-                ? 'ALREADY REGISTERED? SIGN IN INSTEAD'
-                : 'NEW TO UNIPULSE? REGISTER NEW ACCOUNT'}
+              <span className="material-symbols-outlined text-sm">person_add</span>
+              <span>New Campus Account</span>
             </button>
           </div>
 
-          {/* Demo Fast Login Bar */}
-          <div
-            style={{
-              marginTop: '28px',
-              paddingTop: '20px',
-              borderTop: '2px dashed var(--paper-2)',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '12px',
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  color: 'var(--ink)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.04em',
-                }}
+          {/* Manifest Slip Body */}
+          <div className="bg-surface-container-lowest p-6 sm:p-8 flex flex-col gap-6">
+            
+            {/* SSO / LDAP Primary Channel */}
+            <div className="flex flex-col gap-2">
+              <span className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">
+                Fast Lane Auth · Central Directory
+              </span>
+              <button
+                type="button"
+                onClick={() => handlePresetLogin('STUDENT', 'student.alex@unipulse.edu')}
+                className="w-full bg-surface-container-low hover:bg-surface-container text-on-surface p-4 flex items-center justify-between text-left transition-colors border border-outline-variant/70 cursor-pointer"
               >
-                QUICK ROLE DEMO LOGINS:
-              </div>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '10px',
-                  color: 'var(--ink-3)',
-                }}
-              >
-                1-CLICK AUTH
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-primary text-xl">vpn_key</span>
+                  <div>
+                    <div className="font-title-sm text-title-sm font-semibold text-on-surface">
+                      Continue with University SSO (LDAP / CAS)
+                    </div>
+                    <div className="font-label-code text-label-code text-secondary mt-0.5">
+                      Single Sign-On for @unipulse.edu credentials
+                    </div>
+                  </div>
+                </div>
+                <span className="font-label-stamp text-label-stamp text-primary bg-primary-fixed px-2 py-0.5 font-bold">
+                  FEDERATED
+                </span>
+              </button>
+            </div>
+
+            {/* Structural Receipt Perforation Divider */}
+            <div className="relative flex items-center justify-center my-1">
+              <div className="w-full bg-surface-container-high h-[1px]"></div>
+              <span className="absolute bg-surface-container-lowest px-3 font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">
+                OR MANUAL CREDENTIALS DOCKET
               </span>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              <button
-                type="button"
-                onClick={() => handlePresetLogin('STUDENT', 'aarav.student@unipulse.edu')}
-                className="btn-brutalist btn-secondary"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  padding: '10px 12px',
-                  border: '2px solid var(--ink)',
-                  backgroundColor: 'var(--paper)',
-                  boxShadow: '2px 2px 0 var(--ink)',
-                  textAlign: 'left',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px', color: 'var(--ink)' }}>
-                    STUDENT
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, backgroundColor: 'var(--paper-2)', padding: '1px 5px', border: '1px solid var(--ink-3)' }}>
-                    L1
-                  </span>
+            {/* Dynamic Form Container */}
+            <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+              
+              {/* Role Selection Tabs */}
+              <div className="flex flex-col gap-2">
+                <label className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">
+                  Access Scope &amp; Functional Role
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2" id="role-selector">
+                  <button
+                    type="button"
+                    onClick={() => setRole('STUDENT')}
+                    className={`role-pill py-2 px-2 text-center font-title-sm text-title-sm transition-colors text-xs border border-outline-variant cursor-pointer ${
+                      role === 'STUDENT'
+                        ? 'bg-inverse-surface text-inverse-on-surface font-semibold'
+                        : 'bg-surface-container text-on-surface hover:bg-secondary-container'
+                    }`}
+                  >
+                    Requester
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole('TECHNICIAN')}
+                    className={`role-pill py-2 px-2 text-center font-title-sm text-title-sm transition-colors text-xs border border-outline-variant cursor-pointer ${
+                      role === 'TECHNICIAN'
+                        ? 'bg-inverse-surface text-inverse-on-surface font-semibold'
+                        : 'bg-surface-container text-on-surface hover:bg-secondary-container'
+                    }`}
+                  >
+                    Technician
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole('DEPARTMENT_HEAD')}
+                    className={`role-pill py-2 px-2 text-center font-title-sm text-title-sm transition-colors text-xs border border-outline-variant cursor-pointer ${
+                      role === 'DEPARTMENT_HEAD'
+                        ? 'bg-inverse-surface text-inverse-on-surface font-semibold'
+                        : 'bg-surface-container text-on-surface hover:bg-secondary-container'
+                    }`}
+                  >
+                    Dept Head
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole('ADMIN')}
+                    className={`role-pill py-2 px-2 text-center font-title-sm text-title-sm transition-colors text-xs border border-outline-variant cursor-pointer ${
+                      role === 'ADMIN'
+                        ? 'bg-inverse-surface text-inverse-on-surface font-semibold'
+                        : 'bg-surface-container text-on-surface hover:bg-secondary-container'
+                    }`}
+                  >
+                    Admin
+                  </button>
                 </div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-2)', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>
-                  aarav.student
-                </span>
-              </button>
+                <p className="font-label-code text-label-code text-secondary text-[11px] mt-0.5">
+                  {roleHints[role] || roleHints.STUDENT}
+                </p>
+              </div>
 
-              <button
-                type="button"
-                onClick={() => handlePresetLogin('TECHNICIAN', 'ramesh.tech@unipulse.edu')}
-                className="btn-brutalist btn-secondary"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  padding: '10px 12px',
-                  border: '2px solid var(--ink)',
-                  backgroundColor: 'var(--paper)',
-                  boxShadow: '2px 2px 0 var(--ink)',
-                  textAlign: 'left',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px', color: 'var(--ink)' }}>
-                    TECHNICIAN
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, backgroundColor: 'var(--paper-2)', padding: '1px 5px', border: '1px solid var(--ink-3)' }}>
-                    L2
-                  </span>
+              {/* Registration Exclusive Field: Full Legal Name */}
+              {isRegister && (
+                <div className="flex flex-col gap-1.5">
+                  <label
+                    className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider"
+                    htmlFor="full-name"
+                  >
+                    Full Legal Name (Institutional Record)
+                  </label>
+                  <input
+                    id="full-name"
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Dr. Aarav Sharma / Maya Sen"
+                    className="w-full bg-surface-container-low px-3.5 py-2.5 font-body-md text-body-md text-on-surface border border-outline-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:border-on-surface"
+                  />
                 </div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-2)', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>
-                  ramesh.tech
-                </span>
-              </button>
+              )}
 
-              <button
-                type="button"
-                onClick={() => handlePresetLogin('DEPARTMENT_HEAD', 'priya.head@unipulse.edu')}
-                className="btn-brutalist btn-secondary"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  padding: '10px 12px',
-                  border: '2px solid var(--ink)',
-                  backgroundColor: 'var(--paper)',
-                  boxShadow: '2px 2px 0 var(--ink)',
-                  textAlign: 'left',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px', color: 'var(--ink)' }}>
-                    DEPT HEAD
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, backgroundColor: 'var(--paper-2)', padding: '1px 5px', border: '1px solid var(--ink-3)' }}>
-                    L3
+              {/* Identifier / Roll No Field */}
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center justify-between">
+                  <label
+                    className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider"
+                    htmlFor="campus-id"
+                  >
+                    University ID / Institutional Email
+                  </label>
+                  <span className="font-label-code text-label-code text-secondary text-[11px]">
+                    Format: id@unipulse.edu
                   </span>
                 </div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-2)', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>
-                  priya.head
+                <div className="relative flex items-center">
+                  <span className="absolute left-3 text-secondary material-symbols-outlined text-lg">badge</span>
+                  <input
+                    id="campus-id"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e.g. student.alex@unipulse.edu"
+                    className="w-full bg-surface-container-low pl-10 pr-3.5 py-2.5 font-label-code text-label-code text-on-surface border border-outline-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:border-on-surface"
+                  />
+                </div>
+                <span className="font-label-caption text-label-caption text-secondary text-[11px]">
+                  Valid formats: student.alex@unipulse.edu, admin@unipulse.edu, tech.marcus@unipulse.edu
                 </span>
-              </button>
+              </div>
 
-              <button
-                type="button"
-                onClick={() => handlePresetLogin('ADMIN', 'admin@unipulse.edu')}
-                className="btn-brutalist btn-secondary"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  padding: '10px 12px',
-                  border: '2px solid var(--ink)',
-                  backgroundColor: 'var(--paper)',
-                  boxShadow: '2px 2px 0 var(--ink)',
-                  textAlign: 'left',
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px', color: 'var(--ink)' }}>
-                    ADMIN
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, backgroundColor: 'var(--amber)', color: 'var(--ink)', padding: '1px 5px', border: '1px solid var(--ink)' }}>
-                    ROOT
-                  </span>
+              {/* Password Field with Archival Toggle */}
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center justify-between">
+                  <label
+                    className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider"
+                    htmlFor="auth-token"
+                  >
+                    Passphrase / LDAP Token
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setPassword('password123')}
+                    className="font-label-code text-label-code text-primary hover:underline bg-transparent border-none cursor-pointer"
+                  >
+                    Reset credential?
+                  </button>
                 </div>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-2)', marginTop: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>
-                  admin@unipulse
-                </span>
+                <div className="relative flex items-center">
+                  <span className="absolute left-3 text-secondary material-symbols-outlined text-lg">lock</span>
+                  <input
+                    id="auth-token"
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter secure passphrase"
+                    className="w-full bg-surface-container-low pl-10 pr-10 py-2.5 font-label-code text-label-code text-on-surface border border-outline-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:border-on-surface"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 text-secondary hover:text-on-surface flex items-center bg-transparent border-none cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-lg">
+                      {showPassword ? 'visibility_off' : 'visibility'}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Registration Exclusive Field: Department Affiliation */}
+              {isRegister && (
+                <div className="flex flex-col gap-1.5">
+                  <label
+                    className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider"
+                    htmlFor="dept-select"
+                  >
+                    Assigned Department / Resident Quad
+                  </label>
+                  <select
+                    id="dept-select"
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                    className="w-full bg-surface-container-low px-3.5 py-2.5 font-body-md text-body-md text-on-surface border border-outline-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:border-on-surface"
+                  >
+                    <option value="Facilities & Maintenance">Facilities &amp; Maintenance (Civil &amp; Buildings)</option>
+                    <option value="IT & Network Infrastructure">IT &amp; Network Infrastructure (Wi-Fi, Systems)</option>
+                    <option value="Residential & Housing">Residential &amp; Housing (Dorms &amp; Quads)</option>
+                    <option value="Campus Safety & Security">Campus Safety &amp; Security (Access &amp; CCTV)</option>
+                  </select>
+                </div>
+              )}
+
+              {/* Validation / Error Banner */}
+              {error && (
+                <div className="bg-error-container p-3 text-on-error-container flex items-start gap-2.5 border border-error/30">
+                  <span className="material-symbols-outlined text-base mt-0.5 text-error">report_problem</span>
+                  <div className="flex flex-col">
+                    <span className="font-title-sm text-title-sm font-semibold text-error">
+                      Authentication Challenge
+                    </span>
+                    <span className="font-body-sm text-body-sm text-on-error-container">{error}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Checkbox & Security Confirmation */}
+              <div className="flex items-center justify-between pt-1">
+                <label className="flex items-center gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={rememberTerminal}
+                    onChange={(e) => setRememberTerminal(e.target.checked)}
+                    className="w-4 h-4 text-primary accent-primary bg-surface-container-low rounded-none border border-outline"
+                  />
+                  <span className="font-body-sm text-body-sm text-on-surface">
+                    Remember this terminal for 14 days
+                  </span>
+                </label>
+              </div>
+
+              {/* Primary Action Trigger */}
+              <button
+                id="submit-button"
+                type="submit"
+                disabled={loading}
+                className="w-full bg-primary hover:bg-primary-container text-on-primary py-3 px-4 font-title-sm text-title-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-colors border-none cursor-pointer font-semibold"
+              >
+                <span>{loading ? 'Authorizing Session...' : isRegister ? 'Register Identity' : 'Authorize & Access UniPulse'}</span>
+                <span className="material-symbols-outlined text-lg">arrow_forward</span>
               </button>
+            </form>
+
+            {/* Quick Fast-Lane Demo Roles Strip */}
+            <div className="pt-4 border-t border-dashed border-outline-variant flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">
+                  Quick Access Profiles (Pre-Seeded)
+                </span>
+                <span className="font-label-code text-[10px] text-tertiary font-semibold">
+                  PASS: password123
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button
+                  type="button"
+                  onClick={() => handlePresetLogin('STUDENT', 'student.alex@unipulse.edu')}
+                  className="p-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-left transition-colors cursor-pointer flex flex-col"
+                >
+                  <span className="font-title-sm text-[12px] font-semibold text-on-surface">Alex Rivera</span>
+                  <span className="font-label-code text-[10px] text-secondary">Student / Req</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handlePresetLogin('TECHNICIAN', 'tech.marcus@unipulse.edu')}
+                  className="p-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-left transition-colors cursor-pointer flex flex-col"
+                >
+                  <span className="font-title-sm text-[12px] font-semibold text-on-surface">Marcus Vance</span>
+                  <span className="font-label-code text-[10px] text-secondary">Technician</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handlePresetLogin('DEPARTMENT_HEAD', 'faculty.wright@unipulse.edu')}
+                  className="p-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-left transition-colors cursor-pointer flex flex-col"
+                >
+                  <span className="font-title-sm text-[12px] font-semibold text-on-surface">Prof. Wright</span>
+                  <span className="font-label-code text-[10px] text-secondary">Dept Head</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handlePresetLogin('ADMIN', 'admin@unipulse.edu')}
+                  className="p-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-left transition-colors cursor-pointer flex flex-col"
+                >
+                  <span className="font-title-sm text-[12px] font-semibold text-on-surface">Sys Admin</span>
+                  <span className="font-label-code text-[10px] text-secondary">Platform Admin</span>
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

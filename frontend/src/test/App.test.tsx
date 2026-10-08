@@ -4,7 +4,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '../App';
 import { api } from '../api/client';
 
-describe('UniPulse Frontend Application', () => {
+describe('UniPulse Frontend Application - Civic Cartography', () => {
   beforeEach(() => {
     localStorage.clear();
     api.logout();
@@ -12,69 +12,72 @@ describe('UniPulse Frontend Application', () => {
 
   it('renders login screen when unauthenticated', () => {
     render(<App />);
-    expect(screen.getByText('SECURE SIGN IN')).toBeInTheDocument();
-    expect(screen.getByText('Campus service requests, resolved fast.')).toBeInTheDocument();
+    expect(screen.getByText(/ARCHIVAL DISPATCH REGISTRY/i)).toBeInTheDocument();
+    expect(screen.getByText('UniPulse')).toBeInTheDocument();
+    expect(screen.getByText(/Sign In \(Authorized ID\)/i)).toBeInTheDocument();
   });
 
-  it('authenticates via quick demo button and renders dashboard with sidebar', async () => {
+  it('authenticates via quick demo button and renders dashboard with top navbar', async () => {
     render(<App />);
-    const adminBtn = screen.getByRole('button', { name: /ADMIN/i });
+    const adminBtn = screen.getByRole('button', { name: /Sys Admin/i });
     fireEvent.click(adminBtn);
 
     await waitFor(() => {
-      expect(screen.getByText('UniPulse')).toBeInTheDocument();
-      expect(screen.getByText('OPERATIONAL DISPATCH DASHBOARD')).toBeInTheDocument();
+      expect(screen.getByText('Operational Dispatch Dashboard')).toBeInTheDocument();
+      expect(screen.getByText(/Campus Operations Pulse/i)).toBeInTheDocument();
     });
 
-    // Sidebar items should be present
-    expect(screen.getByText('MY REQUESTS')).toBeInTheDocument();
-    expect(screen.getByText('RAISE REQUEST')).toBeInTheDocument();
-    expect(screen.getByText('DEPT QUEUE')).toBeInTheDocument();
-    expect(screen.getByText('DASHBOARD')).toBeInTheDocument();
-    expect(screen.getByText('ADMIN CONSOLE')).toBeInTheDocument();
-    expect(screen.getByText('NOTIFICATIONS')).toBeInTheDocument();
+    // Top Architectural Navbar items
+    expect(screen.getByRole('button', { name: 'My Requests' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'New Request' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Department Queue' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Analytics' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Admin Console' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Notifications/i })).toBeInTheDocument();
   });
 
-  it('navigates to My Requests and allows opening ticket drawer', async () => {
+  it('navigates to My Requests and allows opening ticket docket view', async () => {
     render(<App />);
-    const studentBtn = screen.getByRole('button', { name: /STUDENT/i });
+    const studentBtn = screen.getByRole('button', { name: /Alex Rivera/i });
     fireEvent.click(studentBtn);
 
     await waitFor(() => {
-      expect(screen.getByText('MY SERVICE REQUESTS')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { level: 1, name: 'My Requests' })).toBeInTheDocument();
+      expect(screen.getByText('[STUDENT REPOSITORY]')).toBeInTheDocument();
     });
 
-    // Check ticket-stub presence
+    // Wait for ticket item in repository
     await waitFor(() => {
       expect(screen.getByText('UP-2026-000101')).toBeInTheDocument();
     });
 
-    // Click on ticket stub row to open drawer
+    // Click on ticket item to inspect docket
     const ticketRow = screen.getByText('UP-2026-000101');
     fireEvent.click(ticketRow);
 
     await waitFor(() => {
-      expect(screen.getByText(/FACTS & DISPATCH DETAILS/i)).toBeInTheDocument();
+      expect(screen.getByText(/01 \/\/ Incident Narrative & Initial Assessment/i)).toBeInTheDocument();
+      expect(screen.getByText('DOCKET REFERENCE')).toBeInTheDocument();
     });
   });
 
-  it('navigates to Raise Request screen', async () => {
+  it('navigates to New Request screen', async () => {
     render(<App />);
-    const studentBtn = screen.getByRole('button', { name: /STUDENT/i });
+    const studentBtn = screen.getByRole('button', { name: /Alex Rivera/i });
     fireEvent.click(studentBtn);
 
     await waitFor(() => {
-      expect(screen.getByText('MY SERVICE REQUESTS')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { level: 1, name: 'My Requests' })).toBeInTheDocument();
     });
 
-    const raiseButtons = screen.getAllByRole('button', { name: /RAISE REQUEST/i });
-    fireEvent.click(raiseButtons[0]);
+    const newReqBtn = screen.getByRole('button', { name: /Raise New Request/i });
+    fireEvent.click(newReqBtn);
 
     await waitFor(() => {
-      expect(screen.getByText('RAISE SERVICE REQUEST')).toBeInTheDocument();
-      expect(screen.getByText(/01\. DEPARTMENT & ISSUE CATEGORY/i)).toBeInTheDocument();
-      expect(screen.getByText(/02\. CAMPUS LOCATION/i)).toBeInTheDocument();
-      expect(screen.getByText(/03\. WHAT IS WRONG\?/i)).toBeInTheDocument();
+      expect(screen.getByText('File an Incident Report')).toBeInTheDocument();
+      expect(screen.getByText(/\[FORM 804-A: DISPATCH DOCKET\]/i)).toBeInTheDocument();
+      expect(screen.getByText(/Category & Trade Classification/i)).toBeInTheDocument();
+      expect(screen.getByText('DISPATCH REVIEW DOCKET')).toBeInTheDocument();
     });
   });
 });

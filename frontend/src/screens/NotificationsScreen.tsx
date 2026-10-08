@@ -1,6 +1,5 @@
 import React from 'react';
 import { NotificationItem } from '../types/api';
-import { CheckCheck, Radio } from 'lucide-react';
 
 interface NotificationsScreenProps {
   notifications: NotificationItem[];
@@ -14,107 +13,85 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
   sseConnected,
 }) => {
   return (
-    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px 24px' }}>
-      {/* Header */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          marginBottom: '28px',
-        }}
-      >
-        <div>
-          <h1 style={{ fontSize: '32px', color: 'var(--ink)', marginBottom: '6px' }}>
-            NOTIFICATION DISPATCH LOG
-          </h1>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ color: 'var(--ink-2)', fontSize: '15px' }}>
+    <div className="w-full bg-surface text-on-surface">
+      {/* Masthead */}
+      <div className="w-full bg-surface-container-low border-b border-outline-variant py-space-md px-4 sm:px-8 lg:px-12">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
+          <div>
+            <div className="flex items-center gap-space-xs font-label-stamp text-label-stamp text-secondary uppercase tracking-widest mb-1">
+              <span>TELEMETRY FEED</span>
+              <span>·</span>
+              <span className="text-primary font-semibold">SEC-06 NOTIFICATIONS</span>
+            </div>
+            <h1 className="font-headline-lg text-headline-lg text-on-surface m-0 leading-tight">
+              Operational Notification Log
+            </h1>
+            <p className="font-body-md text-body-md text-on-surface-variant m-0 mt-1">
               Real-time push delivery stream via Server-Sent Events (SSE).
-            </span>
+            </p>
+          </div>
+          <div className="flex items-center gap-space-md">
             <span
-              className="stamp-chip"
-              style={{
-                backgroundColor: sseConnected ? '#E7EFE0' : 'var(--paper-2)',
-                color: sseConnected ? 'var(--moss)' : 'var(--ink-3)',
-                fontSize: '11px',
-              }}
+              className={`font-label-code text-label-code px-3 py-1.5 border border-outline-variant flex items-center gap-1.5 ${
+                sseConnected ? 'bg-surface text-tertiary font-bold' : 'bg-surface-container text-secondary'
+              }`}
             >
-              <Radio size={10} />
-              {sseConnected ? 'LIVE FEED ACTIVE' : 'DISCONNECTED'}
+              <span
+                className={`w-2 h-2 rounded-full inline-block ${
+                  sseConnected ? 'bg-tertiary' : 'bg-secondary'
+                }`}
+              ></span>
+              {sseConnected ? 'SSE DISPATCH STREAM ACTIVE' : 'RECONNECTING STREAM...'}
             </span>
+            <button
+              onClick={onMarkAllAsRead}
+              className="px-space-md py-1.5 bg-primary text-on-primary hover:bg-primary-container font-title-sm text-title-sm font-semibold transition-colors border-none cursor-pointer"
+            >
+              MARK ALL READ
+            </button>
           </div>
         </div>
-
-        <button
-          onClick={onMarkAllAsRead}
-          className="btn-brutalist btn-secondary"
-          style={{ padding: '8px 16px' }}
-        >
-          <CheckCheck size={16} />
-          MARK ALL READ
-        </button>
       </div>
 
-      {/* Notification List */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <div className="w-full px-4 sm:px-8 lg:px-12 py-space-xl flex flex-col gap-space-md max-w-4xl">
         {notifications.length === 0 ? (
-          <div
-            style={{
-              padding: '48px',
-              textAlign: 'center',
-              backgroundColor: 'var(--card)',
-              border: 'var(--bw) solid var(--ink)',
-              fontFamily: 'var(--font-mono)',
-            }}
-          >
-            No notifications recorded yet.
+          <div className="p-space-xl text-center bg-surface-container-lowest border border-outline-variant font-label-code text-label-code text-secondary">
+            No notifications recorded in active stream.
           </div>
         ) : (
           notifications.map((n) => (
             <div
               key={n.id}
-              style={{
-                backgroundColor: n.read ? 'var(--paper-2)' : 'var(--card)',
-                border: 'var(--bw) solid var(--ink)',
-                borderLeft: n.read ? 'var(--bw) solid var(--ink)' : '6px solid var(--ink)',
-                boxShadow: n.read ? 'none' : 'var(--sh-sm)',
-                padding: '16px 20px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                gap: '16px',
-              }}
+              className={`p-space-md border border-outline-variant transition-colors flex flex-col sm:flex-row sm:items-start justify-between gap-space-md ${
+                n.read
+                  ? 'bg-surface-container-lowest text-on-surface-variant'
+                  : 'bg-surface-container-low text-on-surface border-l-4 border-l-primary'
+              }`}
             >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-space-sm">
                   <span
-                    className="stamp-chip"
-                    style={{
-                      backgroundColor: n.type.includes('BREACH') ? 'var(--brick)' : 'var(--card)',
-                      color: n.type.includes('BREACH') ? 'var(--paper)' : 'var(--ink)',
-                      fontSize: '10px',
-                    }}
+                    className={`font-label-stamp text-label-stamp px-1.5 py-0.5 border border-outline-variant ${
+                      n.type.includes('BREACH')
+                        ? 'bg-error text-on-error font-bold'
+                        : 'bg-surface text-primary'
+                    }`}
                   >
-                    {n.type}
+                    [{n.type}]
                   </span>
-                  <strong style={{ fontSize: '15px', color: 'var(--ink)' }}>{n.title}</strong>
+                  <span className="font-label-code text-label-code text-secondary">
+                    {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
                 </div>
-                <p style={{ fontSize: '14px', color: 'var(--ink-2)', lineHeight: 1.4 }}>
-                  {n.message}
-                </p>
+                <div className="font-title-sm text-title-sm text-on-surface mt-1">{n.title}</div>
+                <p className="font-body-md text-body-md text-on-surface-variant m-0">{n.message}</p>
               </div>
 
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  color: 'var(--ink-3)',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </div>
+              {n.requestId && (
+                <span className="font-label-code text-label-code text-primary bg-surface px-2 py-0.5 border border-outline-variant self-start">
+                  DOCKET: {n.requestId}
+                </span>
+              )}
             </div>
           ))
         )}
@@ -122,3 +99,5 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
     </div>
   );
 };
+
+export default NotificationsScreen;
