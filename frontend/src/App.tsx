@@ -127,24 +127,19 @@ export function App() {
         )}
       </main>
 
-      {/* Civic Cartography Infrastructure Broadsheet Footer */}
-      <footer className="w-full bg-surface-container-low border-t border-outline-variant py-space-lg mt-auto">
-        <div className="w-full px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant">
-          <div className="flex items-center gap-space-md">
-            <span className="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
-              UNIPULSE / INFRASTRUCTURE
-            </span>
-            <span className="font-label-code text-label-code text-secondary">
-              SYS-REF: CAMPUS-OPS-2026
-            </span>
+      {/* Clean Minimal Footer */}
+      <footer className="w-full bg-surface-container-low border-t border-outline-variant py-4 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-secondary">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-primary inline-block"></span>
+            <span className="font-semibold text-on-surface">UniPulse</span>
+            <span>· Campus Facilities &amp; Maintenance</span>
           </div>
-          <div className="flex items-center gap-space-lg font-body-sm text-body-sm">
-            <span className="font-label-caption text-label-caption text-secondary">
-              Central Facilities Dispatch · Extension 4140
-            </span>
-            <span className="font-label-code text-label-code text-tertiary font-semibold flex items-center gap-1">
+          <div className="flex items-center gap-4">
+            <span>Help Desk: Ext 4140</span>
+            <span className="flex items-center gap-1.5 text-tertiary font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-tertiary inline-block"></span>
-              [● SYSTEM OPERATIONAL]
+              All systems operational
             </span>
           </div>
         </div>

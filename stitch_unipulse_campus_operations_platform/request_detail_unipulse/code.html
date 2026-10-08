@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#1d1b19","surface-container-lowest":"#ffffff","on-surface":"#1b1c1a","surface-container":"#efeeea","surface-container-highest":"#e4e2de","secondary-fixed":"#e7e1de","primary-fixed":"#ffdbcf","surface-container-low":"#f5f3ef","tertiary-container":"#448064","secondary":"#615e5b","error":"#ba1a1a","on-background":"#1b1c1a","inverse-surface":"#30312e","on-surface-variant":"#57423b","primary-fixed-dim":"#ffb59c","secondary-container":"#e4dfdb","surface-container-high":"#eae8e4","tertiary":"#2a674c","on-primary-fixed-variant":"#822801","secondary-fixed-dim":"#cbc5c2","on-tertiary-fixed-variant":"#0e5138","on-primary":"#ffffff","on-error-container":"#93000a","primary-container":"#bf542c","on-tertiary-container":"#f5fff7","tertiary-fixed":"#b1f0ce","surface-variant":"#e4e2de","primary":"#9f3c16","on-tertiary-fixed":"#002114","surface":"#fbf9f5","on-primary-container":"#fffbff","surface-bright":"#fbf9f5","on-secondary-container":"#65625f","inverse-primary":"#ffb59c","error-container":"#ffdad6","background":"#fbf9f5","on-tertiary":"#ffffff","on-primary-fixed":"#390c00","on-secondary-fixed-variant":"#494644","tertiary-fixed-dim":"#95d4b3","outline":"#8a726a","surface-tint":"#a23e18","outline-variant":"#dec0b7","surface-dim":"#dbdad6","inverse-on-surface":"#f2f0ed","on-secondary":"#ffffff","on-error":"#ffffff"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-md":"1rem","margin-desktop":"3rem","margin":"1rem","gutter-desktop":"1.5rem","space-lg":"1.5rem","gutter":"1rem","margin-tablet":"2rem","space-xl":"2.5rem","space-sm":"0.5rem","space-xs":"0.25rem"},fontFamily:{"headline-lg-mobile":["Newsreader"],"label-stamp":["JetBrains Mono"],"headline-sm":["Newsreader"],"title-sm":["IBM Plex Sans"],"body-md":["IBM Plex Sans"],"body-lg":["IBM Plex Sans"],"label-caption":["IBM Plex Sans"],"body-sm":["IBM Plex Sans"],"headline-lg":["Newsreader"],"headline-md":["Newsreader"],"headline-xl-mobile":["Newsreader"],"headline-xl":["Newsreader"],"label-code":["JetBrains Mono"],"title-md":["IBM Plex Sans"]},fontSize:{"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"400"}],"label-stamp":["11px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","fontWeight":"500"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"label-caption":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"500"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"headline-xl-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"400"}],"headline-xl":["44px",{"lineHeight":"52px","letterSpacing":"-0.02em","fontWeight":"400"}],"label-code":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen"><header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-outline-variant"><div class="h-16 w-full px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm pr-space-lg border-r border-outline-variant" data-path="my-requests" href="#"><span class="w-2 h-2 rounded-full bg-primary inline-block"></span><div class="flex flex-col"><span class="font-label-stamp text-label-stamp uppercase tracking-widest text-on-surface font-semibold">UNIPULSE</span><span class="font-label-caption text-label-caption text-on-surface-variant text-[10px] uppercase tracking-wider leading-none">Campus Facilities &amp; Ops</span></div></a><nav class="flex items-center h-16" data-active-classes="bg-surface-container-highest text-on-surface font-semibold border-b-2 border-primary"><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="my-requests" href="#">My Requests</a><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="new-request" href="#">New Request</a><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="department-queue" href="#">Department Queue</a><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="analytics" href="#">Analytics</a><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="admin-console" href="#">Admin Console</a><a class="h-16 px-space-md flex items-center gap-space-xs font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="notifications" href="#"><span>Notifications</span><span class="font-label-stamp text-label-stamp bg-surface-container-high text-primary px-1.5 py-0.5 border border-outline-variant leading-none">[3]</span></a></nav></div><div class="flex items-center gap-space-md pl-space-lg border-l border-outline-variant"><div class="flex flex-col text-right"><div class="flex items-center justify-end gap-space-xs"><span class="font-title-sm text-title-sm text-on-surface">Aarav Sharma</span><span class="font-label-stamp text-label-stamp border border-outline px-1 text-on-surface-variant leading-none">[REQUESTER]</span></div><span class="font-label-caption text-label-caption text-secondary">School of Engineering · Term II</span></div><a class="flex items-center justify-center p-1 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="login" href="#" title="Switch Account or Exit"><span class="material-symbols-outlined text-[18px]">swap_horiz</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Top Registration Bar / Action Nav -->
+<div class="w-full bg-surface-container-low py-space-sm px-margin-desktop">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<!-- Breadcrumb / Back link -->
+<div class="flex items-center gap-space-md">
+<a class="flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface transition-colors font-title-sm text-title-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Back to My Requests</span>
+</a>
+<span class="text-secondary font-label-code text-label-code">/</span>
+<span class="font-label-code text-label-code text-secondary tracking-wide">UP-2026-000123</span>
+</div>
+<!-- State Badges and SLA pill -->
+<div class="flex items-center gap-space-sm">
+<span class="font-label-stamp text-label-stamp px-2 py-0.5 bg-surface-container-highest text-primary font-semibold">
+          [P2] HIGH
+        </span>
+<span class="font-label-stamp text-label-stamp px-2 py-0.5 bg-surface-container text-tertiary font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary inline-block"></span>
+          [*] IN PROGRESS
+        </span>
+<span class="font-label-stamp text-label-stamp px-2 py-0.5 bg-surface text-on-surface-variant">
+          SLA: <span class="text-primary font-bold">2h 14m REMAINING</span>
+</span>
+</div>
+</div>
+</div>
+<!-- Concurrent Edit Collision Banner -->
+<div class="w-full bg-surface-container-high px-margin-desktop py-space-sm transition-all duration-200" id="collisionBanner">
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<span class="font-label-stamp text-label-stamp px-1.5 py-0.5 bg-primary text-on-primary font-bold uppercase tracking-wider">
+          COLLISION NOTICE
+        </span>
+<span class="font-label-code text-label-code text-secondary">2m ago</span>
+<p class="font-body-md text-body-md text-on-surface">
+          Technician <span class="font-title-sm text-title-sm text-on-surface">Ramesh K.</span> updated internal diagnostics while you were viewing this docket.
+        </p>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="font-title-sm text-title-sm text-primary hover:text-on-primary-fixed-variant transition-colors flex items-center gap-1" onclick="window.location.reload()">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+          Refresh View
+        </button>
+<button class="font-title-sm text-title-sm text-secondary hover:text-on-surface transition-colors" onclick="document.getElementById('collisionBanner').style.display='none'">
+          Dismiss
+        </button>
+</div>
+</div>
+</div>
+<!-- Incident Header -->
+<div class="w-full px-margin-desktop py-space-xl bg-surface">
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg">
+<div class="flex flex-col max-w-3xl">
+<div class="flex items-center gap-space-sm mb-space-xs">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">FACILITY DOCKET</span>
+<span class="text-secondary font-label-code text-label-code">·</span>
+<span class="font-label-code text-label-code text-secondary font-semibold">CAMPUS-ZONE-WEST / SECTOR 4</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface leading-tight tracking-tight">
+          AC not cooling — high ambient temp
+        </h1>
+<div class="flex flex-wrap items-center gap-x-space-md gap-y-1 mt-space-sm text-on-surface-variant font-body-sm text-body-sm">
+<span>Reported by <strong class="text-on-surface font-title-sm">Aarav Sharma</strong> (Requester)</span>
+<span class="text-secondary">·</span>
+<span>Electrical &amp; HVAC Dept</span>
+<span class="text-secondary">·</span>
+<span class="font-label-code text-label-code text-on-surface bg-surface-container px-1.5 py-0.5">BLK-C · RM-214</span>
+</div>
+</div>
+<!-- Action Toolbar -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="px-space-md py-space-sm bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors font-title-sm text-title-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">edit_note</span>
+<span>Edit Details</span>
+</button>
+<button class="px-space-md py-space-sm bg-surface-container-low text-primary hover:bg-surface-container transition-colors font-title-sm text-title-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">upgrade</span>
+<span>Escalate to HOD</span>
+</button>
+<button class="px-space-md py-space-sm bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors font-title-sm text-title-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">print</span>
+<span>Export PDF</span>
+</button>
+<button class="px-space-md py-space-sm bg-surface-container-low text-error hover:bg-error-container hover:text-on-error-container transition-colors font-title-sm text-title-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">cancel</span>
+<span>Cancel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Main Asymmetric Workspace Layout -->
+<div class="w-full px-margin-desktop pb-space-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- LEFT COLUMN (~65% / 8 Cols): Narrative, Evidence, Activity Feed, Comment Desk -->
+<div class="lg:col-span-8 flex flex-col gap-space-xl">
+<!-- Narrative Section -->
+<div class="bg-surface-container-lowest p-space-lg flex flex-col">
+<div class="flex items-center justify-between pb-space-sm mb-space-md bg-surface-container-low px-space-md py-space-xs">
+<span class="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
+              01 // Incident Narrative &amp; Initial Assessment
+            </span>
+<span class="font-label-code text-label-code text-secondary">SUBMITTED: 10:15 AM IST</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+            Room temperature registered at <span class="font-semibold text-primary">29.5°C</span> despite thermostat set point locked at 19°C. Compressors vibrating excessively on Level 2 ceiling service bay. Air delivery vents emitting faint warm hum with zero convection cooling. Poses severe disruption to scheduled afternoon VLSI lab sessions with 34 students enrolled.
+          </p>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md mt-space-lg pt-space-md bg-surface-container-low p-space-md">
+<div>
+<span class="font-label-caption text-label-caption text-secondary uppercase block">Ambient Reading</span>
+<span class="font-label-code text-title-md text-primary font-bold">29.5 °C</span>
+</div>
+<div>
+<span class="font-label-caption text-label-caption text-secondary uppercase block">Thermostat Target</span>
+<span class="font-label-code text-title-md text-on-surface font-semibold">19.0 °C</span>
+</div>
+<div>
+<span class="font-label-caption text-label-caption text-secondary uppercase block">Disruption Severity</span>
+<span class="font-label-stamp text-label-stamp text-error uppercase font-bold">[LAB SESSIONS AT RISK]</span>
+</div>
+</div>
+</div>
+<!-- Site Evidence Gallery -->
+<div class="bg-surface-container-lowest p-space-lg flex flex-col">
+<div class="flex items-center justify-between pb-space-sm mb-space-md bg-surface-container-low px-space-md py-space-xs">
+<span class="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
+              02 // Photographic Evidence Captured on Site
+            </span>
+<span class="font-label-code text-label-code text-secondary">[2 ARTIFACTS ATTACHED]</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-lg">
+<!-- Evidence Item 1 -->
+<div class="flex flex-col bg-surface-container-low p-space-sm">
+<div class="w-full h-56 bg-surface-container relative overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover grayscale contrast-125" data-alt="Close up architectural photograph of an industrial campus chiller unit on a concrete utility deck. Metallic ducts, pressure gauges, mechanical valves, and heavy vibration dampers are visible under harsh overhead utility fluorescent lighting in muted architectural tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPRIYPfOEHfMFJT0jZzyJ5Mwj2dLIhYbWnbnSADNj7gnf26_TPRv9hOTSdDLmCHtLJE874ftyY3Cb62kZHeTGvrNJ1VXz5zsLzdJ7BaMSaflh8adZG4AH0JiU46SIkbNKNvC8Bk8CRf1LoJ3Utb7SwVbcJcV9A_dvA6wZYC02FBBFApjbjb5kZa7VFkNn_HSUK-Bc6KACmPgaViVBL3AUGsrQf_g2oFBNiJoiO60ye"/>
+<span class="absolute top-2 left-2 font-label-stamp text-label-stamp bg-surface px-1.5 py-0.5 text-on-surface">
+                  FIG. 12A
+                </span>
+</div>
+<div class="mt-space-sm flex flex-col">
+<span class="font-label-code text-label-code text-on-surface font-semibold">AC-IMG-0012: Chiller Unit Bay</span>
+<span class="font-label-caption text-label-caption text-secondary">Level 2 plenum ceiling hatch · 10:14 AM</span>
+</div>
+</div>
+<!-- Evidence Item 2 -->
+<div class="flex flex-col bg-surface-container-low p-space-sm">
+<div class="w-full h-56 bg-surface-container relative overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover grayscale contrast-125" data-alt="Digital wall-mounted commercial thermostat panel showing an LCD readout of 29.5 degrees Celsius in a modernist concrete educational engineering classroom. Matte white wall background, architectural precision, tactile physical interface buttons." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaUNr92CWE_AXyTJPdJMAoMbbytIB_xXRGq7G7_BBE4FgwUR3HvHIfWgbASGtHbUP3eHbgrJtzi1WK9tr0_KMXhqFO9PCbtRP9caFiIycCPjKI31r8nUQQIob8zAtcYtVBLgNe76OxhBwwRMQOxqYLalDoqznL3LmaXg0HzS8swOj6GPs5WD6BNCvuA-5ZXhTlVYcZ_8y3xKm3TPhmOBFBPgmeH5crNq30DXIdZM_1"/>
+<span class="absolute top-2 left-2 font-label-stamp text-label-stamp bg-surface px-1.5 py-0.5 text-on-surface">
+                  FIG. 12B
+                </span>
+</div>
+<div class="mt-space-sm flex flex-col">
+<span class="font-label-code text-label-code text-on-surface font-semibold">AC-IMG-0013: Thermostat Reading 29.5°C</span>
+<span class="font-label-caption text-label-caption text-secondary">Wall Sensor RM-214 West Wall · 10:14 AM</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Chronological Dispatch & Activity Timeline -->
+<div class="bg-surface-container-lowest p-space-lg flex flex-col">
+<div class="flex flex-wrap items-center justify-between gap-space-md mb-space-lg pb-space-sm bg-surface-container-low px-space-md py-space-xs">
+<span class="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
+              03 // Dispatch Ledger &amp; Chronology
+            </span>
+<!-- Filter Tabs -->
+<div class="flex items-center gap-space-xs font-title-sm text-title-sm" id="timelineTabs">
+<button class="px-2.5 py-1 bg-surface-container-highest text-on-surface font-semibold" id="tab-all" onclick="filterTimeline('all')">
+                All (5)
+              </button>
+<button class="px-2.5 py-1 text-on-surface-variant hover:bg-surface-container-high transition-colors" id="tab-public" onclick="filterTimeline('public')">
+                Public Updates (3)
+              </button>
+<button class="px-2.5 py-1 text-on-surface-variant hover:bg-surface-container-high transition-colors" id="tab-internal" onclick="filterTimeline('internal')">
+                Internal Logs (2)
+              </button>
+</div>
+</div>
+<!-- Timeline Entries -->
+<div class="flex flex-col relative pl-6 space-y-space-lg" id="timelineStream">
+<!-- Timeline vertical track line -->
+<div class="absolute left-2 top-2 bottom-4 w-px bg-surface-container-highest"></div>
+<!-- Event 1 (12m ago - Field update) -->
+<div class="relative timeline-item" data-type="public">
+<div class="absolute -left-6 top-1.5 w-3 h-3 bg-primary"></div>
+<div class="bg-surface-container-low p-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-1">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Ramesh K.</span>
+<span class="font-label-stamp text-label-stamp px-1.5 bg-surface text-tertiary">[FIELD TECHNICIAN]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary">12m ago · 11:48 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-space-xs">
+                  Checked manifold pressure on rooftop condenser #4. Found expansion valve stuck at 15% aperture. Replacement relay valve requested from Central Stores (Inventory Code: <span class="font-label-code text-label-code text-on-surface font-semibold">VALV-HVAC-990</span>). ETA 25 minutes.
+                </p>
+<div class="mt-space-sm flex items-center gap-space-md text-secondary font-label-caption text-label-caption">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">build</span> Diagnostic Pass 01</span>
+<span>·</span>
+<span>Rooftop Chiller Bank West</span>
+</div>
+</div>
+</div>
+<!-- Event 2 (30m ago - Internal Log) -->
+<div class="relative timeline-item" data-type="internal">
+<div class="absolute -left-6 top-1.5 w-3 h-3 bg-secondary"></div>
+<div class="bg-surface-container p-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-1">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Central Stores Dispatch</span>
+<span class="font-label-stamp text-label-stamp px-1.5 bg-surface text-secondary">[INTERNAL LOG]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary">30m ago · 11:30 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs">
+                  Requisition #REQ-4481 approved by Floor Supervisor. Expedited transit via runner to Engineering Block C.
+                </p>
+</div>
+</div>
+<!-- Event 3 (48m ago - Dispatched) -->
+<div class="relative timeline-item" data-type="public">
+<div class="absolute -left-6 top-1.5 w-3 h-3 bg-tertiary"></div>
+<div class="bg-surface-container-low p-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-1">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Central Facilities Dispatch</span>
+<span class="font-label-stamp text-label-stamp px-1.5 bg-surface text-tertiary">[SYSTEM ASSIGNMENT]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary">48m ago · 11:12 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-space-xs">
+                  Assigned from Central Ops HVAC Tier-2 Pool to Lead Specialist <span class="font-semibold text-on-surface">Ramesh K.</span> Priority auto-adjusted to <strong class="text-primary font-label-stamp text-label-stamp">[P2] HIGH</strong> based on active room occupancy schedule (Lab Session EE-204).
+                </p>
+</div>
+</div>
+<!-- Event 4 (1h 10m ago - Internal Log) -->
+<div class="relative timeline-item" data-type="internal">
+<div class="absolute -left-6 top-1.5 w-3 h-3 bg-secondary"></div>
+<div class="bg-surface-container p-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-1">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Automated BMS Sensor Feed</span>
+<span class="font-label-stamp text-label-stamp px-1.5 bg-surface text-secondary">[INTERNAL TELEMETRY]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary">1h 10m ago · 10:50 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs">
+                  Telemetry trigger: BMS-NODE-C214 reported thermal deviation delta +10.5°C over setpoint. Incident corroborated with student portal report.
+                </p>
+</div>
+</div>
+<!-- Event 5 (1h 45m ago - Ticket Created) -->
+<div class="relative timeline-item" data-type="public">
+<div class="absolute -left-6 top-1.5 w-3 h-3 bg-on-surface"></div>
+<div class="bg-surface-container-low p-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-1">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Aarav Sharma</span>
+<span class="font-label-stamp text-label-stamp px-1.5 bg-surface text-on-surface-variant">[REQUEST FILED]</span>
+</div>
+<span class="font-label-code text-label-code text-secondary">1h 45m ago · 10:15 AM</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface mt-space-xs">
+                  Ticket initiated via Student &amp; Faculty Mobile Portal. Attached photo evidence showing 29.5°C ambient reading. Initial category assigned: <span class="font-label-code text-label-code text-on-surface">HVAC_COOLING_DEFECT</span>.
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Response & Communication Desk -->
+<div class="bg-surface-container-lowest p-space-lg flex flex-col">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md bg-surface-container-low px-space-md py-space-xs">
+<span class="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
+              04 // Append Docket Entry or Direct Message
+            </span>
+<!-- Toggle Public / Internal -->
+<div class="flex items-center bg-surface-container p-0.5" id="responseTypeToggle">
+<button class="font-label-stamp text-label-stamp px-3 py-1 bg-surface-container-lowest text-on-surface font-semibold transition-all" id="typeBtn-public" onclick="setPostType('public')" type="button">
+                [Public Reply to Technician]
+              </button>
+<button class="font-label-stamp text-label-stamp px-3 py-1 text-on-surface-variant hover:text-on-surface transition-all" id="typeBtn-internal" onclick="setPostType('internal')" type="button">
+                [Internal Note]
+              </button>
+</div>
+</div>
+<div class="flex flex-col gap-space-sm">
+<textarea class="w-full bg-surface-container-low p-space-md font-body-md text-body-md text-on-surface placeholder:text-secondary focus:outline-none focus:bg-surface-container transition-colors resize-y" placeholder="Record operational observations, ETA inquiries, or instructions for field tech Ramesh K..." rows="4"></textarea>
+<div class="flex flex-wrap items-center justify-between gap-space-md pt-space-xs">
+<div class="flex items-center gap-space-md">
+<button class="flex items-center gap-1 font-body-sm text-body-sm text-secondary hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">attach_file</span>
+<span>Attach Sensor Log / Photo</span>
+</button>
+<span class="text-secondary font-label-code text-label-code">Markdown formatting supported</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-space-sm font-title-sm text-title-sm text-secondary hover:text-on-surface transition-colors" type="button">
+                  Clear
+                </button>
+<button class="px-space-lg py-space-sm bg-primary text-on-primary font-title-sm text-title-sm font-semibold tracking-wider hover:bg-primary-container transition-colors flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>POST UPDATE</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN (~35% / 4 Cols): Sticky Metadata & Role Actions Docket -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg sticky top-20">
+<!-- Inspector Card -->
+<div class="bg-surface-container-lowest flex flex-col overflow-hidden">
+<!-- Docket Header Slip -->
+<div class="bg-surface-container-low p-space-md flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest leading-none">DOCKET REFERENCE</span>
+<span class="font-label-code text-label-code text-on-surface font-bold tracking-wider mt-1">UP-2026-000123</span>
+</div>
+<span class="font-label-stamp text-label-stamp px-2 py-0.5 bg-surface text-tertiary font-bold tracking-wider">
+              IN PROGRESS
+            </span>
+</div>
+<!-- Live SLA Countdown Clock -->
+<div class="p-space-lg bg-surface-container-lowest flex flex-col">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">Live SLA Countdown</span>
+<span class="font-label-code text-label-code text-primary font-semibold">Tier-2 HVAC Standard (4h Max)</span>
+</div>
+<div class="flex items-baseline justify-between mt-1">
+<span class="font-label-code text-[36px] leading-tight font-bold text-on-surface tracking-tight" id="slaTicker" style="font-variant-numeric: tabular-nums;">
+                02:14:22
+              </span>
+<span class="font-label-code text-label-code text-tertiary">ON SCHEDULE</span>
+</div>
+<!-- Segmented Hatch SLA Gauge -->
+<div class="w-full mt-space-sm flex flex-col gap-1">
+<div class="w-full h-2.5 bg-surface-container-high flex overflow-hidden">
+<!-- Elapsed portion (68%) -->
+<div class="h-full bg-primary" style="width: 68%;"></div>
+<!-- Remaining buffer (32%) -->
+<div class="h-full bg-tertiary" style="width: 32%;"></div>
+</div>
+<div class="flex justify-between font-label-code text-[10px] text-secondary">
+<span>00:00 (Filed)</span>
+<span>68% Elapsed</span>
+<span>04:00 (Breach)</span>
+</div>
+</div>
+</div>
+<!-- Structured Specifications Ledger -->
+<div class="flex flex-col text-body-sm text-on-surface">
+<!-- Row: Location -->
+<div class="p-space-md bg-surface-container-low flex flex-col gap-0.5">
+<span class="font-label-caption text-label-caption text-secondary uppercase tracking-wider">Campus Location</span>
+<div class="flex items-center gap-space-xs font-title-sm text-title-sm text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-primary">location_on</span>
+<span>Block C · Room 214</span>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">West Wing · Level 2 · Microelectronics Lab</span>
+</div>
+<!-- Row: Assigned Specialist -->
+<div class="p-space-md bg-surface-container-lowest flex flex-col gap-space-xs">
+<span class="font-label-caption text-label-caption text-secondary uppercase tracking-wider">Assigned Field Tech</span>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-label-stamp text-label-stamp font-bold text-on-surface">
+                    RK
+                  </div>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface leading-tight">Ramesh K.</span>
+<span class="font-label-caption text-label-caption text-secondary">Lead HVAC Specialist · Gr-IV</span>
+</div>
+</div>
+<span class="font-label-code text-label-code text-on-surface bg-surface-container px-2 py-0.5">
+                  Ext. 2281
+                </span>
+</div>
+</div>
+<!-- Row: Department -->
+<div class="p-space-md bg-surface-container-low flex flex-col gap-0.5">
+<span class="font-label-caption text-label-caption text-secondary uppercase tracking-wider">Responsible Unit</span>
+<span class="font-title-sm text-title-sm text-on-surface">Facilities Plant &amp; Operations</span>
+<span class="font-label-caption text-label-caption text-secondary">HVAC &amp; Cryo-Mechanical Division</span>
+</div>
+<!-- Row: Requester Info -->
+<div class="p-space-md bg-surface-container-lowest flex flex-col gap-0.5">
+<span class="font-label-caption text-label-caption text-secondary uppercase tracking-wider">Filed By Requester</span>
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-title-sm text-on-surface">Aarav Sharma</span>
+<span class="font-label-code text-label-code text-secondary">ID: 2024-ENG-084</span>
+</div>
+<span class="font-label-caption text-label-caption text-secondary">School of Engineering · Class of 2026</span>
+</div>
+</div>
+<!-- Section: Role-Based Operations Strip -->
+<div class="p-space-md bg-surface-container-high flex flex-col gap-space-md">
+<!-- Requester Context Actions -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant font-semibold uppercase">
+                Requester Actions [Aarav S.]
+              </span>
+<div class="grid grid-cols-2 gap-space-sm mt-1">
+<button class="w-full py-space-sm bg-surface-container-lowest hover:bg-surface text-on-surface transition-colors font-title-sm text-title-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-tertiary">check_circle</span>
+<span>Verify Work</span>
+</button>
+<button class="w-full py-space-sm bg-surface-container-lowest hover:bg-surface text-primary transition-colors font-title-sm text-title-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span>Expedite</span>
+</button>
+</div>
+</div>
+<!-- Tech / Admin Context Actions -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">
+                Technician &amp; Admin Controls
+              </span>
+<div class="flex flex-col gap-space-xs mt-1">
+<button class="w-full py-space-sm bg-tertiary text-on-tertiary hover:bg-tertiary-container transition-colors font-title-sm text-title-sm font-semibold flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Mark Resolved</span>
+</button>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="py-space-xs bg-surface-container-lowest hover:bg-surface text-on-surface transition-colors font-title-sm text-title-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+<span>Reassign</span>
+</button>
+<button class="py-space-xs bg-surface-container-lowest hover:bg-surface text-on-surface-variant hover:text-error transition-colors font-title-sm text-title-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">pause_circle</span>
+<span>Put On Hold</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Audit Footer Hash -->
+<div class="px-space-md py-space-xs bg-surface-container text-secondary flex items-center justify-between font-label-code text-[11px]">
+<span>HASH: 8f9b2a71d0e</span>
+<span>VERIFIED DOCKET</span>
+</div>
+</div>
+<!-- Quick Emergency Protocols Card -->
+<div class="bg-surface-container-low p-space-md flex items-start gap-space-md">
+<span class="material-symbols-outlined text-primary text-[20px] mt-0.5">info</span>
+<div class="flex flex-col font-body-sm text-body-sm">
+<span class="font-title-sm text-title-sm text-on-surface">Emergency HVAC Direct Line</span>
+<p class="text-on-surface-variant mt-0.5">
+              If compressor vibration causes immediate ceiling or water hazard, dial Central Plant Hotline <strong class="text-on-surface">x4140</strong> or press the Physical Alert Button at Stairwell B.
+            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Live SLA decrement clock simulation
+  (function() {
+    let secondsLeft = (2 * 3600) + (14 * 60) + 22;
+    const tickerEl = document.getElementById('slaTicker');
+    if (!tickerEl) return;
+
+    setInterval(function() {
+      if (secondsLeft > 0) {
+        secondsLeft--;
+        const hours = Math.floor(secondsLeft / 3600);
+        const minutes = Math.floor((secondsLeft % 3600) / 60);
+        const seconds = secondsLeft % 60;
+        
+        const pad = (n) => n < 10 ? '0' + n : n;
+        tickerEl.textContent = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+      }
+    }, 1000);
+  })();
+
+  // Timeline Filter logic
+  function filterTimeline(filterType) {
+    const items = document.querySelectorAll('.timeline-item');
+    const tabs = ['all', 'public', 'internal'];
+    
+    tabs.forEach(t => {
+      const el = document.getElementById('tab-' + t);
+      if (el) {
+        if (t === filterType) {
+          el.className = 'px-2.5 py-1 bg-surface-container-highest text-on-surface font-semibold';
+        } else {
+          el.className = 'px-2.5 py-1 text-on-surface-variant hover:bg-surface-container-high transition-colors';
+        }
+      }
+    });
+
+    items.forEach(item => {
+      if (filterType === 'all') {
+        item.style.display = 'block';
+      } else {
+        const itemType = item.getAttribute('data-type');
+        item.style.display = (itemType === filterType) ? 'block' : 'none';
+      }
+    });
+  }
+
+  // Response Type Toggle
+  function setPostType(type) {
+    const pubBtn = document.getElementById('typeBtn-public');
+    const intBtn = document.getElementById('typeBtn-internal');
+    if (type === 'public') {
+      pubBtn.className = 'font-label-stamp text-label-stamp px-3 py-1 bg-surface-container-lowest text-on-surface font-semibold transition-all';
+      intBtn.className = 'font-label-stamp text-label-stamp px-3 py-1 text-on-surface-variant hover:text-on-surface transition-all';
+    } else {
+      intBtn.className = 'font-label-stamp text-label-stamp px-3 py-1 bg-surface-container-lowest text-on-surface font-semibold transition-all';
+      pubBtn.className = 'font-label-stamp text-label-stamp px-3 py-1 text-on-surface-variant hover:text-on-surface transition-all';
+    }
+  }
+</script></main><footer class="w-full bg-surface-container-low border-t border-outline-variant py-space-lg mt-space-xl"><div class="w-full px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant"><div class="flex items-center gap-space-md"><span class="font-label-stamp text-label-stamp text-on-surface font-semibold">UNIPULSE / INFRASTRUCTURE</span><span class="font-label-code text-label-code text-secondary">SYS-REF: CAMPUS-OPS-2026</span></div><div class="flex items-center gap-space-lg font-body-sm text-body-sm"><span class="font-label-caption text-label-caption">Central Facilities Dispatch · Extension 4140</span><span class="font-label-code text-label-code text-tertiary">[● SYSTEM OPERATIONAL]</span></div></div></footer></body></html>

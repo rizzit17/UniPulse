@@ -15,25 +15,20 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
   return (
     <div className="w-full bg-surface text-on-surface">
       {/* Masthead */}
-      <div className="w-full bg-surface-container-low border-b border-outline-variant py-space-md px-4 sm:px-8 lg:px-12">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
+      <div className="w-full bg-surface-container-low border-b border-outline-variant py-8 px-4 sm:px-8 lg:px-12">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-space-xs font-label-stamp text-label-stamp text-secondary uppercase tracking-widest mb-1">
-              <span>TELEMETRY FEED</span>
-              <span>·</span>
-              <span className="text-primary font-semibold">SEC-06 NOTIFICATIONS</span>
-            </div>
-            <h1 className="font-headline-lg text-headline-lg text-on-surface m-0 leading-tight">
-              Operational Notification Log
+            <h1 className="font-headline-lg text-headline-lg text-on-surface m-0 font-normal">
+              Notifications
             </h1>
-            <p className="font-body-md text-body-md text-on-surface-variant m-0 mt-1">
-              Real-time push delivery stream via Server-Sent Events (SSE).
+            <p className="font-body-md text-body-md text-secondary m-0 mt-1">
+              Live updates on ticket status changes, assignments, and resolution alerts.
             </p>
           </div>
-          <div className="flex items-center gap-space-md">
+          <div className="flex items-center gap-3">
             <span
-              className={`font-label-code text-label-code px-3 py-1.5 border border-outline-variant flex items-center gap-1.5 ${
-                sseConnected ? 'bg-surface text-tertiary font-bold' : 'bg-surface-container text-secondary'
+              className={`text-xs px-3 py-1.5 border border-outline-variant flex items-center gap-2 font-medium ${
+                sseConnected ? 'bg-surface text-tertiary' : 'bg-surface-container text-secondary'
               }`}
             >
               <span
@@ -41,55 +36,59 @@ export const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
                   sseConnected ? 'bg-tertiary' : 'bg-secondary'
                 }`}
               ></span>
-              {sseConnected ? 'SSE DISPATCH STREAM ACTIVE' : 'RECONNECTING STREAM...'}
+              {sseConnected ? 'Connected' : 'Connecting...'}
             </span>
             <button
               onClick={onMarkAllAsRead}
-              className="px-space-md py-1.5 bg-primary text-on-primary hover:bg-primary-container font-title-sm text-title-sm font-semibold transition-colors border-none cursor-pointer"
+              className="px-4 py-1.5 bg-primary text-on-primary hover:bg-primary-container text-xs font-semibold transition-colors border-none cursor-pointer"
             >
-              MARK ALL READ
+              Mark all read
             </button>
           </div>
         </div>
       </div>
 
-      <div className="w-full px-4 sm:px-8 lg:px-12 py-space-xl flex flex-col gap-space-md max-w-4xl">
+      <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-8 flex flex-col gap-3">
         {notifications.length === 0 ? (
-          <div className="p-space-xl text-center bg-surface-container-lowest border border-outline-variant font-label-code text-label-code text-secondary">
-            No notifications recorded in active stream.
+          <div className="py-20 text-center bg-surface-container-lowest border border-outline-variant text-secondary font-body-md">
+            No notifications right now. You are all caught up!
           </div>
         ) : (
           notifications.map((n) => (
             <div
               key={n.id}
-              className={`p-space-md border border-outline-variant transition-colors flex flex-col sm:flex-row sm:items-start justify-between gap-space-md ${
+              className={`p-4 border border-outline-variant transition-colors flex flex-col sm:flex-row sm:items-start justify-between gap-4 ${
                 n.read
-                  ? 'bg-surface-container-lowest text-on-surface-variant'
+                  ? 'bg-surface-container-lowest text-secondary opacity-80'
                   : 'bg-surface-container-low text-on-surface border-l-4 border-l-primary'
               }`}
             >
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-space-sm">
+              <div className="flex flex-col gap-1 flex-1">
+                <div className="flex items-center gap-2">
                   <span
-                    className={`font-label-stamp text-label-stamp px-1.5 py-0.5 border border-outline-variant ${
+                    className={`text-xs px-2 py-0.5 border border-outline-variant font-bold ${
                       n.type.includes('BREACH')
-                        ? 'bg-error text-on-error font-bold'
+                        ? 'bg-error text-on-error'
                         : 'bg-surface text-primary'
                     }`}
                   >
-                    [{n.type}]
+                    {n.type.replace(/_/g, ' ')}
                   </span>
-                  <span className="font-label-code text-label-code text-secondary">
+                  <span className="text-xs text-secondary font-label-code">
                     {new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>
-                <div className="font-title-sm text-title-sm text-on-surface mt-1">{n.title}</div>
-                <p className="font-body-md text-body-md text-on-surface-variant m-0">{n.message}</p>
+                <div className="font-title-sm text-title-sm text-on-surface font-semibold mt-1">
+                  {n.title}
+                </div>
+                <p className="font-body-sm text-body-sm text-secondary m-0">
+                  {n.message}
+                </p>
               </div>
 
               {n.requestId && (
-                <span className="font-label-code text-label-code text-primary bg-surface px-2 py-0.5 border border-outline-variant self-start">
-                  DOCKET: {n.requestId}
+                <span className="font-label-code text-xs text-primary bg-surface px-2.5 py-1 border border-outline-variant self-start whitespace-nowrap font-medium">
+                  Ticket #{n.requestId}
                 </span>
               )}
             </div>

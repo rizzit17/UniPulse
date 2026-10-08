@@ -8,13 +8,10 @@ interface LoginRegisterScreenProps {
 
 export const LoginRegisterScreen: React.FC<LoginRegisterScreenProps> = ({ onSuccess }) => {
   const [isRegister, setIsRegister] = useState(false);
-  const [email, setEmail] = useState('aarav.s26@univ.ac.in');
+  const [email, setEmail] = useState('student.alex@unipulse.edu');
   const [password, setPassword] = useState('password123');
   const [name, setName] = useState('');
   const [role, setRole] = useState<UserRole>('STUDENT');
-  const [department, setDepartment] = useState('Facilities & Maintenance');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberTerminal, setRememberTerminal] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -37,37 +34,30 @@ export const LoginRegisterScreen: React.FC<LoginRegisterScreenProps> = ({ onSucc
         onSuccess(res.user);
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Authentication challenge failed';
+      const msg = err instanceof Error ? err.message : 'Invalid credentials. Please try again.';
       setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  const handlePresetLogin = async (selectedRole: UserRole, presetEmail: string) => {
-    setEmail(presetEmail);
+  const handleQuickDemo = async (demoRole: UserRole, demoEmail: string, demoName: string) => {
+    setEmail(demoEmail);
     setPassword('password123');
-    setRole(selectedRole);
+    setRole(demoRole);
     setLoading(true);
     setError(null);
 
     try {
-      const res = await api.login(presetEmail, 'password123');
+      const res = await api.login(demoEmail, 'password123');
       onSuccess(res.user);
     } catch {
       // Offline fallback mock user
       const mockUser: User = {
         id: 'u-' + Math.random().toString(36).substring(2, 9),
-        email: presetEmail,
-        name:
-          selectedRole === 'ADMIN'
-            ? 'Campus Administrator'
-            : selectedRole === 'DEPARTMENT_HEAD'
-            ? 'Prof. Arthur Wright'
-            : selectedRole === 'TECHNICIAN'
-            ? 'Marcus Vance'
-            : 'Aarav Sharma',
-        role: selectedRole,
+        email: demoEmail,
+        name: demoName,
+        role: demoRole,
         campusId: 1,
       };
       onSuccess(mockUser);
@@ -76,388 +66,189 @@ export const LoginRegisterScreen: React.FC<LoginRegisterScreenProps> = ({ onSucc
     }
   };
 
-  const roleHints: Record<UserRole, string> = {
-    STUDENT: '[REQ]: Student, Resident Scholar, Faculty, or Visiting Staff requesting physical plant aid.',
-    FACULTY: '[REQ]: Academic Department Faculty filing classroom, research lab, or HVAC work orders.',
-    STAFF: '[REQ]: University Operations Staff reporting facility and custodial incidents.',
-    TECHNICIAN: '[TECH]: Certified Field Technician responding to dispatch work orders and equipment repairs.',
-    DEPARTMENT_HEAD: '[DEPT]: Department Head overseeing trade queues, approving SLA waivers, and supervising teams.',
-    ADMIN: '[ADMIN]: System Administrator with full campus registry, NOC routing, and telemetry access.',
-  };
-
   return (
-    <div className="bg-surface font-body-md text-on-surface min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
-      <main className="w-full flex justify-center">
-        {/* Archival Docket Registry Container */}
-        <div className="w-full max-w-xl flex flex-col bg-surface shadow-sm border border-outline-variant">
-          
-          {/* Header Block: Institutional Typography & Stamp */}
-          <div className="bg-surface-container-low p-6 sm:p-8 flex flex-col items-center text-center border-b border-outline-variant">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-2.5 h-2.5 bg-primary"></span>
-              <span className="font-label-stamp text-label-stamp uppercase tracking-widest text-secondary font-semibold">
-                ARCHIVAL DISPATCH REGISTRY // SEC-01
-              </span>
-              <span className="w-2.5 h-2.5 bg-primary"></span>
-            </div>
+    <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-6 text-on-surface">
+      <div className="w-full max-w-md bg-surface-container-lowest border border-outline-variant p-8 sm:p-10 flex flex-col gap-6">
+        {/* Brand Header */}
+        <div className="flex flex-col items-center text-center gap-1.5">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-primary inline-block"></span>
+            <span className="font-label-stamp text-label-stamp uppercase tracking-widest text-on-surface font-semibold">
+              UNIPULSE
+            </span>
+          </div>
+          <h1 className="font-headline-lg text-headline-lg text-on-surface m-0 font-normal">
+            {isRegister ? 'Create an account' : 'Sign in to UniPulse'}
+          </h1>
+          <p className="font-body-sm text-body-sm text-secondary m-0">
+            Campus service requests and physical plant operations
+          </p>
+        </div>
 
-            <div className="flex items-center justify-center gap-3">
-              <span className="material-symbols-outlined text-primary text-3xl">domain_verification</span>
-              <h1 className="font-headline-lg text-headline-lg tracking-tight text-on-surface font-normal">
-                UniPulse
-              </h1>
-            </div>
+        {/* Tab Toggle */}
+        <div className="grid grid-cols-2 bg-surface-container-low p-1 border border-outline-variant font-title-sm text-title-sm">
+          <button
+            type="button"
+            onClick={() => {
+              setIsRegister(false);
+              setError(null);
+            }}
+            className={`py-2 text-center transition-colors border-none cursor-pointer ${
+              !isRegister
+                ? 'bg-surface-container-lowest text-on-surface font-semibold shadow-xs'
+                : 'text-secondary hover:text-on-surface bg-transparent'
+            }`}
+          >
+            Sign In
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setIsRegister(true);
+              setError(null);
+            }}
+            className={`py-2 text-center transition-colors border-none cursor-pointer ${
+              isRegister
+                ? 'bg-surface-container-lowest text-on-surface font-semibold shadow-xs'
+                : 'text-secondary hover:text-on-surface bg-transparent'
+            }`}
+          >
+            Register
+          </button>
+        </div>
 
-            <p className="font-body-sm text-body-sm text-secondary mt-1 max-w-md">
-              Central University Infrastructure &amp; Services Portal · Facilities Management &amp; Physical Plant
-            </p>
+        {/* Error message */}
+        {error && (
+          <div className="p-3 bg-error-container text-error text-body-sm border border-error/20 flex items-center gap-2">
+            <span className="material-symbols-outlined text-[18px]">error</span>
+            <span>{error}</span>
+          </div>
+        )}
 
-            <div className="mt-4 flex items-center gap-3 font-label-code text-label-code text-secondary bg-surface-container px-3 py-1 border border-outline-variant/60">
-              <span>EDITION: 2026.04</span>
-              <span>•</span>
-              <span>NODE: BLK-ADMIN-GATE-01</span>
-              <span>•</span>
-              <span className="text-tertiary font-semibold flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-tertiary"></span>ONLINE
-              </span>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {isRegister && (
+            <div className="flex flex-col gap-1">
+              <label className="font-label-caption text-label-caption text-secondary uppercase tracking-wider">
+                Full Name
+              </label>
+              <input
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. Alex Rivera"
+                className="w-full bg-surface-container-low border border-outline-variant px-3.5 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:border-on-surface transition-colors"
+              />
             </div>
+          )}
+
+          <div className="flex flex-col gap-1">
+            <label className="font-label-caption text-label-caption text-secondary uppercase tracking-wider">
+              University Email
+            </label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="username@unipulse.edu"
+              className="w-full bg-surface-container-low border border-outline-variant px-3.5 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:border-on-surface transition-colors"
+            />
           </div>
 
-          {/* Dual Tab Mode Switcher (Manifest Folders) */}
-          <div className="grid grid-cols-2 bg-surface-container font-title-sm text-title-sm border-b border-outline-variant">
-            <button
-              id="tab-signin"
-              type="button"
-              onClick={() => setIsRegister(false)}
-              className={`py-3 px-4 text-center transition-colors flex items-center justify-center gap-2 cursor-pointer border-none ${
-                !isRegister
-                  ? 'bg-surface-container-lowest text-primary font-semibold border-b-2 border-primary'
-                  : 'text-secondary hover:text-on-surface bg-surface-container'
-              }`}
-            >
-              <span className="material-symbols-outlined text-sm">badge</span>
-              <span>Sign In (Authorized ID)</span>
-            </button>
-
-            <button
-              id="tab-register"
-              type="button"
-              onClick={() => setIsRegister(true)}
-              className={`py-3 px-4 text-center transition-colors flex items-center justify-center gap-2 cursor-pointer border-none ${
-                isRegister
-                  ? 'bg-surface-container-lowest text-primary font-semibold border-b-2 border-primary'
-                  : 'text-secondary hover:text-on-surface bg-surface-container'
-              }`}
-            >
-              <span className="material-symbols-outlined text-sm">person_add</span>
-              <span>New Campus Account</span>
-            </button>
+          <div className="flex flex-col gap-1">
+            <label className="font-label-caption text-label-caption text-secondary uppercase tracking-wider">
+              Password
+            </label>
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full bg-surface-container-low border border-outline-variant px-3.5 py-2.5 font-body-md text-body-md text-on-surface focus:outline-none focus:border-on-surface transition-colors"
+            />
           </div>
 
-          {/* Manifest Slip Body */}
-          <div className="bg-surface-container-lowest p-6 sm:p-8 flex flex-col gap-6">
-            
-            {/* SSO / LDAP Primary Channel */}
-            <div className="flex flex-col gap-2">
-              <span className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">
-                Fast Lane Auth · Central Directory
-              </span>
-              <button
-                type="button"
-                onClick={() => handlePresetLogin('STUDENT', 'student.alex@unipulse.edu')}
-                className="w-full bg-surface-container-low hover:bg-surface-container text-on-surface p-4 flex items-center justify-between text-left transition-colors border border-outline-variant/70 cursor-pointer"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-primary text-xl">vpn_key</span>
-                  <div>
-                    <div className="font-title-sm text-title-sm font-semibold text-on-surface">
-                      Continue with University SSO (LDAP / CAS)
-                    </div>
-                    <div className="font-label-code text-label-code text-secondary mt-0.5">
-                      Single Sign-On for @unipulse.edu credentials
-                    </div>
-                  </div>
-                </div>
-                <span className="font-label-stamp text-label-stamp text-primary bg-primary-fixed px-2 py-0.5 font-bold">
-                  FEDERATED
-                </span>
-              </button>
-            </div>
-
-            {/* Structural Receipt Perforation Divider */}
-            <div className="relative flex items-center justify-center my-1">
-              <div className="w-full bg-surface-container-high h-[1px]"></div>
-              <span className="absolute bg-surface-container-lowest px-3 font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">
-                OR MANUAL CREDENTIALS DOCKET
-              </span>
-            </div>
-
-            {/* Dynamic Form Container */}
-            <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-              
-              {/* Role Selection Tabs */}
-              <div className="flex flex-col gap-2">
-                <label className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">
-                  Access Scope &amp; Functional Role
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2" id="role-selector">
+          {isRegister && (
+            <div className="flex flex-col gap-1.5">
+              <label className="font-label-caption text-label-caption text-secondary uppercase tracking-wider">
+                Role
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                {(['STUDENT', 'TECHNICIAN', 'DEPARTMENT_HEAD', 'ADMIN'] as UserRole[]).map((r) => (
                   <button
+                    key={r}
                     type="button"
-                    onClick={() => setRole('STUDENT')}
-                    className={`role-pill py-2 px-2 text-center font-title-sm text-title-sm transition-colors text-xs border border-outline-variant cursor-pointer ${
-                      role === 'STUDENT'
-                        ? 'bg-inverse-surface text-inverse-on-surface font-semibold'
-                        : 'bg-surface-container text-on-surface hover:bg-secondary-container'
+                    onClick={() => setRole(r)}
+                    className={`py-1.5 px-2 text-xs font-title-sm border transition-colors cursor-pointer ${
+                      role === r
+                        ? 'bg-primary text-on-primary border-primary font-semibold'
+                        : 'bg-surface-container-low text-on-surface border-outline-variant hover:bg-surface-container'
                     }`}
                   >
-                    Requester
+                    {r === 'STUDENT'
+                      ? 'Student'
+                      : r === 'TECHNICIAN'
+                      ? 'Tech'
+                      : r === 'DEPARTMENT_HEAD'
+                      ? 'Head'
+                      : 'Admin'}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setRole('TECHNICIAN')}
-                    className={`role-pill py-2 px-2 text-center font-title-sm text-title-sm transition-colors text-xs border border-outline-variant cursor-pointer ${
-                      role === 'TECHNICIAN'
-                        ? 'bg-inverse-surface text-inverse-on-surface font-semibold'
-                        : 'bg-surface-container text-on-surface hover:bg-secondary-container'
-                    }`}
-                  >
-                    Technician
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRole('DEPARTMENT_HEAD')}
-                    className={`role-pill py-2 px-2 text-center font-title-sm text-title-sm transition-colors text-xs border border-outline-variant cursor-pointer ${
-                      role === 'DEPARTMENT_HEAD'
-                        ? 'bg-inverse-surface text-inverse-on-surface font-semibold'
-                        : 'bg-surface-container text-on-surface hover:bg-secondary-container'
-                    }`}
-                  >
-                    Dept Head
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setRole('ADMIN')}
-                    className={`role-pill py-2 px-2 text-center font-title-sm text-title-sm transition-colors text-xs border border-outline-variant cursor-pointer ${
-                      role === 'ADMIN'
-                        ? 'bg-inverse-surface text-inverse-on-surface font-semibold'
-                        : 'bg-surface-container text-on-surface hover:bg-secondary-container'
-                    }`}
-                  >
-                    Admin
-                  </button>
-                </div>
-                <p className="font-label-code text-label-code text-secondary text-[11px] mt-0.5">
-                  {roleHints[role] || roleHints.STUDENT}
-                </p>
-              </div>
-
-              {/* Registration Exclusive Field: Full Legal Name */}
-              {isRegister && (
-                <div className="flex flex-col gap-1.5">
-                  <label
-                    className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider"
-                    htmlFor="full-name"
-                  >
-                    Full Legal Name (Institutional Record)
-                  </label>
-                  <input
-                    id="full-name"
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Dr. Aarav Sharma / Maya Sen"
-                    className="w-full bg-surface-container-low px-3.5 py-2.5 font-body-md text-body-md text-on-surface border border-outline-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:border-on-surface"
-                  />
-                </div>
-              )}
-
-              {/* Identifier / Roll No Field */}
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <label
-                    className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider"
-                    htmlFor="campus-id"
-                  >
-                    University ID / Institutional Email
-                  </label>
-                  <span className="font-label-code text-label-code text-secondary text-[11px]">
-                    Format: id@unipulse.edu
-                  </span>
-                </div>
-                <div className="relative flex items-center">
-                  <span className="absolute left-3 text-secondary material-symbols-outlined text-lg">badge</span>
-                  <input
-                    id="campus-id"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="e.g. student.alex@unipulse.edu"
-                    className="w-full bg-surface-container-low pl-10 pr-3.5 py-2.5 font-label-code text-label-code text-on-surface border border-outline-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:border-on-surface"
-                  />
-                </div>
-                <span className="font-label-caption text-label-caption text-secondary text-[11px]">
-                  Valid formats: student.alex@unipulse.edu, admin@unipulse.edu, tech.marcus@unipulse.edu
-                </span>
-              </div>
-
-              {/* Password Field with Archival Toggle */}
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
-                  <label
-                    className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider"
-                    htmlFor="auth-token"
-                  >
-                    Passphrase / LDAP Token
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setPassword('password123')}
-                    className="font-label-code text-label-code text-primary hover:underline bg-transparent border-none cursor-pointer"
-                  >
-                    Reset credential?
-                  </button>
-                </div>
-                <div className="relative flex items-center">
-                  <span className="absolute left-3 text-secondary material-symbols-outlined text-lg">lock</span>
-                  <input
-                    id="auth-token"
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter secure passphrase"
-                    className="w-full bg-surface-container-low pl-10 pr-10 py-2.5 font-label-code text-label-code text-on-surface border border-outline-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:border-on-surface"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 text-secondary hover:text-on-surface flex items-center bg-transparent border-none cursor-pointer"
-                  >
-                    <span className="material-symbols-outlined text-lg">
-                      {showPassword ? 'visibility_off' : 'visibility'}
-                    </span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Registration Exclusive Field: Department Affiliation */}
-              {isRegister && (
-                <div className="flex flex-col gap-1.5">
-                  <label
-                    className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider"
-                    htmlFor="dept-select"
-                  >
-                    Assigned Department / Resident Quad
-                  </label>
-                  <select
-                    id="dept-select"
-                    value={department}
-                    onChange={(e) => setDepartment(e.target.value)}
-                    className="w-full bg-surface-container-low px-3.5 py-2.5 font-body-md text-body-md text-on-surface border border-outline-variant/60 focus:outline-none focus:bg-surface-container-lowest focus:border-on-surface"
-                  >
-                    <option value="Facilities & Maintenance">Facilities &amp; Maintenance (Civil &amp; Buildings)</option>
-                    <option value="IT & Network Infrastructure">IT &amp; Network Infrastructure (Wi-Fi, Systems)</option>
-                    <option value="Residential & Housing">Residential &amp; Housing (Dorms &amp; Quads)</option>
-                    <option value="Campus Safety & Security">Campus Safety &amp; Security (Access &amp; CCTV)</option>
-                  </select>
-                </div>
-              )}
-
-              {/* Validation / Error Banner */}
-              {error && (
-                <div className="bg-error-container p-3 text-on-error-container flex items-start gap-2.5 border border-error/30">
-                  <span className="material-symbols-outlined text-base mt-0.5 text-error">report_problem</span>
-                  <div className="flex flex-col">
-                    <span className="font-title-sm text-title-sm font-semibold text-error">
-                      Authentication Challenge
-                    </span>
-                    <span className="font-body-sm text-body-sm text-on-error-container">{error}</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Checkbox & Security Confirmation */}
-              <div className="flex items-center justify-between pt-1">
-                <label className="flex items-center gap-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={rememberTerminal}
-                    onChange={(e) => setRememberTerminal(e.target.checked)}
-                    className="w-4 h-4 text-primary accent-primary bg-surface-container-low rounded-none border border-outline"
-                  />
-                  <span className="font-body-sm text-body-sm text-on-surface">
-                    Remember this terminal for 14 days
-                  </span>
-                </label>
-              </div>
-
-              {/* Primary Action Trigger */}
-              <button
-                id="submit-button"
-                type="submit"
-                disabled={loading}
-                className="w-full bg-primary hover:bg-primary-container text-on-primary py-3 px-4 font-title-sm text-title-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-colors border-none cursor-pointer font-semibold"
-              >
-                <span>{loading ? 'Authorizing Session...' : isRegister ? 'Register Identity' : 'Authorize & Access UniPulse'}</span>
-                <span className="material-symbols-outlined text-lg">arrow_forward</span>
-              </button>
-            </form>
-
-            {/* Quick Fast-Lane Demo Roles Strip */}
-            <div className="pt-4 border-t border-dashed border-outline-variant flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <span className="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">
-                  Quick Access Profiles (Pre-Seeded)
-                </span>
-                <span className="font-label-code text-[10px] text-tertiary font-semibold">
-                  PASS: password123
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handlePresetLogin('STUDENT', 'student.alex@unipulse.edu')}
-                  className="p-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-left transition-colors cursor-pointer flex flex-col"
-                >
-                  <span className="font-title-sm text-[12px] font-semibold text-on-surface">Alex Rivera</span>
-                  <span className="font-label-code text-[10px] text-secondary">Student / Req</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handlePresetLogin('TECHNICIAN', 'tech.marcus@unipulse.edu')}
-                  className="p-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-left transition-colors cursor-pointer flex flex-col"
-                >
-                  <span className="font-title-sm text-[12px] font-semibold text-on-surface">Marcus Vance</span>
-                  <span className="font-label-code text-[10px] text-secondary">Technician</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handlePresetLogin('DEPARTMENT_HEAD', 'faculty.wright@unipulse.edu')}
-                  className="p-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-left transition-colors cursor-pointer flex flex-col"
-                >
-                  <span className="font-title-sm text-[12px] font-semibold text-on-surface">Prof. Wright</span>
-                  <span className="font-label-code text-[10px] text-secondary">Dept Head</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => handlePresetLogin('ADMIN', 'admin@unipulse.edu')}
-                  className="p-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-left transition-colors cursor-pointer flex flex-col"
-                >
-                  <span className="font-title-sm text-[12px] font-semibold text-on-surface">Sys Admin</span>
-                  <span className="font-label-code text-[10px] text-secondary">Platform Admin</span>
-                </button>
+                ))}
               </div>
             </div>
+          )}
 
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full mt-2 py-3 bg-primary text-on-primary hover:bg-primary-container font-title-sm text-title-sm font-semibold tracking-wider transition-colors border-none cursor-pointer disabled:opacity-60"
+          >
+            {loading ? 'Please wait...' : isRegister ? 'Create Account' : 'Sign In'}
+          </button>
+        </form>
+
+        {/* Minimal 1-Click Demo Profiles */}
+        <div className="pt-4 border-t border-outline-variant flex flex-col gap-2">
+          <span className="font-label-caption text-label-caption text-secondary uppercase tracking-wider text-center">
+            Demo quick sign-in
+          </span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+            <button
+              type="button"
+              onClick={() => handleQuickDemo('STUDENT', 'student.alex@unipulse.edu', 'Alex Rivera')}
+              className="py-1.5 px-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-center font-body-sm text-body-sm text-on-surface transition-colors cursor-pointer"
+            >
+              Student
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickDemo('TECHNICIAN', 'tech.marcus@unipulse.edu', 'Marcus Vance')}
+              className="py-1.5 px-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-center font-body-sm text-body-sm text-on-surface transition-colors cursor-pointer"
+            >
+              Tech
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickDemo('DEPARTMENT_HEAD', 'faculty.wright@unipulse.edu', 'Prof. Wright')}
+              className="py-1.5 px-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-center font-body-sm text-body-sm text-on-surface transition-colors cursor-pointer"
+            >
+              Dept Head
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickDemo('ADMIN', 'admin@unipulse.edu', 'Campus Admin')}
+              className="py-1.5 px-2 bg-surface-container-low hover:bg-surface-container border border-outline-variant text-center font-body-sm text-body-sm text-on-surface transition-colors cursor-pointer"
+            >
+              Admin
+            </button>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
+
+export default LoginRegisterScreen;

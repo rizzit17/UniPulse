@@ -12,19 +12,19 @@ describe('UniPulse Frontend Application - Civic Cartography', () => {
 
   it('renders login screen when unauthenticated', () => {
     render(<App />);
-    expect(screen.getByText(/ARCHIVAL DISPATCH REGISTRY/i)).toBeInTheDocument();
-    expect(screen.getByText('UniPulse')).toBeInTheDocument();
-    expect(screen.getByText(/Sign In \(Authorized ID\)/i)).toBeInTheDocument();
+    expect(screen.getByText('UNIPULSE')).toBeInTheDocument();
+    expect(screen.getByText('Sign in to UniPulse')).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Sign In' }).length).toBeGreaterThan(0);
   });
 
   it('authenticates via quick demo button and renders dashboard with top navbar', async () => {
     render(<App />);
-    const adminBtn = screen.getByRole('button', { name: /Sys Admin/i });
+    const adminBtn = screen.getByRole('button', { name: 'Admin' });
     fireEvent.click(adminBtn);
 
     await waitFor(() => {
-      expect(screen.getByText('Operational Dispatch Dashboard')).toBeInTheDocument();
-      expect(screen.getByText(/Campus Operations Pulse/i)).toBeInTheDocument();
+      expect(screen.getByText('Operations Analytics')).toBeInTheDocument();
+      expect(screen.getByText(/Total Requests/i)).toBeInTheDocument();
     });
 
     // Top Architectural Navbar items
@@ -38,12 +38,11 @@ describe('UniPulse Frontend Application - Civic Cartography', () => {
 
   it('navigates to My Requests and allows opening ticket docket view', async () => {
     render(<App />);
-    const studentBtn = screen.getByRole('button', { name: /Alex Rivera/i });
+    const studentBtn = screen.getByRole('button', { name: 'Student' });
     fireEvent.click(studentBtn);
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { level: 1, name: 'My Requests' })).toBeInTheDocument();
-      expect(screen.getByText('[STUDENT REPOSITORY]')).toBeInTheDocument();
     });
 
     // Wait for ticket item in repository
@@ -56,28 +55,27 @@ describe('UniPulse Frontend Application - Civic Cartography', () => {
     fireEvent.click(ticketRow);
 
     await waitFor(() => {
-      expect(screen.getByText(/01 \/\/ Incident Narrative & Initial Assessment/i)).toBeInTheDocument();
-      expect(screen.getByText('DOCKET REFERENCE')).toBeInTheDocument();
+      expect(screen.getByText(/Incident Summary/i)).toBeInTheDocument();
     });
   });
 
   it('navigates to New Request screen', async () => {
     render(<App />);
-    const studentBtn = screen.getByRole('button', { name: /Alex Rivera/i });
+    const studentBtn = screen.getByRole('button', { name: 'Student' });
     fireEvent.click(studentBtn);
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { level: 1, name: 'My Requests' })).toBeInTheDocument();
     });
 
-    const newReqBtn = screen.getByRole('button', { name: /Raise New Request/i });
-    fireEvent.click(newReqBtn);
+    // Click the New Request button in the navigation or header
+    const newReqBtns = screen.getAllByRole('button', { name: /New Request/i });
+    fireEvent.click(newReqBtns[0]);
 
     await waitFor(() => {
-      expect(screen.getByText('File an Incident Report')).toBeInTheDocument();
-      expect(screen.getByText(/\[FORM 804-A: DISPATCH DOCKET\]/i)).toBeInTheDocument();
-      expect(screen.getByText(/Category & Trade Classification/i)).toBeInTheDocument();
-      expect(screen.getByText('DISPATCH REVIEW DOCKET')).toBeInTheDocument();
+      expect(screen.getByText('New Service Request')).toBeInTheDocument();
+      expect(screen.getByText(/1\. Issue Category/i)).toBeInTheDocument();
+      expect(screen.getByText('Submit Request')).toBeInTheDocument();
     });
   });
 });

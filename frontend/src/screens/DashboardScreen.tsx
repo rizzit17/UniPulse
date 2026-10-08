@@ -32,8 +32,8 @@ export const DashboardScreen: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="w-full py-24 text-center font-label-code text-label-code text-secondary bg-surface">
-        LOADING TELEMETRY MATRICES...
+      <div className="w-full py-24 text-center font-body-md text-secondary bg-surface">
+        Loading analytics...
       </div>
     );
   }
@@ -48,176 +48,166 @@ export const DashboardScreen: React.FC = () => {
   return (
     <div className="w-full bg-surface text-on-surface">
       {/* Masthead */}
-      <div className="w-full bg-surface-container-low border-b border-outline-variant py-space-md px-4 sm:px-8 lg:px-12">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-space-sm">
+      <div className="w-full bg-surface-container-low border-b border-outline-variant py-8 px-4 sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-space-xs font-label-stamp text-label-stamp text-secondary uppercase tracking-widest mb-1">
-              <span>ANALYTICS &amp; TELEMETRY</span>
-              <span>·</span>
-              <span className="text-primary font-semibold">SEC-04 OPERATIONS</span>
-            </div>
-            <h1 className="font-headline-lg text-headline-lg text-on-surface m-0 leading-tight">
-              Operational Dispatch Dashboard
+            <h1 className="font-headline-lg text-headline-lg text-on-surface m-0 font-normal">
+              Operations Analytics
             </h1>
-            <p className="font-body-md text-body-md text-on-surface-variant m-0 mt-1">
-              Pre-aggregated operational intelligence across trade queues, specialist loads, and recurring campus hotspots.
+            <p className="font-body-md text-body-md text-secondary m-0 mt-1">
+              Overview of campus maintenance requests, resolution trends, and technician workloads.
             </p>
           </div>
-          <div className="font-label-code text-label-code text-secondary bg-surface px-3 py-1.5 border border-outline-variant">
-            REPORTING WINDOW: <span className="text-primary font-bold">PAST 30 DAYS</span>
-          </div>
+          <span className="font-label-code text-label-code text-secondary bg-surface px-3 py-1.5 border border-outline-variant">
+            Window: <span className="text-on-surface font-semibold">Last 30 Days</span>
+          </span>
         </div>
       </div>
 
-      <div className="w-full px-4 sm:px-8 lg:px-12 py-space-xl flex flex-col gap-space-xl">
-        {/* 01 Metrics Strip */}
-        <div className="flex flex-col gap-space-sm">
-          <div className="flex items-center justify-between pb-space-xs border-b border-outline-variant">
-            <span className="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
-              01 // Campus Operations Pulse
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-8 flex flex-col gap-8">
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-surface-container-lowest p-5 border border-outline-variant">
+            <span className="text-xs text-secondary font-semibold uppercase tracking-wider block">
+              Total Requests
             </span>
-            <span className="font-label-code text-label-code text-secondary">METRIC REGISTER</span>
+            <div className="font-headline-lg text-[32px] text-on-surface font-semibold mt-1">
+              {overview?.totalCreated ?? 0}
+            </div>
+            <span className="text-xs text-secondary mt-1 block">
+              Across all campus facilities
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
-            <div className="bg-surface-container-lowest p-space-md border border-outline-variant">
-              <span className="font-label-caption text-label-caption text-secondary uppercase block">
-                Total Dockets Logged
-              </span>
-              <span className="font-label-code text-[36px] font-bold text-on-surface leading-tight mt-1 block">
-                {overview?.totalCreated ?? 0}
-              </span>
-              <span className="font-label-caption text-label-caption text-secondary mt-1 block">
-                Across all 4 faculties
-              </span>
+          <div className="bg-surface-container-lowest p-5 border border-outline-variant">
+            <span className="text-xs text-secondary font-semibold uppercase tracking-wider block">
+              Resolved Tickets
+            </span>
+            <div className="font-headline-lg text-[32px] text-tertiary font-semibold mt-1">
+              {overview?.totalResolved ?? 0}
             </div>
+            <span className="text-xs text-secondary mt-1 block">
+              Avg resolve: {overview?.avgResolveMinutes ?? 0} mins
+            </span>
+          </div>
 
-            <div className="bg-surface-container-lowest p-space-md border border-outline-variant">
-              <span className="font-label-caption text-label-caption text-secondary uppercase block">
-                Resolved Completed
-              </span>
-              <span className="font-label-code text-[36px] font-bold text-tertiary leading-tight mt-1 block">
-                {overview?.totalResolved ?? 0}
-              </span>
-              <span className="font-label-caption text-label-caption text-secondary mt-1 block">
-                Avg resolve: {overview?.avgResolveMinutes ?? 0}m
-              </span>
+          <div className="bg-surface-container-lowest p-5 border border-outline-variant">
+            <span className="text-xs text-secondary font-semibold uppercase tracking-wider block">
+              SLA Compliance
+            </span>
+            <div className="font-headline-lg text-[32px] text-primary font-semibold mt-1">
+              {overview?.slaComplianceRate ?? 100}%
             </div>
+            <span className="text-xs text-secondary mt-1 block">
+              {overview?.totalBreached ?? 0} tickets breached target
+            </span>
+          </div>
 
-            <div className="bg-surface-container-lowest p-space-md border border-outline-variant">
-              <span className="font-label-caption text-label-caption text-secondary uppercase block">
-                SLA Compliance Rate
-              </span>
-              <span className="font-label-code text-[36px] font-bold text-primary leading-tight mt-1 block">
-                {overview?.slaComplianceRate ?? 100}%
-              </span>
-              <span className="font-label-caption text-label-caption text-secondary mt-1 block">
-                {overview?.totalBreached ?? 0} dockets breached
-              </span>
+          <div className="bg-surface-container-lowest p-5 border border-outline-variant">
+            <span className="text-xs text-secondary font-semibold uppercase tracking-wider block">
+              Active Hotspots
+            </span>
+            <div className="font-headline-lg text-[32px] text-error font-semibold mt-1">
+              {overview?.activeHotspotsCount ?? 0}
             </div>
-
-            <div className="bg-surface-container-lowest p-space-md border border-outline-variant">
-              <span className="font-label-caption text-label-caption text-secondary uppercase block">
-                Recurring Hotspots
-              </span>
-              <span className="font-label-code text-[36px] font-bold text-error leading-tight mt-1 block">
-                {overview?.activeHotspotsCount ?? 0}
-              </span>
-              <span className="font-label-caption text-label-caption text-secondary mt-1 block">
-                Zones with &gt;5 incidents
-              </span>
-            </div>
+            <span className="text-xs text-secondary mt-1 block">
+              Zones with repeat complaints
+            </span>
           </div>
         </div>
 
-        {/* 02 Charts: Daily Ingestion & Throughput */}
-        <div className="flex flex-col gap-space-sm">
-          <div className="flex items-center justify-between pb-space-xs border-b border-outline-variant">
-            <span className="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
-              02 // Daily Ingestion &amp; Resolution Trajectory
-            </span>
-            <span className="font-label-code text-label-code text-secondary">30-DAY TIMELINE</span>
+        {/* Chart: Daily Volume */}
+        <div className="bg-surface-container-lowest p-6 border border-outline-variant flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-outline-variant">
+            <div>
+              <h2 className="font-title-lg text-title-lg text-on-surface m-0 font-medium">
+                Daily Request &amp; Resolution Trends
+              </h2>
+              <p className="text-xs text-secondary m-0 mt-0.5">
+                New tickets filed versus tickets resolved over time
+              </p>
+            </div>
+            <div className="flex items-center gap-4 text-xs font-semibold">
+              <span className="flex items-center gap-1.5 text-on-surface">
+                <span className="w-2.5 h-2.5 bg-primary inline-block"></span>
+                Created
+              </span>
+              <span className="flex items-center gap-1.5 text-on-surface">
+                <span className="w-2.5 h-2.5 bg-tertiary inline-block"></span>
+                Resolved
+              </span>
+              <span className="flex items-center gap-1.5 text-on-surface">
+                <span className="w-2.5 h-2.5 bg-error inline-block"></span>
+                Breached
+              </span>
+            </div>
           </div>
 
-          <div className="bg-surface-container-lowest p-space-lg border border-outline-variant">
-            <div className="h-64 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <XAxis
-                    dataKey="name"
-                    stroke="#8a726a"
-                    tick={{ fontFamily: 'JetBrains Mono', fontSize: 11 }}
-                  />
-                  <YAxis
-                    stroke="#8a726a"
-                    tick={{ fontFamily: 'JetBrains Mono', fontSize: 11 }}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#fbf9f5',
-                      border: '1px solid #dec0b7',
-                      borderRadius: 0,
-                      fontFamily: 'JetBrains Mono',
-                      fontSize: '12px',
-                    }}
-                  />
-                  <Bar dataKey="created" fill="#9f3c16" name="Created" />
-                  <Bar dataKey="resolved" fill="#2a674c" name="Resolved" />
-                  <Bar dataKey="breached" fill="#ba1a1a" name="Breached" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="flex gap-space-lg justify-center mt-space-md font-label-code text-label-code">
-              <span className="flex items-center gap-1.5 text-on-surface">
-                <span className="w-3 h-3 bg-primary inline-block"></span>
-                CREATED
-              </span>
-              <span className="flex items-center gap-1.5 text-on-surface">
-                <span className="w-3 h-3 bg-tertiary inline-block"></span>
-                RESOLVED
-              </span>
-              <span className="flex items-center gap-1.5 text-on-surface">
-                <span className="w-3 h-3 bg-error inline-block"></span>
-                BREACHED
-              </span>
-            </div>
+          <div className="h-64 w-full pt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <XAxis
+                  dataKey="name"
+                  stroke="#8a726a"
+                  tick={{ fontFamily: 'JetBrains Mono', fontSize: 11 }}
+                />
+                <YAxis
+                  stroke="#8a726a"
+                  tick={{ fontFamily: 'JetBrains Mono', fontSize: 11 }}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: '#fbf9f5',
+                    border: '1px solid #dec0b7',
+                    borderRadius: 0,
+                    fontFamily: 'JetBrains Mono',
+                    fontSize: '12px',
+                  }}
+                />
+                <Bar dataKey="created" fill="#9f3c16" name="Created" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="resolved" fill="#2a674c" name="Resolved" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="breached" fill="#ba1a1a" name="Breached" radius={[2, 2, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
-        {/* 03 & 04: Workload & Hotspots Split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
+        {/* Workload & Hotspots */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Workload */}
-          <div className="lg:col-span-7 flex flex-col gap-space-sm">
-            <div className="flex items-center justify-between pb-space-xs border-b border-outline-variant">
-              <span className="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
-                03 // Specialist Workload Manifest
-              </span>
-              <span className="font-label-code text-label-code text-secondary">ACTIVE TRADE POOL</span>
+          <div className="lg:col-span-7 bg-surface-container-lowest border border-outline-variant flex flex-col">
+            <div className="p-4 border-b border-outline-variant">
+              <h2 className="font-title-lg text-title-lg text-on-surface m-0 font-medium">
+                Technician Workload
+              </h2>
+              <p className="text-xs text-secondary m-0 mt-0.5">
+                Current ticket distribution across maintenance specialists
+              </p>
             </div>
 
-            <div className="bg-surface-container-lowest border border-outline-variant overflow-x-auto">
+            <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse font-body-sm text-body-sm">
                 <thead>
-                  <tr className="bg-surface-container-low border-b border-outline-variant font-label-code text-label-code text-secondary">
-                    <th className="p-3">SPECIALIST</th>
-                    <th className="p-3 text-center">ASSIGNED</th>
-                    <th className="p-3 text-center">RESOLVED</th>
-                    <th className="p-3 text-right">AVG TIME</th>
+                  <tr className="bg-surface-container-low border-b border-outline-variant text-xs text-secondary font-semibold uppercase">
+                    <th className="p-3">Specialist</th>
+                    <th className="p-3 text-center">Assigned</th>
+                    <th className="p-3 text-center">Resolved</th>
+                    <th className="p-3 text-right">Avg Time</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-outline-variant">
                   {workload.map((w, idx) => (
                     <tr key={w.technicianId || idx} className="hover:bg-surface-container-low">
-                      <td className="p-3 font-title-sm text-title-sm text-on-surface">
+                      <td className="p-3 text-on-surface font-medium">
                         {w.technicianName || `Technician ${idx + 1}`}
                       </td>
-                      <td className="p-3 text-center font-label-code text-label-code font-bold text-primary">
+                      <td className="p-3 text-center font-label-code text-primary font-bold">
                         {w.assignedCount}
                       </td>
-                      <td className="p-3 text-center font-label-code text-label-code text-tertiary font-bold">
+                      <td className="p-3 text-center font-label-code text-tertiary font-bold">
                         {w.resolvedCount}
                       </td>
-                      <td className="p-3 text-right font-label-code text-label-code text-secondary">
+                      <td className="p-3 text-right font-label-code text-secondary">
                         {w.avgResolveMinutes}m
                       </td>
                     </tr>
@@ -228,35 +218,37 @@ export const DashboardScreen: React.FC = () => {
           </div>
 
           {/* Hotspots */}
-          <div className="lg:col-span-5 flex flex-col gap-space-sm">
-            <div className="flex items-center justify-between pb-space-xs border-b border-outline-variant">
-              <span className="font-label-stamp text-label-stamp text-on-surface font-semibold uppercase tracking-wider">
-                04 // Critical Campus Hotspots
-              </span>
-              <span className="font-label-code text-label-code text-secondary">PRIORITY AUDIT</span>
+          <div className="lg:col-span-5 bg-surface-container-lowest border border-outline-variant flex flex-col">
+            <div className="p-4 border-b border-outline-variant">
+              <h2 className="font-title-lg text-title-lg text-on-surface m-0 font-medium">
+                Recurring Hotspots
+              </h2>
+              <p className="text-xs text-secondary m-0 mt-0.5">
+                Locations with highest reported incident frequency
+              </p>
             </div>
 
-            <div className="bg-surface-container-lowest border border-outline-variant p-space-md flex flex-col gap-space-sm">
+            <div className="p-4 flex flex-col gap-3">
               {hotspots.length === 0 ? (
-                <div className="font-label-code text-label-code text-secondary py-8 text-center">
-                  No active hotspots flagged.
+                <div className="text-secondary py-8 text-center text-xs">
+                  No active hotspots detected.
                 </div>
               ) : (
                 hotspots.map((h, idx) => (
                   <div
                     key={idx}
-                    className="p-space-sm bg-surface-container-low border border-outline-variant flex items-center justify-between"
+                    className="p-3 bg-surface-container-low border border-outline-variant flex items-center justify-between"
                   >
                     <div>
-                      <div className="font-title-sm text-title-sm text-on-surface">
-                        {h.locationBlock} — Room {h.locationRoom}
+                      <div className="font-title-sm text-title-sm text-on-surface font-medium">
+                        Block {h.locationBlock} — Room {h.locationRoom}
                       </div>
-                      <div className="font-label-caption text-label-caption text-secondary">
-                        Zone Category: {h.categoryId ? `Trade #${h.categoryId.substring(0, 6)}` : 'HVAC / Electrical'}
+                      <div className="text-xs text-secondary mt-0.5">
+                        Category: {h.categoryId ? `Trade #${h.categoryId.substring(0, 6)}` : 'General Facility'}
                       </div>
                     </div>
-                    <span className="font-label-stamp text-label-stamp px-2 py-0.5 bg-error text-on-error font-bold">
-                      {h.count30d} INCIDENTS
+                    <span className="font-label-code text-xs px-2 py-0.5 bg-surface-container-highest text-error font-bold border border-outline-variant">
+                      {h.count30d} reports
                     </span>
                   </div>
                 ))

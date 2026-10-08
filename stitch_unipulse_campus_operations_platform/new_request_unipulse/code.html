@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#1d1b19","surface-container-lowest":"#ffffff","on-surface":"#1b1c1a","surface-container":"#efeeea","surface-container-highest":"#e4e2de","secondary-fixed":"#e7e1de","primary-fixed":"#ffdbcf","surface-container-low":"#f5f3ef","tertiary-container":"#448064","secondary":"#615e5b","error":"#ba1a1a","on-background":"#1b1c1a","inverse-surface":"#30312e","on-surface-variant":"#57423b","primary-fixed-dim":"#ffb59c","secondary-container":"#e4dfdb","surface-container-high":"#eae8e4","tertiary":"#2a674c","on-primary-fixed-variant":"#822801","secondary-fixed-dim":"#cbc5c2","on-tertiary-fixed-variant":"#0e5138","on-primary":"#ffffff","on-error-container":"#93000a","primary-container":"#bf542c","on-tertiary-container":"#f5fff7","tertiary-fixed":"#b1f0ce","surface-variant":"#e4e2de","primary":"#9f3c16","on-tertiary-fixed":"#002114","surface":"#fbf9f5","on-primary-container":"#fffbff","surface-bright":"#fbf9f5","on-secondary-container":"#65625f","inverse-primary":"#ffb59c","error-container":"#ffdad6","background":"#fbf9f5","on-tertiary":"#ffffff","on-primary-fixed":"#390c00","on-secondary-fixed-variant":"#494644","tertiary-fixed-dim":"#95d4b3","outline":"#8a726a","surface-tint":"#a23e18","outline-variant":"#dec0b7","surface-dim":"#dbdad6","inverse-on-surface":"#f2f0ed","on-secondary":"#ffffff","on-error":"#ffffff"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-md":"1rem","margin-desktop":"3rem","margin":"1rem","gutter-desktop":"1.5rem","space-lg":"1.5rem","gutter":"1rem","margin-tablet":"2rem","space-xl":"2.5rem","space-sm":"0.5rem","space-xs":"0.25rem"},fontFamily:{"headline-lg-mobile":["Newsreader"],"label-stamp":["JetBrains Mono"],"headline-sm":["Newsreader"],"title-sm":["IBM Plex Sans"],"body-md":["IBM Plex Sans"],"body-lg":["IBM Plex Sans"],"label-caption":["IBM Plex Sans"],"body-sm":["IBM Plex Sans"],"headline-lg":["Newsreader"],"headline-md":["Newsreader"],"headline-xl-mobile":["Newsreader"],"headline-xl":["Newsreader"],"label-code":["JetBrains Mono"],"title-md":["IBM Plex Sans"]},fontSize:{"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"-0.01em","fontWeight":"400"}],"label-stamp":["11px",{"lineHeight":"14px","letterSpacing":"0.08em","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","fontWeight":"500"}],"title-sm":["14px",{"lineHeight":"20px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"label-caption":["11px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"500"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"400"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"500"}],"headline-xl-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"400"}],"headline-xl":["44px",{"lineHeight":"52px","letterSpacing":"-0.02em","fontWeight":"400"}],"label-code":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"500"}],"title-md":["16px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen"><header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-outline-variant"><div class="h-16 w-full px-margin-desktop flex items-center justify-between"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm pr-space-lg border-r border-outline-variant" data-path="my-requests" href="#"><span class="w-2 h-2 rounded-full bg-primary inline-block"></span><div class="flex flex-col"><span class="font-label-stamp text-label-stamp uppercase tracking-widest text-on-surface font-semibold">UNIPULSE</span><span class="font-label-caption text-label-caption text-on-surface-variant text-[10px] uppercase tracking-wider leading-none">Campus Facilities &amp; Ops</span></div></a><nav class="flex items-center h-16" data-active-classes="bg-surface-container-highest text-on-surface font-semibold border-b-2 border-primary"><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="my-requests" href="#">My Requests</a><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="new-request" href="#">New Request</a><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="department-queue" href="#">Department Queue</a><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="analytics" href="#">Analytics</a><a class="h-16 px-space-md flex items-center font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="admin-console" href="#">Admin Console</a><a class="h-16 px-space-md flex items-center gap-space-xs font-title-sm text-title-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors border-b-2 border-transparent" data-path="notifications" href="#"><span>Notifications</span><span class="font-label-stamp text-label-stamp bg-surface-container-high text-primary px-1.5 py-0.5 border border-outline-variant leading-none">[3]</span></a></nav></div><div class="flex items-center gap-space-md pl-space-lg border-l border-outline-variant"><div class="flex flex-col text-right"><div class="flex items-center justify-end gap-space-xs"><span class="font-title-sm text-title-sm text-on-surface">Aarav Sharma</span><span class="font-label-stamp text-label-stamp border border-outline px-1 text-on-surface-variant leading-none">[REQUESTER]</span></div><span class="font-label-caption text-label-caption text-secondary">School of Engineering · Term II</span></div><a class="flex items-center justify-center p-1 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="login" href="#" title="Switch Account or Exit"><span class="material-symbols-outlined text-[18px]">swap_horiz</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface"><div class="flex flex-col w-full">
+<!-- Top Registration Bar / Folio Sub-Header -->
+<div class="w-full bg-surface-container-low px-margin-desktop py-space-md">
+<div class="max-w-[1400px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<a class="inline-flex items-center gap-1 font-label-stamp text-label-stamp uppercase tracking-widest text-secondary hover:text-on-surface transition-colors" data-path="my-requests" href="#">
+<span class="material-symbols-outlined text-[14px]">arrow_back</span>
+<span>Return to Manifest Ledger</span>
+</a>
+<span class="text-outline-variant font-label-code text-label-code">/</span>
+<span class="font-label-stamp text-label-stamp uppercase tracking-wider text-primary font-semibold">[FORM 804-A: DISPATCH DOCKET]</span>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-code text-label-code">
+<span>SESSION: AUTH-FAC-9912</span>
+<span class="text-outline-variant">•</span>
+<span class="text-tertiary font-semibold">[● DISPATCH CHANNEL READY]</span>
+</div>
+</div>
+</div>
+<!-- Page Introduction Banner -->
+<div class="w-full px-margin-desktop pt-space-xl pb-space-lg bg-surface">
+<div class="max-w-[1400px] mx-auto">
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div>
+<div class="inline-flex items-center gap-space-xs mb-space-xs">
+<span class="font-label-stamp text-label-stamp uppercase tracking-widest text-primary px-1.5 py-0.5 bg-surface-container-high leading-none">INCIDENT REGISTRY</span>
+<span class="font-label-caption text-label-caption text-secondary">CAMPUS INFRASTRUCTURE SYSTEM</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">File an Incident Report</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-1 max-w-2xl">
+            Route physical facility disruptions, civil damages, or instrumentation faults directly to central campus dispatch.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm font-label-code text-label-code bg-surface-container px-space-md py-space-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+<span class="text-on-surface">DIRECT DISPATCH TO ON-CALL NOC TEAM</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Split Architecture Grid -->
+<div class="w-full px-margin-desktop pb-space-xl bg-surface">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- Primary Filing Manifest Column (~65%) -->
+<form class="lg:col-span-8 flex flex-col gap-space-xl" id="incidentDocketForm" onsubmit="event.preventDefault();">
+<!-- SECTION 1: Service Classification -->
+<section class="bg-surface-container-lowest p-space-lg flex flex-col gap-space-md">
+<div class="flex items-baseline justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-code text-label-code font-semibold px-2 py-0.5 bg-surface-container-high text-on-surface">SEC 01</span>
+<h2 class="font-title-md text-title-md text-on-surface uppercase tracking-wide">Category &amp; Trade Classification</h2>
+</div>
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">[SELECT APPLICABLE TRADE]</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant -mt-1">
+            Specify the trade domain responsible for triage and crew assignment.
+          </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-space-sm pt-space-xs" id="categoryGroup">
+<!-- Electrical & HVAC (Selected) -->
+<label class="cursor-pointer group">
+<input checked="" class="peer sr-only" name="trade_category" type="radio" value="HVAC"/>
+<div class="p-space-md bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-primary flex flex-col justify-between h-28 group-hover:bg-surface-container">
+<div class="flex items-start justify-between">
+<span class="material-symbols-outlined text-[24px] text-primary">ac_unit</span>
+<span class="font-label-code text-[10px] text-secondary peer-checked:text-primary font-semibold">[TRD-01]</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Electrical &amp; HVAC</div>
+<span class="font-label-caption text-[11px] text-secondary">Cooling, chillers, power, circuits</span>
+</div>
+</div>
+</label>
+<!-- IT / Network -->
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="trade_category" type="radio" value="IT_NET"/>
+<div class="p-space-md bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-primary flex flex-col justify-between h-28 group-hover:bg-surface-container">
+<div class="flex items-start justify-between">
+<span class="material-symbols-outlined text-[24px] text-secondary">lan</span>
+<span class="font-label-code text-[10px] text-secondary">[TRD-02]</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">IT &amp; Connectivity</div>
+<span class="font-label-caption text-[11px] text-secondary">Ethernet, AP ports, racks</span>
+</div>
+</div>
+</label>
+<!-- Civil & Plumbing -->
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="trade_category" type="radio" value="CIVIL"/>
+<div class="p-space-md bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-primary flex flex-col justify-between h-28 group-hover:bg-surface-container">
+<div class="flex items-start justify-between">
+<span class="material-symbols-outlined text-[24px] text-secondary">plumbing</span>
+<span class="font-label-code text-[10px] text-secondary">[TRD-03]</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Civil &amp; Plumbing</div>
+<span class="font-label-caption text-[11px] text-secondary">Leaks, masonry, sanitary</span>
+</div>
+</div>
+</label>
+<!-- AV & Instrumentation -->
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="trade_category" type="radio" value="AV_INST"/>
+<div class="p-space-md bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-primary flex flex-col justify-between h-28 group-hover:bg-surface-container">
+<div class="flex items-start justify-between">
+<span class="material-symbols-outlined text-[24px] text-secondary">podium</span>
+<span class="font-label-code text-[10px] text-secondary">[TRD-04]</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">AV &amp; Stage Gear</div>
+<span class="font-label-caption text-[11px] text-secondary">Projectors, audio desks, mics</span>
+</div>
+</div>
+</label>
+<!-- Furniture & Fixtures -->
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="trade_category" type="radio" value="FIXTURES"/>
+<div class="p-space-md bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-primary flex flex-col justify-between h-28 group-hover:bg-surface-container">
+<div class="flex items-start justify-between">
+<span class="material-symbols-outlined text-[24px] text-secondary">chair</span>
+<span class="font-label-code text-[10px] text-secondary">[TRD-05]</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Furniture &amp; Joinery</div>
+<span class="font-label-caption text-[11px] text-secondary">Desks, locks, glazing, partitions</span>
+</div>
+</div>
+</label>
+<!-- Access & Security -->
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="trade_category" type="radio" value="ACCESS"/>
+<div class="p-space-md bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-primary flex flex-col justify-between h-28 group-hover:bg-surface-container">
+<div class="flex items-start justify-between">
+<span class="material-symbols-outlined text-[24px] text-secondary">key</span>
+<span class="font-label-code text-[10px] text-secondary">[TRD-06]</span>
+</div>
+<div>
+<div class="font-title-sm text-title-sm text-on-surface">Security &amp; Keys</div>
+<span class="font-label-caption text-[11px] text-secondary">Card readers, latches, turnstiles</span>
+</div>
+</div>
+</label>
+</div>
+</section>
+<!-- SECTION 2: Precise Spatial Matrix -->
+<section class="bg-surface-container-lowest p-space-lg flex flex-col gap-space-md">
+<div class="flex items-baseline justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-code text-label-code font-semibold px-2 py-0.5 bg-surface-container-high text-on-surface">SEC 02</span>
+<h2 class="font-title-md text-title-md text-on-surface uppercase tracking-wide">Campus Location Matrix</h2>
+</div>
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">[GEOGRAPHIC INDEX]</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md pt-space-xs">
+<!-- Building Zone Selection -->
+<div class="md:col-span-6 flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface" for="campusBlock">
+                Campus Complex / Block <span class="text-primary">*</span>
+</label>
+<div class="relative bg-surface-container-low">
+<select class="w-full bg-transparent px-space-md py-space-sm text-body-md font-body-md text-on-surface appearance-none focus:outline-none focus:bg-surface transition-colors cursor-pointer pr-10" id="campusBlock">
+<option selected="" value="BLK_C">Block C — Computational Science &amp; Labs</option>
+<option value="ACAD_MAIN">Academic Complex — Main Hall</option>
+<option value="HOSTEL_H4">Hostel Quadrangle H-4 (Residential)</option>
+<option value="LIBRARY_CENTRAL">Central Library &amp; Archives</option>
+<option value="WORKSHOP_WEST">West Mechanical Workshop Shed</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-[20px]">expand_more</span>
+</div>
+<span class="font-label-caption text-label-caption text-secondary">Primary structural zone and utility loop</span>
+</div>
+<!-- Floor Selector Segmented Control -->
+<div class="md:col-span-6 flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface">
+                Floor / Elevation Level <span class="text-primary">*</span>
+</label>
+<div class="grid grid-cols-5 gap-1 bg-surface-container-low p-1" id="floorSelector">
+<button class="py-2 text-center font-label-code text-label-code text-secondary hover:bg-surface-container-high transition-colors" data-floor="B1" type="button">B-1</button>
+<button class="py-2 text-center font-label-code text-label-code text-secondary hover:bg-surface-container-high transition-colors" data-floor="G" type="button">00/G</button>
+<button class="py-2 text-center font-label-code text-label-code text-secondary hover:bg-surface-container-high transition-colors" data-floor="L1" type="button">L-01</button>
+<button class="py-2 text-center font-label-code text-label-code bg-surface font-semibold text-primary" data-floor="L2" type="button">L-02</button>
+<button class="py-2 text-center font-label-code text-label-code text-secondary hover:bg-surface-container-high transition-colors" data-floor="L3" type="button">L-03</button>
+</div>
+<span class="font-label-caption text-label-caption text-secondary">Vertical routing conduit identification</span>
+</div>
+<!-- Room / Workspace Specific Input -->
+<div class="md:col-span-8 flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface" for="roomInput">
+                Room / Area Identifier <span class="text-primary">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low px-space-md py-space-sm font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface transition-colors" id="roomInput" placeholder="e.g. Room 214, West Wing or Lab 03" type="text" value="Room 214 — West Wing Robotics Bay"/>
+</div>
+<span class="font-label-caption text-label-caption text-secondary">Physical door signplate, wing corridor, or bench station</span>
+</div>
+<!-- Nearest Landmark / Marker -->
+<div class="md:col-span-4 flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface" for="landmarkInput">
+                Proximity Landmark
+              </label>
+<input class="w-full bg-surface-container-low px-space-md py-space-sm font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface transition-colors" id="landmarkInput" placeholder="e.g. Beside Freight Elevator" type="text" value="Opposite Fire Riser #4"/>
+<span class="font-label-caption text-label-caption text-secondary">Aids crew transit speed</span>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Incident Narrative & Urgency Level -->
+<section class="bg-surface-container-lowest p-space-lg flex flex-col gap-space-md">
+<div class="flex items-baseline justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-code text-label-code font-semibold px-2 py-0.5 bg-surface-container-high text-on-surface">SEC 03</span>
+<h2 class="font-title-md text-title-md text-on-surface uppercase tracking-wide">Incident Narrative &amp; Severity</h2>
+</div>
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">[TECHNICAL SPECIFICATION]</span>
+</div>
+<!-- Priority Selector Pill Matrix -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface">
+              Severity Classification &amp; Dispatch Urgency <span class="text-primary">*</span>
+</label>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm" id="priorityGroup">
+<!-- P1 Critical -->
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="severity_level" type="radio" value="P1"/>
+<div class="p-space-sm bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-error flex flex-col gap-1 group-hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<span class="font-label-stamp text-label-stamp bg-error-container text-on-error-container px-1 py-0.5 leading-none font-bold">[P1]</span>
+<span class="material-symbols-outlined text-error text-[16px]">emergency</span>
+</div>
+<div class="font-title-sm text-title-sm text-on-surface">Critical Halt</div>
+<p class="font-label-caption text-[11px] text-secondary leading-snug">Severe hazard or full facility disruption.</p>
+</div>
+</label>
+<!-- P2 High (Active) -->
+<label class="cursor-pointer group">
+<input checked="" class="peer sr-only" name="severity_level" type="radio" value="P2"/>
+<div class="p-space-sm bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-primary flex flex-col gap-1 group-hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<span class="font-label-stamp text-label-stamp bg-primary-fixed text-on-primary-fixed px-1 py-0.5 leading-none font-bold">[P2]</span>
+<span class="material-symbols-outlined text-primary text-[16px]">priority_high</span>
+</div>
+<div class="font-title-sm text-title-sm text-on-surface">High Impact</div>
+<p class="font-label-caption text-[11px] text-secondary leading-snug">Direct academic or resident mission block.</p>
+</div>
+</label>
+<!-- P3 Medium -->
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="severity_level" type="radio" value="P3"/>
+<div class="p-space-sm bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-secondary flex flex-col gap-1 group-hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<span class="font-label-stamp text-label-stamp bg-secondary-fixed text-on-secondary-fixed px-1 py-0.5 leading-none font-bold">[P3]</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">timelapse</span>
+</div>
+<div class="font-title-sm text-title-sm text-on-surface">Medium Routine</div>
+<p class="font-label-caption text-[11px] text-secondary leading-snug">Impaired operation with working workaround.</p>
+</div>
+</label>
+<!-- P4 Low -->
+<label class="cursor-pointer group">
+<input class="peer sr-only" name="severity_level" type="radio" value="P4"/>
+<div class="p-space-sm bg-surface-container-low transition-all peer-checked:bg-surface peer-checked:outline peer-checked:outline-2 peer-checked:outline-tertiary flex flex-col gap-1 group-hover:bg-surface-container">
+<div class="flex items-center justify-between">
+<span class="font-label-stamp text-label-stamp bg-tertiary-fixed text-on-tertiary-fixed px-1 py-0.5 leading-none font-bold">[P4]</span>
+<span class="material-symbols-outlined text-tertiary text-[16px]">low_priority</span>
+</div>
+<div class="font-title-sm text-title-sm text-on-surface">Low Advisory</div>
+<p class="font-label-caption text-[11px] text-secondary leading-snug">Minor cosmetic or non-blocking upkeep.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Request Title -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-title-sm text-title-sm text-on-surface" for="requestTitle">
+              Incident Summary Headline <span class="text-primary">*</span>
+</label>
+<input class="w-full bg-surface-container-low px-space-md py-space-sm font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface transition-colors" id="requestTitle" type="text" value="AC unit blowing warm air — ambient temperature 31.4°C in Robotics Lab"/>
+<span class="font-label-caption text-label-caption text-secondary">A concise 1-sentence descriptor for the master dispatch board</span>
+</div>
+<!-- Description Textarea with Live Counter -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-baseline justify-between">
+<label class="font-title-sm text-title-sm text-on-surface" for="requestDescription">
+                Detailed Diagnostic &amp; Environmental Observations <span class="text-primary">*</span>
+</label>
+<span class="font-label-code text-label-code text-secondary font-mono" id="charCount">148 / 600 WORDS</span>
+</div>
+<textarea class="w-full bg-surface-container-low p-space-md font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface transition-colors resize-y leading-relaxed" id="requestDescription" rows="5">Primary wall split-cassette #02 in Robotics Lab 214 is venting unconditioned room air. System controller displays error code [ERR-E4: COMPRESSOR THERMAL CUTOUT]. Equipment rack cooling cannot keep up; server temperatures currently touching 78°C. Immediate chiller technician required before afternoon scheduled practicals.</textarea>
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-caption text-label-caption">Include error codes, sound patterns, liquid seepage, or circuit breaker numbers.</span>
+<span class="font-label-stamp text-[10px] uppercase text-tertiary">[SYSTEM COMPLIANT]</span>
+</div>
+</div>
+</section>
+<!-- SECTION 4: Site Evidence & Attachments -->
+<section class="bg-surface-container-lowest p-space-lg flex flex-col gap-space-md">
+<div class="flex items-baseline justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-code text-label-code font-semibold px-2 py-0.5 bg-surface-container-high text-on-surface">SEC 04</span>
+<h2 class="font-title-md text-title-md text-on-surface uppercase tracking-wide">Photographic Evidence &amp; Telemetry Logs</h2>
+</div>
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">[MAX 3 ATTACHMENTS]</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant -mt-1">
+            Visual inspection photos drastically reduce field diagnosis turnaround times.
+          </p>
+<!-- Attachment Shelf -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md pt-space-xs">
+<!-- Uploaded Evidence 01 -->
+<div class="relative bg-surface-container p-space-sm flex flex-col justify-between h-44 group">
+<div class="relative h-24 w-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up architectural detail of an HVAC split-duct control console showing digital temperature readout error warning lights in a university robotics engineering laboratory with terracotta and warm grey interior tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK2GXa3inIQOiL6k3F3xSyi66tQLStDlkn11CoYy5jql7qnZeDV9rXx6Ni13AGkqKoUxEJEXVBriLMCG51ywmuKiAPeN6iHNILyhQusBMLp2s_E15IV2Xxp_o5c6bkR8ZFBeJJcWGB9ZLG6egVBJ_kVbElDI0iwyD_QdnYMMmxxVQ8fdo15lyWnxfHR3BWyGdT8_1I06c2ugBVRmJGgdsBay9zUNwTcvM_HkBVNmWK"/>
+<div class="absolute top-1 left-1 font-label-stamp text-[9px] uppercase px-1 bg-on-surface text-surface leading-tight font-mono">
+                  IMG-01
+                </div>
+</div>
+<div class="flex flex-col pt-1">
+<div class="flex items-center justify-between">
+<span class="font-title-sm text-body-sm text-on-surface truncate font-mono">compressor_overheat.jpg</span>
+<button class="text-error hover:text-on-surface transition-colors p-0.5" title="Remove attachment" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<div class="flex items-center justify-between text-secondary font-label-code text-[10px]">
+<span>1.8 MB · JPEG</span>
+<span class="text-tertiary">[SCANNED OK]</span>
+</div>
+</div>
+</div>
+<!-- Upload Slot 02 (Dropzone) -->
+<div class="h-44 bg-surface-container-low p-space-md flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-colors group">
+<span class="material-symbols-outlined text-[28px] text-secondary group-hover:text-primary transition-colors mb-1">add_a_photo</span>
+<span class="font-title-sm text-title-sm text-on-surface">Add Telemetry / Photo</span>
+<span class="font-label-caption text-label-caption text-secondary mt-0.5">PNG, JPG or PDF up to 12MB</span>
+<span class="font-label-code text-[10px] text-primary mt-2">[SLOT 2 AVAILABLE]</span>
+</div>
+<!-- Upload Slot 03 (Dropzone) -->
+<div class="h-44 bg-surface-container-low p-space-md flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface-container transition-colors group">
+<span class="material-symbols-outlined text-[28px] text-secondary group-hover:text-primary transition-colors mb-1">upload_file</span>
+<span class="font-title-sm text-title-sm text-on-surface">Attach Schematic / Log</span>
+<span class="font-label-caption text-label-caption text-secondary mt-0.5">Crash logs, CSV, or thermal read</span>
+<span class="font-label-code text-[10px] text-secondary mt-2">[SLOT 3 AVAILABLE]</span>
+</div>
+</div>
+</section>
+<!-- FORM ACTION BAR -->
+<div class="bg-surface-container-low p-space-md flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md w-full sm:w-auto">
+<button class="w-full sm:w-auto px-space-xl py-3 bg-primary text-on-primary font-title-sm text-title-sm uppercase tracking-wider font-semibold hover:bg-primary-container transition-colors inline-flex items-center justify-center gap-space-sm" type="submit">
+<span>Transmit Request Docket</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+<button class="px-space-md py-3 bg-surface text-on-surface hover:bg-surface-container-high font-title-sm text-title-sm transition-colors whitespace-nowrap" type="button">
+              Save Working Draft
+            </button>
+</div>
+<div class="flex items-center gap-space-md w-full sm:w-auto justify-end">
+<button class="text-secondary hover:text-on-surface font-title-sm text-body-sm transition-colors" type="reset">
+              Discard Docket
+            </button>
+<span class="font-label-code text-label-code text-outline hidden md:inline">REV: 2026.04</span>
+</div>
+</div>
+</form>
+<!-- Dynamic Context & SLA Dispatch Inspector (~35%) -->
+<aside class="lg:col-span-4 flex flex-col gap-space-lg lg:sticky lg:top-20">
+<!-- Live SLA Calculation Ticket -->
+<div class="bg-surface-container-lowest p-space-lg flex flex-col gap-space-md shadow-sm">
+<!-- Card Header / Metaphor Spine -->
+<div class="flex items-center justify-between pb-space-sm bg-surface-container px-space-md py-space-xs -mx-space-lg -mt-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 bg-primary"></span>
+<span class="font-label-stamp text-label-stamp uppercase tracking-widest text-on-surface font-semibold">SLA MATRIX EVALUATOR</span>
+</div>
+<span class="font-label-code text-label-code text-primary font-semibold">TICKET EST. #UP-9021</span>
+</div>
+<!-- Dynamic Parameter Summary -->
+<div>
+<div class="font-label-caption text-label-caption text-secondary uppercase tracking-wider">PROJECTED ROUTING ROUTE</div>
+<div class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Facilities Maintenance</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Sector 02 Chilled Water &amp; Air Distribution</div>
+</div>
+<!-- SLA Metric Dials -->
+<div class="grid grid-cols-2 gap-space-sm py-space-xs">
+<div class="bg-surface-container-low p-space-md flex flex-col">
+<span class="font-label-caption text-[11px] text-secondary uppercase">Expected First Acknowledge</span>
+<span class="font-headline-md text-headline-md text-on-surface mt-1 font-sans font-semibold">45 min</span>
+<span class="font-label-code text-[10px] text-tertiary mt-1 font-semibold">[● NOC ON DUTY]</span>
+</div>
+<div class="bg-surface-container-low p-space-md flex flex-col">
+<span class="font-label-caption text-[11px] text-secondary uppercase">Resolution Ceiling Target</span>
+<span class="font-headline-md text-headline-md text-primary mt-1 font-sans font-semibold">4.0 hrs</span>
+<span class="font-label-code text-[10px] text-primary mt-1 font-semibold">[P2 CONTRACT SLA]</span>
+</div>
+</div>
+<!-- SLA Urgency Tick Bar Visual -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-code text-[11px] text-secondary">
+<span>SLA ESCALATION THRESHOLD</span>
+<span class="font-semibold text-on-surface">120 MINS BREACH WARNING</span>
+</div>
+<div class="w-full bg-surface-container h-2 flex gap-0.5 overflow-hidden">
+<div class="h-full bg-tertiary flex-1"></div>
+<div class="h-full bg-tertiary flex-1"></div>
+<div class="h-full bg-tertiary flex-1"></div>
+<div class="h-full bg-primary flex-1"></div>
+<div class="h-full bg-primary flex-1"></div>
+<div class="h-full bg-error-container flex-1"></div>
+</div>
+<div class="flex items-center justify-between text-[10px] font-label-code text-secondary pt-0.5">
+<span>INITIAL TRIAGE</span>
+<span>SITE DEPLOY</span>
+<span>AUTO-ESCALATE</span>
+</div>
+</div>
+<!-- Personnel & Escalation Protocol Detail -->
+<div class="flex flex-col gap-space-sm pt-space-xs text-body-sm">
+<div class="flex items-start justify-between py-1 bg-surface-container-low px-space-sm">
+<span class="font-label-code text-label-code text-secondary">SUPERVISOR ON-CALL</span>
+<span class="font-title-sm text-title-sm text-on-surface text-right">Priya V. (NOC &amp; Central Plant)</span>
+</div>
+<div class="flex items-start justify-between py-1 bg-surface-container-low px-space-sm">
+<span class="font-label-code text-label-code text-secondary">DISPATCH ZONE</span>
+<span class="font-body-sm text-body-sm text-on-surface text-right">Cluster C · North Sub-station</span>
+</div>
+<div class="p-space-sm bg-surface-container flex items-start gap-space-xs text-on-surface-variant font-label-caption text-label-caption leading-relaxed">
+<span class="material-symbols-outlined text-[16px] text-primary flex-shrink-0 mt-0.5">info</span>
+<span>If unacknowledged after 120 minutes, ticket automatically promotes to Level 3 Campus Dean of Operations with SMS dispatch.</span>
+</div>
+</div>
+</div>
+<!-- Protocol & Rapid Checklist Box -->
+<div class="bg-surface-container-low p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-label-stamp text-label-stamp uppercase tracking-widest text-on-surface font-semibold">FILING PROTOCOL CHECKLIST</span>
+<span class="font-label-code text-label-code text-secondary">[SEC-FAC]</span>
+</div>
+<ul class="flex flex-col gap-space-sm">
+<li class="flex items-start gap-space-sm">
+<span class="font-label-code text-label-code text-primary font-bold">01.</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<strong>Precise Coordinates:</strong> Ensure room identification matches the official CAD door code plate to prevent crew delay.
+              </p>
+</li>
+<li class="flex items-start gap-space-sm">
+<span class="font-label-code text-label-code text-primary font-bold">02.</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<strong>Diagnostic Evidence:</strong> Capture error displays or breaker switch configurations directly to equip engineers beforehand.
+              </p>
+</li>
+<li class="flex items-start gap-space-sm">
+<span class="font-label-code text-label-code text-error font-bold">03.</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<strong>Life Safety Urgency:</strong> For active water mains burst, gas odor, or arcing circuits, bypass web forms and phone hotline directly.
+              </p>
+</li>
+</ul>
+<!-- Emergency Direct Patch Strip -->
+<div class="p-space-md bg-surface flex items-center justify-between">
+<div>
+<div class="font-label-stamp text-[10px] uppercase text-error font-bold">CAMPUS OPS DISPATCH HOTLINE</div>
+<div class="font-headline-sm text-headline-sm text-on-surface tracking-tight font-mono">EXT 4140 · 24/7</div>
+</div>
+<a class="p-2 bg-error-container text-on-error-container hover:bg-error hover:text-on-error transition-colors flex items-center justify-center" href="tel:4140">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</a>
+</div>
+</div>
+<!-- Micro Historical System Statistics -->
+<div class="p-space-md bg-surface-container-lowest flex items-center justify-between font-label-code text-[11px] text-secondary">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[16px]">task_alt</span>
+<span>AVG RESOLUTION IN BLK-C: <strong>2.8h</strong></span>
+</div>
+<span class="text-tertiary font-semibold">[98.2% ON-TIME]</span>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<script>
+  // Interactive micro-logic for Floor selector tabs
+  const floorButtons = document.querySelectorAll('#floorSelector button');
+  floorButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      floorButtons.forEach(b => {
+        b.classList.remove('bg-surface', 'font-semibold', 'text-primary');
+        b.classList.add('text-secondary');
+      });
+      btn.classList.add('bg-surface', 'font-semibold', 'text-primary');
+      btn.classList.remove('text-secondary');
+    });
+  });
+
+  // Dynamic Word / Char counter calculation
+  const descArea = document.getElementById('requestDescription');
+  const countDisplay = document.getElementById('charCount');
+  if (descArea && countDisplay) {
+    const updateCount = () => {
+      const words = descArea.value.trim().split(/\s+/).filter(w => w.length > 0);
+      countDisplay.innerText = `${words.length} / 600 WORDS`;
+    };
+    descArea.addEventListener('input', updateCount);
+    updateCount();
+  }
+</script></main><footer class="w-full bg-surface-container-low border-t border-outline-variant py-space-lg mt-space-xl"><div class="w-full px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant"><div class="flex items-center gap-space-md"><span class="font-label-stamp text-label-stamp text-on-surface font-semibold">UNIPULSE / INFRASTRUCTURE</span><span class="font-label-code text-label-code text-secondary">SYS-REF: CAMPUS-OPS-2026</span></div><div class="flex items-center gap-space-lg font-body-sm text-body-sm"><span class="font-label-caption text-label-caption">Central Facilities Dispatch · Extension 4140</span><span class="font-label-code text-label-code text-tertiary">[● SYSTEM OPERATIONAL]</span></div></div></footer></body></html>
