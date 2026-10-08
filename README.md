@@ -57,11 +57,78 @@ flowchart TD
 - **Multi-Tier SLA Engine:** Automatic SLA computation with paused state support, 80% warning triggers, breach notifications, and department head escalation chains.
 - **Real-Time Notification Pipeline:** Server-Sent Events (SSE) streaming live in-app ticket updates and SMTP/SES email dispatch.
 - **High-Performance Analytics:** Sub-20ms dashboard queries against pre-aggregated tables on 100,000+ historical requests, complete with full event replay rebuild capability.
-- **Neo-Brutalist Design System:** Distinctive high-contrast aesthetic (ink `#0A0A0A`, architectural amber `#F59E0B`, safety brick `#DC2626`, hard 2px borders, 0-2px radii, ink shadows).
+- **Minimal Civic Cartography Design System:** Clean, readable, and spacious interface featuring an editorial civic palette (warm parchment `#FBF9F5`, raw terracotta `#9F3C16`, spruce green `#2A674C`), floating pill navigation, Newsreader typography, and zero-clutter layouts.
 
 ---
 
-## 3. Technology Stack
+## 3. Visual Interface & Screen Walkthrough
+
+UniPulse delivers a clean, minimal, and highly legible interface designed for effortless campus operations dispatch and ticket resolution.
+
+### 3.1 Authentication & Fast Role Switch
+A clean, centered authentication portal with single-click demo switches for instant evaluation across `Student`, `Tech`, `Dept Head`, and `Admin` personas.
+
+![Sign In Screen](docs/screenshots/01_login.png)
+
+---
+
+### 3.2 Student & Staff Registration
+Streamlined onboarding with role and department assignments.
+
+![Registration Screen](docs/screenshots/02_signup.png)
+
+---
+
+### 3.3 My Requests Portal
+The requester view features 4 key summary metrics, search bar, status filters (`All`, `Open`, `In Progress`, `Resolved`), and a clear docket table with SLA deadlines.
+
+![My Requests Screen](docs/screenshots/03_my_requests.png)
+
+---
+
+### 3.4 New Service Request Form
+An intuitive 3-step structured form covering trade categorization (HVAC, Electrical, Network, Plumbing, etc.), physical campus location, and issue severity with real-time SLA targets.
+
+![New Service Request Screen](docs/screenshots/04_new_request.png)
+
+---
+
+### 3.5 Request Inspection, SLA Tracker & Activity Feed
+Real-time inspection drawer featuring an active countdown SLA clock, incident summary, technician assignment, activity log, and threaded comments.
+
+![Request Details Screen](docs/screenshots/05_request_details.png)
+
+---
+
+### 3.6 Department Queue & Triage Ledger
+A centralized operational ledger for technicians and department heads, complete with status pill tabs, instant search, and bulk specialist reassignment.
+
+![Department Queue Screen](docs/screenshots/06_department_queue.png)
+
+---
+
+### 3.7 Operations Analytics Dashboard
+Executive and dispatch analytics showing total volume, resolution rate, 30-day ingestion trajectories, specialist workload distribution, and recurring campus hotspots.
+
+![Operations Analytics Dashboard](docs/screenshots/07_analytics.png)
+
+---
+
+### 3.8 Administrative Control Console
+Platform governance console for user roles, department taxonomy, dispatch routing categories, SLA threshold policies, and security audit logs.
+
+![Admin Console Screen](docs/screenshots/08_admin_console.png)
+
+---
+
+### 3.9 Real-Time Notifications Feed
+Push notification stream powered by Server-Sent Events (SSE) tracking assignments, status transitions, and SLA breach warnings in real time.
+
+![Notifications Screen](docs/screenshots/09_notifications.png)
+
+---
+
+## 4. Technology Stack
 
 | Layer | Technology |
 | :--- | :--- |
@@ -76,7 +143,7 @@ flowchart TD
 
 ---
 
-## 4. Quickstart: Run Locally in Under 10 Minutes
+## 5. Quickstart: Run Locally in Under 10 Minutes
 
 ### Prerequisites
 - Docker Engine 24+ & Docker Compose v2+
@@ -127,7 +194,7 @@ Open [http://localhost:5173](http://localhost:5173). The login screen features q
 
 ---
 
-## 5. Verification & Testing
+## 6. Verification & Testing
 
 ### Running the Full Test Suite
 ```bash
@@ -143,7 +210,7 @@ npm run build
 
 ---
 
-## 6. Performance & Load Testing (k6)
+## 7. Performance & Load Testing (k6)
 
 UniPulse includes a distributed load test suite in `load-tests/k6/` simulating 70% reads, 20% creates, and 10% concurrent state transitions ramping to **1,000 requests per second**:
 
@@ -163,7 +230,7 @@ k6 run load-tests/k6/mixed-workload.js
 
 ---
 
-## 7. Cloud Deployment (AWS & Terraform)
+## 8. Cloud Deployment (AWS & Terraform)
 
 Production infrastructure is declared in `infra/terraform/` (Multi-AZ VPC, ECS Fargate, ALB, RDS PostgreSQL, ElastiCache Redis, S3 + CloudFront, Secrets Manager, CloudWatch Alarms):
 
@@ -183,7 +250,7 @@ terraform destroy -auto-approve
 
 ---
 
-## 8. Architectural Decision Records (ADRs)
+## 9. Architectural Decision Records (ADRs)
 
 Key architectural choices are documented in `docs/adr/`:
 - [ADR 001: PostgreSQL for Primary Relational Domain Store](docs/adr/001-postgresql-core-schema.md)
@@ -197,16 +264,16 @@ Key architectural choices are documented in `docs/adr/`:
 
 ---
 
-## 9. Design Decisions & Trade-offs
+## 10. Design Decisions & Trade-offs
 
 1. **Transactional Outbox vs. Dual Writes:** Dual writing to database and message broker exposes systems to partial failure where the DB commits but Kafka fails (or vice versa). By writing domain events to the `outbox_events` table in the exact same database transaction, dual-write anomalies are mathematically impossible.
 2. **Optimistic Locking vs. Pessimistic DB Locks:** High-traffic ticket systems experience burst updates from dispatchers, technicians, and students. Pessimistic row locking (`SELECT FOR UPDATE`) holds database connections open across network latencies. HTTP `If-Match` with `@Version` ensures zero row lock queuing while guaranteeing that stale updates fail fast with `409 Conflict`.
 3. **Pre-Aggregated Analytics vs. Ad-Hoc OLAP:** Querying 100,000+ request rows on every dashboard load causes database CPU spikes. Pre-aggregating stats incrementally via event consumers into `analytics.daily_request_stats` keeps response times under 20 ms.
-4. **Neo-Brutalist UI vs. Generic Admin Templates:** High-stress operational dispatchers require high contrast, clear visual priority hierarchy, and immediate conflict awareness. The neo-brutalist aesthetic eliminates visual fluff (gradients, rounded soft cards) in favor of high-legibility tabular density and unequivocal status chips.
+4. **Minimal Civic Cartography UI vs. Generic Admin Templates:** Fast, high-concurrency operations require high legibility, calm focus, and immediate clarity. The Civic Cartography aesthetic eliminates visual clutter in favor of spacious padding, clean floating pill navigation, harmonious tones, and unequivocal status chips.
 
 ---
 
-## 10. What I'd Do Next
+## 11. What I'd Do Next
 
 1. **Read Replica Routing:** Route `GET /requests` list queries to an Aurora PostgreSQL read replica using Spring's `AbstractRoutingDataSource` to dedicate 100% of primary DB capacity to write transactions.
 2. **Campus Geospatial Routing:** Integrate GeoJSON campus maps and shortest-path routing (e.g. PgRouting) to dispatch technicians based on walking proximity between campus buildings.
