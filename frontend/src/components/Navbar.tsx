@@ -32,35 +32,72 @@ export const Navbar: React.FC<NavbarProps> = ({
     user?.role === 'DEPARTMENT_HEAD' || user?.role === 'ADMIN';
   const isAdmin = user?.role === 'ADMIN';
 
-  const roleLabel = user?.role === 'DEPARTMENT_HEAD' ? 'DEPT HEAD' : user?.role || 'REQUESTER';
+  const formatRole = (role?: string) => {
+    switch (role) {
+      case 'TECHNICIAN':
+        return 'Technician';
+      case 'DEPARTMENT_HEAD':
+        return 'Dept Head';
+      case 'ADMIN':
+        return 'Admin';
+      case 'STUDENT':
+        return 'Student';
+      default:
+        return role ? role.charAt(0) + role.slice(1).toLowerCase() : 'User';
+    }
+  };
+
+  const getRoleBadgeStyle = (role?: string) => {
+    switch (role) {
+      case 'TECHNICIAN':
+        return 'bg-amber-500/10 text-amber-800 border-amber-500/25';
+      case 'DEPARTMENT_HEAD':
+        return 'bg-sky-500/10 text-sky-800 border-sky-500/25';
+      case 'ADMIN':
+        return 'bg-purple-500/10 text-purple-800 border-purple-500/25';
+      case 'STUDENT':
+      default:
+        return 'bg-emerald-500/10 text-emerald-800 border-emerald-500/25';
+    }
+  };
+
+  const getInitials = (name?: string) => {
+    if (!name) return 'U';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-outline-variant">
-      <div className="h-16 w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between">
-        {/* Left: Brand & Navigation */}
+    <header className="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-b border-outline-variant/60">
+      <div className="h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        {/* Left: Brand Logo & Title */}
         <div className="flex items-center gap-6">
           <button
             onClick={() => onNavigate('my-requests')}
-            className="flex items-center gap-2 pr-6 border-r border-outline-variant bg-transparent text-left cursor-pointer border-y-0 border-l-0"
+            className="flex items-center gap-2.5 bg-transparent border-none text-left cursor-pointer p-0 group"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-primary inline-block"></span>
-            <div className="flex flex-col">
-              <span className="font-label-stamp text-label-stamp uppercase tracking-widest text-on-surface font-semibold">
-                UNIPULSE
+            <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/25 flex items-center justify-center text-primary group-hover:bg-primary/15 transition-colors">
+              <span className="material-symbols-outlined text-[18px]">domain</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-headline-sm text-lg font-semibold tracking-tight text-on-surface">
+                UniPulse
               </span>
-              <span className="font-label-caption text-label-caption text-on-surface-variant text-[10px] uppercase tracking-wider leading-none">
-                Campus Facilities &amp; Ops
+              <span className="hidden sm:inline-block text-[11px] font-medium text-secondary bg-surface-container px-2 py-0.5 rounded-full border border-outline-variant/40">
+                Operations
               </span>
             </div>
           </button>
 
-          <nav className="hidden md:flex items-center h-16">
+          {/* Navigation Links (Pill capsule) */}
+          <nav className="hidden md:flex items-center gap-1 bg-surface-container-low/70 p-1 rounded-lg border border-outline-variant/40">
             <button
               onClick={() => onNavigate('my-requests')}
-              className={`h-16 px-4 flex items-center font-title-sm text-title-sm transition-colors border-b-2 cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer border-none ${
                 currentScreen === 'my-requests'
-                  ? 'bg-surface-container-highest text-on-surface font-semibold border-primary'
-                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface border-transparent'
+                  ? 'bg-surface text-on-surface shadow-xs font-bold'
+                  : 'text-secondary hover:text-on-surface hover:bg-surface/50 bg-transparent'
               }`}
             >
               My Requests
@@ -68,10 +105,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => onNavigate('new-request')}
-              className={`h-16 px-4 flex items-center font-title-sm text-title-sm transition-colors border-b-2 cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer border-none ${
                 currentScreen === 'new-request'
-                  ? 'bg-surface-container-highest text-on-surface font-semibold border-primary'
-                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface border-transparent'
+                  ? 'bg-surface text-on-surface shadow-xs font-bold'
+                  : 'text-secondary hover:text-on-surface hover:bg-surface/50 bg-transparent'
               }`}
             >
               New Request
@@ -80,10 +117,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {isTechOrHead && (
               <button
                 onClick={() => onNavigate('dept-queue')}
-                className={`h-16 px-4 flex items-center font-title-sm text-title-sm transition-colors border-b-2 cursor-pointer ${
+                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer border-none ${
                   currentScreen === 'dept-queue'
-                    ? 'bg-surface-container-highest text-on-surface font-semibold border-primary'
-                    : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface border-transparent'
+                    ? 'bg-surface text-on-surface shadow-xs font-bold'
+                    : 'text-secondary hover:text-on-surface hover:bg-surface/50 bg-transparent'
                 }`}
               >
                 Department Queue
@@ -93,10 +130,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {isHeadOrAdmin && (
               <button
                 onClick={() => onNavigate('dashboard')}
-                className={`h-16 px-4 flex items-center font-title-sm text-title-sm transition-colors border-b-2 cursor-pointer ${
+                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer border-none ${
                   currentScreen === 'dashboard'
-                    ? 'bg-surface-container-highest text-on-surface font-semibold border-primary'
-                    : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface border-transparent'
+                    ? 'bg-surface text-on-surface shadow-xs font-bold'
+                    : 'text-secondary hover:text-on-surface hover:bg-surface/50 bg-transparent'
                 }`}
               >
                 Analytics
@@ -106,10 +143,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             {isAdmin && (
               <button
                 onClick={() => onNavigate('admin-console')}
-                className={`h-16 px-4 flex items-center font-title-sm text-title-sm transition-colors border-b-2 cursor-pointer ${
+                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer border-none ${
                   currentScreen === 'admin-console'
-                    ? 'bg-surface-container-highest text-on-surface font-semibold border-primary'
-                    : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface border-transparent'
+                    ? 'bg-surface text-on-surface shadow-xs font-bold'
+                    : 'text-secondary hover:text-on-surface hover:bg-surface/50 bg-transparent'
                 }`}
               >
                 Admin Console
@@ -118,51 +155,60 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={() => onNavigate('notifications')}
-              className={`h-16 px-4 flex items-center gap-1 font-title-sm text-title-sm transition-colors border-b-2 cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all cursor-pointer border-none flex items-center gap-1.5 ${
                 currentScreen === 'notifications'
-                  ? 'bg-surface-container-highest text-on-surface font-semibold border-primary'
-                  : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface border-transparent'
+                  ? 'bg-surface text-on-surface shadow-xs font-bold'
+                  : 'text-secondary hover:text-on-surface hover:bg-surface/50 bg-transparent'
               }`}
             >
               <span>Notifications</span>
               {unreadCount > 0 && (
-                <span className="font-label-stamp text-label-stamp bg-surface-container-high text-primary px-1.5 py-0.5 border border-outline-variant leading-none">
-                  [{unreadCount}]
+                <span className="px-1.5 py-0.2 text-[10px] font-bold rounded-full bg-primary text-on-primary">
+                  {unreadCount}
                 </span>
               )}
             </button>
           </nav>
         </div>
 
-        {/* Right: User Identity Profile & Logout */}
-        <div className="flex items-center gap-4 pl-6 border-l border-outline-variant">
+        {/* Right: User Identity Profile & Switch/Logout */}
+        <div className="flex items-center gap-3">
           <div className="hidden sm:flex flex-col text-right">
-            <div className="flex items-center justify-end gap-1.5">
-              <span className="font-title-sm text-title-sm text-on-surface font-semibold">
+            <div className="flex items-center justify-end gap-2">
+              <span className="text-sm font-semibold text-on-surface">
                 {user?.name || 'Campus User'}
               </span>
-              <span className="font-label-stamp text-label-stamp border border-outline px-1 text-on-surface-variant leading-none">
-                [{roleLabel}]
+              <span
+                className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${getRoleBadgeStyle(
+                  user?.role
+                )}`}
+              >
+                {formatRole(user?.role)}
               </span>
             </div>
-            <span className="font-label-caption text-label-caption text-secondary text-[11px]">
-              {user?.email || 'Central Campus ID'}
+            <span className="text-[11px] text-secondary mt-0.5">
+              {user?.email || 'unipulse.edu'}
             </span>
           </div>
 
+          {/* User Initials Avatar */}
+          <div className="w-8 h-8 rounded-full bg-surface-container-high text-on-surface border border-outline-variant font-semibold text-xs flex items-center justify-center">
+            {getInitials(user?.name)}
+          </div>
+
+          {/* Switch / Sign Out Button */}
           <button
             onClick={onLogout}
-            title="Switch Account or Exit"
-            className="flex items-center justify-center p-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors cursor-pointer border-none bg-transparent"
+            title="Sign out or switch user"
+            className="flex items-center gap-1 px-2.5 py-1.5 text-xs text-secondary hover:text-on-surface hover:bg-surface-container-high rounded-md transition-colors cursor-pointer border border-outline-variant/60 bg-transparent ml-1"
           >
-            <span className="material-symbols-outlined text-[20px]">swap_horiz</span>
+            <span className="material-symbols-outlined text-[16px]">logout</span>
+            <span className="hidden lg:inline text-[11px] font-medium">Switch</span>
           </button>
-
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">
-            <span className="material-symbols-outlined text-[18px]">person</span>
-          </div>
         </div>
       </div>
     </header>
   );
 };
+
+export default Navbar;
